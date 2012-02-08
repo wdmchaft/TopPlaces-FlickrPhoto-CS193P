@@ -20,7 +20,7 @@
 
 -(void)setSelectedPlace:(NSDictionary *)selectedPlace
 {
-    if (!_selectedPlace) _selectedPlace = [[NSDictionary alloc] init ];
+   // if (!_selectedPlace) _selectedPlace = [[NSDictionary alloc] init ];
     if (_selectedPlace != selectedPlace ) _selectedPlace = selectedPlace;
 }
 
@@ -60,7 +60,7 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
-{   NSLog(@"didload");
+{   
     [super viewDidLoad];
     self.title=@"Top places";
     // Uncomment the following line to preserve selection between presentations.
@@ -78,7 +78,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{   NSLog(@"willappear");
+{  
     [super viewWillAppear:animated];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
@@ -207,15 +207,10 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
-        
-     [segue.destinationViewController setPlaceName:self.selectedPlace]; 
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
+       [segue.destinationViewController setPlaceName:selectedPlace]; 
     }
-}
-
--(void)setAndShowRecentPhotosFromRow:(int)row
-{
-    self.selectedPlace = [self.places objectAtIndex:row];
-    [self performSegueWithIdentifier:@"Show me photos" sender:self]; // posso collegare direttamente la singola cella ad un VC, ma in questo caso a scopo didattico ho collegato questo VC alla VC che voglio richiamare ed ho usato questo metodo
 }
 
 #pragma mark - Table view delegate
@@ -229,7 +224,8 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    [self setAndShowRecentPhotosFromRow:indexPath.row];
+    
+
 }
 
 

@@ -8,6 +8,7 @@
 
 #import "RecentPhotosTableViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoVC.h"
 #define MAX_NUMBER 50; //of photos
 
 @interface RecentPhotosTableViewController()
@@ -20,7 +21,7 @@
 
 -(void)setPlaceName:(NSDictionary *)placeName
 {
-    if (!_placeName ) {_placeName  = [[NSDictionary alloc] init];} //
+    //if (!_placeName ) {_placeName  = [[NSDictionary alloc] init];} //
     if (_placeName != placeName) _placeName = placeName;
     //NSLog(@" %@ ",placeName);
 }
@@ -34,7 +35,7 @@
             [self.tableView reloadData];
         }
     } 
-        NSLog(@" %@ ",_recentPhotos);
+        //NSLog(@" %@ ",_recentPhotos);
 }
 
 
@@ -210,6 +211,21 @@
 }
 */
 
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([[segue identifier] isEqualToString:@"Show Photo"]) {
+    
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
+        [segue.destinationViewController setPhotoToShow:selectedPhoto]; 
+        NSString *titolo = [selectedPhoto objectForKey:FLICKR_PHOTO_TITLE];
+        [segue.destinationViewController setTitle:titolo];
+    }
+    
+}
+
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -218,9 +234,11 @@
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
-     // Pass the selected object to the new view controller.
+     // Pass the selected object to the new view controller. 
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    
+
 }
 
 @end
