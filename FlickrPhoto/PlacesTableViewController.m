@@ -12,11 +12,29 @@
 
 @interface PlacesTableViewController() 
 @property (nonatomic,strong) NSDictionary *selectedPlace; //riga selezionata della tabella
+@property (strong,nonatomic) NSDictionary *placesByCountry;
 @end
 
 @implementation PlacesTableViewController
 @synthesize places = _places;
 @synthesize selectedPlace = _selectedPlace;
+@synthesize placesByCountry = _placesByCountry;
+
+- (void)updatePlacesByCountry
+{
+    NSMutableDictionary *placesByCountry = [NSMutableDictionary dictionary];
+    for (NSDictionary *place in self.places) {
+        NSString *placeName = [place objectForKey:FLICKR_PLACE_NAME];
+        NSString *country = [[placeName componentsSeparatedByString:@","] lastObject];
+        NSMutableArray *places = [placesByCountry objectForKey:country];
+        if (!places) {
+            places = [NSMutableArray array];
+            [placesByCountry setObject:places forKey:country];
+        }
+        [places addObject:place];
+    }
+    self.placesByCountry = placesByCountry;
+}
 
 -(void)setSelectedPlace:(NSDictionary *)selectedPlace
 {
@@ -25,11 +43,12 @@
 }
 
 -(void)setPlaces:(NSArray *)places
-{   if (!_places) {_places = [[NSArray alloc] init];}
+{   //if (!_places) {_places = [[NSArray alloc] init];}
     
     if (_places != places){
         _places = places;
         if (self.tableView.window) { 
+            [self updatePlacesByCountry];
             [self.tableView reloadData];
         }
     }    
@@ -116,22 +135,34 @@
     return YES;
 }
 
-/**
 #pragma mark - Table view data source
+
+- (NSString *)countryForSection:(NSInteger)section
+{
+    return [[self.placesByCountry allKeys] objectAtIndex:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [self countryForSection:section];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+//#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return [self.placesByCountry count];
 }
- **/
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [self.places count];
+    NSString *country = [self countryForSection:section];
+    NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
+    return [placesByCountry count];
+   // return [self.places count];
 }
 
 
@@ -145,10 +176,17 @@
     }
     
     // Configure the cell...
+    /**
     NSDictionary *place = [self.places objectAtIndex:indexPath.row]; 
     NSString *flickrPlaceName= [place objectForKey:FLICKR_PLACE_NAME];
     NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
-
+**/
+    NSString *country = [self countryForSection:indexPath.section];
+    NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
+    NSDictionary *place = [placesByCountry objectAtIndex:indexPath.row]; 
+    NSString *flickrPlaceName= [place objectForKey:FLICKR_PLACE_NAME];
+    NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
+    
     NSString *town=@"";
     NSString *subtitle=@"";
     
@@ -208,7 +246,11 @@
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
+  NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
+        NSDictionary *selectedPlace = [[self.placesByCountry valueForKey:country] objectAtIndex:indexPath.row];
+        
+        //        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
+
        [segue.destinationViewController setPlaceName:selectedPlace]; 
     }
 }

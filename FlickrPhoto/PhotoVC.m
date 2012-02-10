@@ -20,6 +20,26 @@
 @synthesize spinner = _spinner;
 @synthesize photoToShow = _photoToShow;
 
+- (void)scrollViewSetup {
+      //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard :)
+    UIImage *image = self.imageView.image;
+    self.scrollView.zoomScale = 1;
+    self.scrollView.contentSize = image.size;
+    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    
+    // code to zoom to correct level for aspect fill
+    float heightRatio = self.imageView.image.size.height / self.scrollView.frame.size.height;
+    float widthRatio = self.imageView.image.size.width / self.scrollView.frame.size.width;
+    NSLog(@" %g",heightRatio);
+    NSLog(@" %g",widthRatio);
+    if (heightRatio > widthRatio) {
+        self.scrollView.zoomScale = 1 / widthRatio;
+    } else {
+        self.scrollView.zoomScale = 1 / heightRatio;
+    }
+}
+
+
 -(void) setPhotoToShow:(NSDictionary *)photoToShow
 {
     if (_photoToShow != photoToShow) { 
@@ -29,8 +49,8 @@
         NSString *titolo = [self.photoToShow objectForKey:FLICKR_PHOTO_TITLE];
         self.title = titolo;
         
-        self.scrollView.zoomScale=1; //se la foto è diversa, resetto a 1 lo zoom
-        
+        //self.scrollView.zoomScale=1; //se la foto è diversa, resetto a 1 lo zoom
+       
         //la salvo dentro un orderset
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_VIEWED_PHOTOS_KEY]]; //** kvalue
@@ -119,12 +139,16 @@
             
             self.imageView.image = [UIImage imageWithData:imageData]; 
             // imposto il size dello scrollview uguale a quello dell'immagine
-            self.scrollView.contentSize = self.imageView.image.size; //contentsize is the width and height of your content
+            
+           [self scrollViewSetup];
+           
+            //self.scrollView.contentSize = self.imageView.image.size; //contentsize is the width and height of your content
             
             //setting the frame which is where in the content area of the scrollview that the image view is gonna live (setting it to be the entire content area)
-            //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: SCALE TO FIT nello storyboard
+            //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard
             //questa riga di codice successiva mi crea un frame (rettangolo della view con le coordinate della superview) in 0,0 grande quanto l'immagine in large mode
             //self.imageView.frame= CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+            
             //RICORDARSI DI IMPOSTARE IL DELEGATE!! :)
         });
     
@@ -134,11 +158,10 @@
 
 }
 
-/**
+
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
+   //[self scrollViewSetup];  //nota: resetta lo zoom
 }
-**/
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
