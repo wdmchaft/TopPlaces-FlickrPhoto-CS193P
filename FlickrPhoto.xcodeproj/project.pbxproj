@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		12540B6514E2D6590026B218 /* RecentPhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540B6414E2D6590026B218 /* RecentPhotosTableViewController.m */; };
 		12540B7514E3151B0026B218 /* PhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540B7414E3151B0026B218 /* PhotoVC.m */; };
+		12540BA814E533B60026B218 /* LastViewedPhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */; };
 		12EE69D914DDF035006CCB7B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12EE69D814DDF035006CCB7B /* UIKit.framework */; };
 		12EE69DB14DDF035006CCB7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12EE69DA14DDF035006CCB7B /* Foundation.framework */; };
 		12EE69DD14DDF035006CCB7B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12EE69DC14DDF035006CCB7B /* CoreGraphics.framework */; };
@@ -28,6 +29,8 @@
 		12540B6414E2D6590026B218 /* RecentPhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentPhotosTableViewController.m; sourceTree = "<group>"; };
 		12540B7314E3151B0026B218 /* PhotoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoVC.h; sourceTree = "<group>"; };
 		12540B7414E3151B0026B218 /* PhotoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoVC.m; sourceTree = "<group>"; };
+		12540BA614E533B50026B218 /* LastViewedPhotosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastViewedPhotosTableViewController.h; sourceTree = "<group>"; };
+		12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastViewedPhotosTableViewController.m; sourceTree = "<group>"; };
 		12EE69D414DDF035006CCB7B /* FlickrPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12EE69D814DDF035006CCB7B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		12EE69DA14DDF035006CCB7B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,6 +106,8 @@
 				12EE69E814DDF035006CCB7B /* FlickrPhotoAppDelegate.m */,
 				12EE6A0014DDF1A2006CCB7B /* Images */,
 				12EE69EA14DDF035006CCB7B /* MainStoryboard_iPhone.storyboard */,
+				12540BA614E533B50026B218 /* LastViewedPhotosTableViewController.h */,
+				12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */,
 				12540B7314E3151B0026B218 /* PhotoVC.h */,
 				12540B7414E3151B0026B218 /* PhotoVC.m */,
 				12EE69ED14DDF035006CCB7B /* MainStoryboard_iPad.storyboard */,
@@ -213,6 +218,7 @@
 				12EE6A1A14DDFCC4006CCB7B /* myTabBarVC.m in Sources */,
 				12540B6514E2D6590026B218 /* RecentPhotosTableViewController.m in Sources */,
 				12540B7514E3151B0026B218 /* PhotoVC.m in Sources */,
+				12540BA814E533B60026B218 /* LastViewedPhotosTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

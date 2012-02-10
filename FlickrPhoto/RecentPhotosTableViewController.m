@@ -12,7 +12,7 @@
 #define MAX_NUMBER 50; //of photos
 
 @interface RecentPhotosTableViewController()
-@property (nonatomic,strong) NSArray* recentPhotos;
+
 @end
 
 @implementation RecentPhotosTableViewController
@@ -27,8 +27,8 @@
 }
 
 -(void)setRecentPhotos :(NSArray *)recentPhotos 
-{   if (!_recentPhotos) {_recentPhotos  = [[NSArray alloc] init];}
-    
+{   
+    //if (!_recentPhotos) {_recentPhotos  = [[NSArray alloc] init];}
     if (_recentPhotos != recentPhotos){
         _recentPhotos = recentPhotos;
         if (self.tableView.window) { 
@@ -67,7 +67,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title =@"50 recent photos";
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -219,8 +218,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
         [segue.destinationViewController setPhotoToShow:selectedPhoto]; 
-        NSString *titolo = [selectedPhoto objectForKey:FLICKR_PHOTO_TITLE];
-        [segue.destinationViewController setTitle:titolo];
+        
     }
     
 }
