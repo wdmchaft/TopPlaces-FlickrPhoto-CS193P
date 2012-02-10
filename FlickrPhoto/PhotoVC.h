@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#define LAST_VIEWED_PHOTOS_KEY @"LAST_PHOTOS" //aggiunto da me
 
 @interface PhotoVC : UIViewController
 @property (nonatomic,strong) NSDictionary *photoToShow;

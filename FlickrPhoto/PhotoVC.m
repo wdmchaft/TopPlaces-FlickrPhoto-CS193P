@@ -33,8 +33,7 @@
         
         //la salvo dentro un orderset
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *last_photos =@"LAST_PHOTOS";
-        NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:last_photos]]; //** kvalue
+        NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_VIEWED_PHOTOS_KEY]]; //** kvalue
         if (!lastPhotos) {
             lastPhotos = [NSMutableOrderedSet orderedSet];
         }
@@ -52,7 +51,7 @@
             if ([lastPhotos count]>=20) [lastPhotos removeObjectAtIndex:0];
             [lastPhotos addObject:photoToShow]; }
 
-        [defaults setObject:[lastPhotos array] forKey:last_photos];
+        [defaults setObject:[lastPhotos array] forKey:LAST_VIEWED_PHOTOS_KEY];
         [defaults synchronize];
         
 }  

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#define LAST_VIEWED_PHOTOS_KEY @"LAST_PHOTOS"
 
 @interface RecentPhotosTableViewController : UITableViewController
 @property (nonatomic,strong) NSDictionary *placeName;
