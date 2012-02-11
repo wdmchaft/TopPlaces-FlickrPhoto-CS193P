@@ -66,7 +66,9 @@
                             <outlet property="delegate" destination="ceH-W8-kZr" id="zKA-z5-awV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="F0r-Dp-Nk1"/>
+                    <navigationItem key="navigationItem" id="F0r-Dp-Nk1">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="mMJ-03-QRJ"/>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1486" y="-124"/>
@@ -239,6 +241,28 @@
             <point key="canvasLocation" x="1033" y="446"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
+        </class>
+        <class className="PhotoVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="PlacesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlacesTableViewController.h"/>
+        </class>
+        <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+        </class>
+        <class className="myTabBarVC" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/myTabBarVC.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

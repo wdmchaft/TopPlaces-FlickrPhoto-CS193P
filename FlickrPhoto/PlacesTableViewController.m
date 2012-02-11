@@ -13,12 +13,25 @@
 @interface PlacesTableViewController() 
 @property (nonatomic,strong) NSDictionary *selectedPlace; //riga selezionata della tabella
 @property (strong,nonatomic) NSDictionary *placesByCountry;
+@property (strong,nonatomic) UIActivityIndicatorView *spinner; //in questo modo la posso ridisegnare quando cambio la modalità dello schermo
 @end
 
 @implementation PlacesTableViewController
 @synthesize places = _places;
 @synthesize selectedPlace = _selectedPlace;
 @synthesize placesByCountry = _placesByCountry;
+@synthesize spinner = _spinner;
+
+-(UIActivityIndicatorView *)spinner{
+    if (!_spinner)  {
+        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];     
+    }
+    
+    CGRect bounds = [self.parentViewController.view bounds];
+    CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+    [_spinner setCenter:centerPoint];
+    return _spinner;   
+}
 
 - (void)updatePlacesByCountry
 {
@@ -38,13 +51,11 @@
 
 -(void)setSelectedPlace:(NSDictionary *)selectedPlace
 {
-   // if (!_selectedPlace) _selectedPlace = [[NSDictionary alloc] init ];
     if (_selectedPlace != selectedPlace ) _selectedPlace = selectedPlace;
 }
 
 -(void)setPlaces:(NSArray *)places
-{   //if (!_places) {_places = [[NSArray alloc] init];}
-    
+{   
     if (_places != places){
         _places = places;
         if (self.tableView.window) { 
@@ -81,10 +92,10 @@
 - (void)viewDidLoad
 {   
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -99,15 +110,31 @@
 - (void)viewWillAppear:(BOOL)animated
 {  
     [super viewWillAppear:animated];
+    /**
+     CGRect bounds = [self.parentViewController.view bounds];
+     CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+     
+     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+     //[spinner setBackgroundColor:[UIColor redColor]];
+     [spinner setCenter:centerPoint];
+     **/
+    
+    self.tableView.hidden = YES;
+    [self.parentViewController.view addSubview:self.spinner];
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    [self.spinner startAnimating];
+    
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
         NSArray *listOfPlaces =[self getListOfPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            self.tableView.hidden = NO;
+            [self.spinner stopAnimating];
+            [self.spinner hidesWhenStopped];
             self.places = listOfPlaces; //modifica la UI (tabella) per questo lo metto nella main queue
-
+            
         });
         
     });
@@ -149,7 +176,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//#warning Potentially incomplete method implementation.
+    //#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return [self.placesByCountry count];
 }
@@ -157,12 +184,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//#warning Incomplete method implementation.
+    //#warning Incomplete method implementation.
     // Return the number of rows in the section.
     NSString *country = [self countryForSection:section];
     NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
     return [placesByCountry count];
-   // return [self.places count];
+    // return [self.places count];
 }
 
 
@@ -177,10 +204,10 @@
     
     // Configure the cell...
     /**
-    NSDictionary *place = [self.places objectAtIndex:indexPath.row]; 
-    NSString *flickrPlaceName= [place objectForKey:FLICKR_PLACE_NAME];
-    NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
-**/
+     NSDictionary *place = [self.places objectAtIndex:indexPath.row]; 
+     NSString *flickrPlaceName= [place objectForKey:FLICKR_PLACE_NAME];
+     NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
+     **/
     NSString *country = [self countryForSection:indexPath.section];
     NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
     NSDictionary *place = [placesByCountry objectAtIndex:indexPath.row]; 
@@ -197,61 +224,61 @@
             subtitle = [subtitle stringByAppendingFormat:element];    
         }
     }
-
+    
     cell.textLabel.text = town; 
     cell.detailTextLabel.text = subtitle;
     return cell;
 }
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-  NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
+        NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
         NSDictionary *selectedPlace = [[self.placesByCountry valueForKey:country] objectAtIndex:indexPath.row];
         
         //        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
-
-       [segue.destinationViewController setPlaceName:selectedPlace]; 
+        
+        [segue.destinationViewController setPlaceName:selectedPlace]; 
     }
 }
 
@@ -267,7 +294,12 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
     
+    
+}
 
+#pragma mark - Rotazione schermo
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self.spinner setNeedsDisplay];
 }
 
 

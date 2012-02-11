@@ -30,8 +30,8 @@
     // code to zoom to correct level for aspect fill
     float heightRatio = self.imageView.image.size.height / self.scrollView.frame.size.height;
     float widthRatio = self.imageView.image.size.width / self.scrollView.frame.size.width;
-    NSLog(@" %g",heightRatio);
-    NSLog(@" %g",widthRatio);
+    //NSLog(@" %g",heightRatio);
+    //NSLog(@" %g",widthRatio);
     if (heightRatio > widthRatio) {
         self.scrollView.zoomScale = 1 / widthRatio;
     } else {

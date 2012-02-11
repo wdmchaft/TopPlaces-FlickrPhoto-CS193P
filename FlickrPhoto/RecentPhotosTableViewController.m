@@ -21,14 +21,12 @@
 
 -(void)setPlaceName:(NSDictionary *)placeName
 {
-    //if (!_placeName ) {_placeName  = [[NSDictionary alloc] init];} //
     if (_placeName != placeName) _placeName = placeName;
     //NSLog(@" %@ ",placeName);
 }
 
 -(void)setRecentPhotos :(NSArray *)recentPhotos 
 {   
-    //if (!_recentPhotos) {_recentPhotos  = [[NSArray alloc] init];}
     if (_recentPhotos != recentPhotos){
         _recentPhotos = recentPhotos;
         if (self.tableView.window) { 
@@ -68,6 +66,7 @@
 {
     [super viewDidLoad];
 
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -82,17 +81,52 @@
     // e.g. self.myOutlet = nil;
 }
 
+-(void)awakeFromNib{
+/**
+ PROBLEMA: ho una barra mista: 2 pulsanti li inserisco da codice, uno da storyboard.
+ Usando il codice che uso qui sotto in viewWillAppear ho bisogno di mettere un controllo IF, altrimenti tutte le volte che appare questo VC si aggiungerebbero pulsanti a quelli presenti.
+ Se invece definissi tutto qui dentro, l'awakeFromNib viene chiamato solo una volta quando setto gli elementi dal NIB per cui non ho bisogno di usare la condizione IF
+ **/
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //test
-  
+    
+
+ 
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    //[spinner setBackgroundColor:[UIColor redColor]];
+    
+    
+    UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] 
+                                   initWithTitle:@"Flip"                                            
+                                   style:UIBarButtonItemStyleBordered 
+                                   target:self 
+                                   action:@selector(flipView)];
+    UIBarButtonItem *loader = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+
+    NSMutableArray *rightButtons = [  self.navigationItem.rightBarButtonItems mutableCopy];
+    if ([rightButtons count]<=1){ //fix sbrigativo... se ho solo un item (ossia quello che ho messo da storyboard, aggiungo gli altri); soluzione migliore : creare una property per lo spinner e inizializzare tutti in awakeFromNib (che viene chiamato solo 1 volta (come viewDidLoad) quando tutto è settato... in questo modo la barra di 3 pulsanti rimarrà sempre tale :)
+    [rightButtons addObject:flipButton];
+    [rightButtons addObject:loader];
+    }
+     self.navigationItem.rightBarButtonItems = rightButtons;
+    
+        
+    
+    //self.view.hidden=YES;
+    //[self.parentViewController.view addSubview:spinner];
+    [spinner startAnimating];
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
            NSArray *listOfPhotos = [self getListOfPhotos];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [spinner stopAnimating];
             self.recentPhotos = listOfPhotos; //modifica la UI (tabella) per questo lo metto nella main queue
             
         });
