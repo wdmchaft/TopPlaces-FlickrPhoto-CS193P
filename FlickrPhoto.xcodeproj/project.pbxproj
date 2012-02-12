@@ -33,6 +33,7 @@
 		12540BA614E533B50026B218 /* LastViewedPhotosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastViewedPhotosTableViewController.h; sourceTree = "<group>"; };
 		12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastViewedPhotosTableViewController.m; sourceTree = "<group>"; };
 		12540BC114E57F250026B218 /* attack.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = attack.jpg; sourceTree = "<group>"; };
+		12AEB2DF14E738EF004C8359 /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		12EE69D414DDF035006CCB7B /* FlickrPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12EE69D814DDF035006CCB7B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		12EE69DA14DDF035006CCB7B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -101,6 +102,7 @@
 			children = (
 				12EE6A1814DDFCC4006CCB7B /* myTabBarVC.h */,
 				12EE6A1914DDFCC4006CCB7B /* myTabBarVC.m */,
+				12AEB2DF14E738EF004C8359 /* SplitViewBarButtonItemPresenter.h */,
 				12EE69F914DDF0F3006CCB7B /* PlacesTableViewController.m */,
 				12EE69F814DDF0F3006CCB7B /* PlacesTableViewController.h */,
 				12EE69FB14DDF171006CCB7B /* FlickrFetcther */,

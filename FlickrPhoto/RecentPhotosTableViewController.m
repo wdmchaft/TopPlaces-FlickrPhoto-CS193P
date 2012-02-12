@@ -19,6 +19,7 @@
 @synthesize placeName = _placeName;
 @synthesize recentPhotos = _recentPhotos;
 
+
 -(void)setPlaceName:(NSDictionary *)placeName
 {
     if (_placeName != placeName) _placeName = placeName;
@@ -113,8 +114,7 @@
     [rightButtons addObject:flipButton];
     [rightButtons addObject:loader];
     }
-     self.navigationItem.rightBarButtonItems = rightButtons;
-    
+   self.navigationItem.rightBarButtonItems = rightButtons;
         
     
     //self.view.hidden=YES;
@@ -258,8 +258,15 @@
 }
 
 
-#pragma mark - Table view delegate
 
+- (PhotoVC *)splitViewPhotoViewController
+{
+    id hvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
+    if (![hvc isKindOfClass:[PhotoVC class]]){ hvc=nil;} 
+    return hvc; // questo metodo ritorna nil a meno che  the detail outside the splitviewcontroller i'm in is happinessviewcontroller
+}
+
+#pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
@@ -269,7 +276,10 @@
      // Pass the selected object to the new view controller. 
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    
+    if ([self splitViewPhotoViewController]){
+        NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
+        [self splitViewPhotoViewController].photoToShow =selectedPhoto ;
+    }
 
 }
 

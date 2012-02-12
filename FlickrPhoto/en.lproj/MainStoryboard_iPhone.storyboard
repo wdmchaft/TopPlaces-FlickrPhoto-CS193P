@@ -220,7 +220,7 @@
                     <navigationItem key="navigationItem" id="CKU-Mu-QZ6"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1559" y="446"/>
+            <point key="canvasLocation" x="1023" y="530"/>
         </scene>
         <scene sceneID="Fhz-1b-rdk">
             <objects>
@@ -238,37 +238,15 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="1033" y="446"/>
+            <point key="canvasLocation" x="529" y="518"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
-        </class>
-        <class className="PhotoVC" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
-            </relationships>
-        </class>
-        <class className="PlacesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlacesTableViewController.h"/>
-        </class>
-        <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
-        </class>
-        <class className="myTabBarVC" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/myTabBarVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="60e-TW-0xH"/>
+        <segue reference="vsn-Rh-oO3"/>
     </inferredMetricsTieBreakers>
 </document>

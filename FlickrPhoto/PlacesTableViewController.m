@@ -110,20 +110,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {  
     [super viewWillAppear:animated];
-    /**
-     CGRect bounds = [self.parentViewController.view bounds];
-     CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-     
-     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-     //[spinner setBackgroundColor:[UIColor redColor]];
-     [spinner setCenter:centerPoint];
-     **/
+
     
     self.tableView.hidden = YES;
     [self.parentViewController.view addSubview:self.spinner];
     //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     [self.spinner startAnimating];
-    
+  
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{

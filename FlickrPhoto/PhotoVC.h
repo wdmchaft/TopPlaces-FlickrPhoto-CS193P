@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SplitViewBarButtonItemPresenter.h"
 #define LAST_VIEWED_PHOTOS_KEY @"LAST_PHOTOS" //aggiunto da me
 
-@interface PhotoVC : UIViewController
+@interface PhotoVC : UIViewController  <UISplitViewControllerDelegate, SplitViewBarButtonItemPresenter>
 @property (nonatomic,strong) NSDictionary *photoToShow;
 @end

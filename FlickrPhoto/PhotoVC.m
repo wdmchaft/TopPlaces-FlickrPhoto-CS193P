@@ -12,13 +12,18 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @end
 
 @implementation PhotoVC
 @synthesize imageView = _imageView;
 @synthesize scrollView = _scrollView;
 @synthesize spinner = _spinner;
+@synthesize toolbar = _toolbar;
 @synthesize photoToShow = _photoToShow;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+
+
 
 - (void)scrollViewSetup {
       //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard :)
@@ -39,9 +44,63 @@
     }
 }
 
+-(void)fetchPhoto{
+    self.imageView.image = nil;
+    /**
+     CGRect bounds = [self.view bounds];
+     CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+     self.scrollView.backgroundColor = [UIColor blackColor];
+     //self.imageView.hidden=YES; 
+     
+     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+     [spinner setBackgroundColor:[UIColor redColor]];
+     [spinner setCenter:centerPoint];
+     [self.view addSubview:spinner];
+     [spinner startAnimating];
+     **/
+    [self.spinner startAnimating];
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue,^{
+        //block
+        NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photoToShow format:FlickrPhotoFormatLarge];
+        NSData *imageData = [NSData dataWithContentsOfURL:urlPhoto];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.spinner stopAnimating]; //nello storyboard è impostato come hidesWhenStopped
+            
+            self.imageView.image = [UIImage imageWithData:imageData]; 
+            // imposto il size dello scrollview uguale a quello dell'immagine
+            
+            [self scrollViewSetup];
+            
+            //self.scrollView.contentSize = self.imageView.image.size; //contentsize is the width and height of your content
+            
+            //setting the frame which is where in the content area of the scrollview that the image view is gonna live (setting it to be the entire content area)
+            //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard
+            //questa riga di codice successiva mi crea un frame (rettangolo della view con le coordinate della superview) in 0,0 grande quanto l'immagine in large mode
+            //self.imageView.frame= CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+            
+            //RICORDARSI DI IMPOSTARE IL DELEGATE!! :)
+        });
+        
+    });
+    dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+}
 
--(void) setPhotoToShow:(NSDictionary *)photoToShow
+//getter
+- (NSDictionary *)photoToShow
 {
+    //se non imposto la foto, prendo l'ultima
+    if (!_photoToShow) {
+        _photoToShow = [[[NSUserDefaults standardUserDefaults] objectForKey:LAST_VIEWED_PHOTOS_KEY] lastObject];
+    }
+    return _photoToShow;
+}
+
+//setter
+-(void) setPhotoToShow:(NSDictionary *)photoToShow
+{ 
     if (_photoToShow != photoToShow) { 
     _photoToShow = photoToShow;
         
@@ -73,6 +132,7 @@
 
         [defaults setObject:[lastPhotos array] forKey:LAST_VIEWED_PHOTOS_KEY];
         [defaults synchronize];
+        [self fetchPhoto];
         
 }  
 
@@ -97,6 +157,49 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+/*** IPAD ***/
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem) {
+        NSMutableArray *toolbarItems = [self.toolbar.items mutableCopy];
+        if (_splitViewBarButtonItem) [toolbarItems removeObject:_splitViewBarButtonItem];
+        if (splitViewBarButtonItem) [toolbarItems insertObject:splitViewBarButtonItem atIndex:0];
+        self.toolbar.items = toolbarItems;
+        _splitViewBarButtonItem = splitViewBarButtonItem;
+    }
+}
+
+- (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
+{
+    id detailVC = [self.splitViewController.viewControllers lastObject];
+    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
+        detailVC = nil;
+    }
+    return detailVC;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)svc
+   shouldHideViewController:(UIViewController *)vc
+              inOrientation:(UIInterfaceOrientation)orientation
+{ 
+    return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc
+{
+    barButtonItem.title = @"Photos"; // TODO i18n
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willShowViewController:(UIViewController *)aViewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
+}
 
 
 #pragma mark - View lifecycle
@@ -113,47 +216,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    /**
-    CGRect bounds = [self.view bounds];
-    CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-    self.scrollView.backgroundColor = [UIColor blackColor];
-    //self.imageView.hidden=YES; 
-    
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-     [spinner setBackgroundColor:[UIColor redColor]];
-    [spinner setCenter:centerPoint];
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
-    **/
-     self.scrollView.backgroundColor = [UIColor blackColor];
-    [self.spinner startAnimating];
-    
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
-    dispatch_async(downloadQueue,^{
-        //block
-        NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photoToShow format:FlickrPhotoFormatLarge];
-        NSData *imageData = [NSData dataWithContentsOfURL:urlPhoto];
-        dispatch_async(dispatch_get_main_queue(), ^{
 
-            [self.spinner stopAnimating]; //nello storyboard è impostato come hidesWhenStopped
-            
-            self.imageView.image = [UIImage imageWithData:imageData]; 
-            // imposto il size dello scrollview uguale a quello dell'immagine
-            
-           [self scrollViewSetup];
-           
-            //self.scrollView.contentSize = self.imageView.image.size; //contentsize is the width and height of your content
-            
-            //setting the frame which is where in the content area of the scrollview that the image view is gonna live (setting it to be the entire content area)
-            //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard
-            //questa riga di codice successiva mi crea un frame (rettangolo della view con le coordinate della superview) in 0,0 grande quanto l'immagine in large mode
-            //self.imageView.frame= CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
-            
-            //RICORDARSI DI IMPOSTARE IL DELEGATE!! :)
-        });
-    
-    });
-    dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+    self.scrollView.backgroundColor = [UIColor blackColor];
+    [self fetchPhoto];
 
 
 }
@@ -168,7 +233,7 @@
 {
     [super viewDidLoad];
     self.scrollView.delegate = self; // lo posso fare anche dallo storyboard lez.8 1:01
-   
+    self.splitViewController.delegate = self;
    }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -181,6 +246,7 @@
     [self setImageView:nil];
     [self setScrollView:nil];
     [self setSpinner:nil];
+    [self setToolbar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
