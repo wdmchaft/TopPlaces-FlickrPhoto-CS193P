@@ -12,4 +12,5 @@
 @interface RecentPhotosTableViewController : UITableViewController
 @property (nonatomic,strong) NSDictionary *placeName;
 @property (nonatomic,strong) NSArray* recentPhotos;
+
 @end

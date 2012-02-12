@@ -12,7 +12,6 @@
 #define MAX_NUMBER 50; //of photos
 
 @interface RecentPhotosTableViewController()
-
 @end
 
 @implementation RecentPhotosTableViewController

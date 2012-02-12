@@ -158,6 +158,8 @@
     // Release any cached data, images, etc that aren't in use.
 }
 /*** IPAD ***/
+
+//setter
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {
     if (splitViewBarButtonItem != _splitViewBarButtonItem) {
@@ -172,6 +174,7 @@
 - (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
 {
     id detailVC = [self.splitViewController.viewControllers lastObject];
+    //NOTA: dal momento che in questo caso il delegate è anche la detail view, questo controllo non servirebbe; come non servirebbe il protocollo SplitViewBarButtonItemPresenter!!
     if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
         detailVC = nil;
     }
@@ -182,6 +185,7 @@
    shouldHideViewController:(UIViewController *)vc
               inOrientation:(UIInterfaceOrientation)orientation
 { 
+    //mostra il button solo in portrait mode
     return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
 }
 
@@ -190,7 +194,8 @@
           withBarButtonItem:(UIBarButtonItem *)barButtonItem
        forPopoverController:(UIPopoverController *)pc
 {
-    barButtonItem.title = @"Photos"; // TODO i18n
+    barButtonItem.title = @"Photos"; 
+      // tell the detail view to put this button up
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
 }
 
@@ -198,6 +203,7 @@
      willShowViewController:(UIViewController *)aViewController
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
+     //tell the detail view to take the button away
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
 }
 
