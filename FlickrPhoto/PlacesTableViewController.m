@@ -9,6 +9,8 @@
 #import "PlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "RecentPhotosTableViewController.h"
+#import "FlickrPlaceAnnotation.h"
+#import "MapViewController.h"
 
 @interface PlacesTableViewController() 
 @property (nonatomic,strong) NSDictionary *selectedPlace; //riga selezionata della tabella
@@ -262,6 +264,15 @@
  }
  */
 
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.places count]];
+    for (NSDictionary *photo in self.places) {
+        [annotations addObject:[FlickrPlaceAnnotation annotationForPhoto:photo]];
+    }
+    return annotations;
+}
+
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
@@ -273,6 +284,12 @@
         
         [segue.destinationViewController setPlaceName:selectedPlace]; 
     }
+    
+    if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){
+        
+        [segue.destinationViewController setAnnotations:[self mapAnnotations]]; 
+    }
+
 }
 
 #pragma mark - Table view delegate

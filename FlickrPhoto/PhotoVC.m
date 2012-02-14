@@ -174,7 +174,6 @@
 - (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
 {
     id detailVC = [self.splitViewController.viewControllers lastObject];
-    //NOTA: dal momento che in questo caso il delegate è anche la detail view, questo controllo non servirebbe; come non servirebbe il protocollo SplitViewBarButtonItemPresenter!!
     if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
         detailVC = nil;
     }

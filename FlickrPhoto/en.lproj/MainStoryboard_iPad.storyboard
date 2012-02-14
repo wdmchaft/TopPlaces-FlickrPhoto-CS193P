@@ -30,7 +30,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="gxS-bI-hQ2" kind="relationship" relationship="viewControllers" id="1Co-Pg-5n7"/>
-                        <segue destination="EFU-rk-hjt" kind="relationship" relationship="viewControllers" id="TCC-bD-mjm"/>
+                        <segue destination="juW-MC-fBF" kind="relationship" relationship="viewControllers" id="TCC-bD-mjm"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -41,11 +41,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1A8-Vn-24s" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="EFU-rk-hjt" customClass="LastViewedPhotosTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Sdt-XD-d8Z">
-                        <rect key="frame" x="0.0" y="20" width="320" height="783"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="e1F-dg-XPn" detailTextLabel="dia-Td-ooL" imageView="KWK-Ph-VEH" style="IBUITableViewCellStyleSubtitle" id="MwM-2V-L1N">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Recent Photo" textLabel="e1F-dg-XPn" detailTextLabel="dia-Td-ooL" style="IBUITableViewCellStyleSubtitle" id="MwM-2V-L1N">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -53,23 +53,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e1F-dg-XPn">
-                                            <rect key="frame" x="36" y="2" width="38" height="22"/>
+                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dia-Td-ooL">
-                                            <rect key="frame" x="36" y="24" width="47" height="18"/>
+                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Recent Photo" id="KWK-Ph-VEH">
-                                            <rect key="frame" x="10" y="13" width="16" height="16"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -80,11 +76,16 @@
                             <outlet property="delegate" destination="EFU-rk-hjt" id="VhC-Ol-Y64"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="UXQ-DL-sGH"/>
-                    <navigationItem key="navigationItem" id="BcT-3T-VAx"/>
+                    <navigationItem key="navigationItem" id="BcT-3T-VAx">
+                        <barButtonItem key="rightBarButtonItem" title="map" id="3oL-eY-0f9">
+                            <connections>
+                                <segue destination="I6Q-1Y-efg" kind="push" identifier="Show Me Photo Map" id="ouO-Yd-xNU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1243" y="-1386"/>
+            <point key="canvasLocation" x="1688" y="-1373"/>
         </scene>
         <scene sceneID="gtP-pb-O0X">
             <objects>
@@ -143,7 +144,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Py9-p1-BKo">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="U3e-0G-TE7"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="U3e-0G-TE7">
+                            <connections>
+                                <segue destination="I6Q-1Y-efg" kind="push" identifier="Show Me Photo Map" id="4AK-jO-eMZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </tableViewController>
@@ -241,36 +246,55 @@
             </objects>
             <point key="canvasLocation" x="1036" y="-408"/>
         </scene>
+        <scene sceneID="dcP-0y-Cgm">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Mq-Mx-7vg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="I6Q-1Y-efg" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Mc9-4O-TUK">
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="4bW-gD-EfH">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="739"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="J55-Di-cnt"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="mapView" destination="4bW-gD-EfH" id="va0-0d-5YS"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2658" y="-1530"/>
+        </scene>
+        <scene sceneID="rPu-2w-gyF">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Kt-ev-M2j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="juW-MC-fBF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="UXQ-DL-sGH"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ucI-KA-5vC">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="EFU-rk-hjt" kind="relationship" relationship="rootViewController" id="ml5-30-BNT"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1243" y="-1386"/>
+        </scene>
     </scenes>
-    <resources>
-        <image name="Recent Photo" width="16" height="16"/>
-    </resources>
-    <classes>
-        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
-        </class>
-        <class className="PhotoVC" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
-            </relationships>
-        </class>
-        <class className="PlacesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlacesTableViewController.h"/>
-        </class>
-        <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
-        </class>
-        <class className="myTabBarVC" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/myTabBarVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="ouO-Yd-xNU"/>
+    </inferredMetricsTieBreakers>
 </document>

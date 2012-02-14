@@ -9,10 +9,15 @@
 #import "RecentPhotosTableViewController.h"
 #import "FlickrFetcher.h"
 #import "PhotoVC.h"
+#import "MapViewController.h"
+#import "FlickrPhotoAnnotation.h"
+
+
 #define MAX_NUMBER 50; //of photos
 
 @interface RecentPhotosTableViewController()
 @end
+
 
 @implementation RecentPhotosTableViewController
 @synthesize placeName = _placeName;
@@ -25,13 +30,36 @@
     //NSLog(@" %@ ",placeName);
 }
 
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.recentPhotos count]];
+    for (NSDictionary *photo in self.recentPhotos) {
+        [annotations addObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
+    }
+    return annotations;
+}
+
+// DA ANALIZZARE PERCHE' NON SERVER TRANNE CHE PER I DELEGATE!
+- (void)updateSplitViewDetail
+{
+    id detail = [self.splitViewController.viewControllers lastObject];
+    if ([detail isKindOfClass:[MapViewController class]]) {
+        MapViewController *mapVC = (MapViewController *)detail;
+        mapVC.annotations = [self mapAnnotations];
+        //mapVC.delegate = self;
+        //mapVC.annotations = [self mapAnnotations];
+    }
+}
+
+
+
 -(void)setRecentPhotos :(NSArray *)recentPhotos 
 {   
     if (_recentPhotos != recentPhotos){
         _recentPhotos = recentPhotos;
-        if (self.tableView.window) { 
-            [self.tableView reloadData];
-        }
+        [self updateSplitViewDetail];
+         //model changed, so update our view (the table)
+        if (self.tableView.window) {[self.tableView reloadData];}
     } 
         //NSLog(@" %@ ",_recentPhotos);
 }
@@ -85,7 +113,7 @@
 /**
  PROBLEMA: ho una barra mista: 2 pulsanti li inserisco da codice, uno da storyboard.
  Usando il codice che uso qui sotto in viewWillAppear ho bisogno di mettere un controllo IF, altrimenti tutte le volte che appare questo VC si aggiungerebbero pulsanti a quelli presenti.
- Se invece definissi tutto qui dentro, l'awakeFromNib viene chiamato solo una volta quando setto gli elementi dal NIB per cui non ho bisogno di usare la condizione IF
+ Se invece definissi tutto qui dentro, l'awakeFromNib viene chiamato solo una volta quando setto gli elementi dal NIB, per cui non ho bisogno di usare la condizione IF
  **/
 }
 
@@ -152,7 +180,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -252,6 +280,11 @@
         NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
         [segue.destinationViewController setPhotoToShow:selectedPhoto]; 
         
+    }
+    
+    if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){
+    
+     [segue.destinationViewController setAnnotations:[self mapAnnotations]]; 
     }
     
 }
