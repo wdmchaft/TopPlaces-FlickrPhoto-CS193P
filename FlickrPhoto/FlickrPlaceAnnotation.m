@@ -15,6 +15,7 @@
 @implementation FlickrPlaceAnnotation
 
 @synthesize place = _place;
+@synthesize codice_id = _codice_id;
 
 + (FlickrPlaceAnnotation *)annotationForPhoto:(NSDictionary *)place
 {
@@ -29,8 +30,6 @@
 {
     NSString *flickrPlaceName= [self.place objectForKey:FLICKR_PLACE_NAME];
     NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
-    
-    
     return placeDetails;
 
 }
@@ -44,6 +43,11 @@
     } else town=@"sconosciuta";
     
     return town;
+}
+
+- (NSString *)codice_id
+{
+    return [self.place valueForKeyPath:@"place_id"];
 }
 /**
 - (NSString *)subtitle

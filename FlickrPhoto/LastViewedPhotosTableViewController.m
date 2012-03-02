@@ -13,7 +13,7 @@
 - (void)viewDidLoad
 {   
     [super viewDidLoad];
-    
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -22,9 +22,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
+{   
     [super viewWillAppear:animated];
-
     CGRect bounds = [self.parentViewController.view bounds];
     CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

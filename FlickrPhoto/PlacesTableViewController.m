@@ -276,21 +276,34 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
-        NSDictionary *selectedPlace = [[self.placesByCountry valueForKey:country] objectAtIndex:indexPath.row];
         
+        //NSLog(@" %@",selectedPlace);
         //        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
         
-        [segue.destinationViewController setPlaceName:selectedPlace]; 
+        [segue.destinationViewController setPlaceName:self.flickrSelected]; 
     }
     
     if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){
-        
+        [segue.destinationViewController setDelegate:self];
         [segue.destinationViewController setAnnotations:[self mapAnnotations]]; 
     }
 
 }
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    return nil;
+}
+
+- (void)mapViewController:(MapViewController *)sender showDetailForAnnotation:(id <MKAnnotation>)annotation
+{
+    FlickrPlaceAnnotation *fpa = (FlickrPlaceAnnotation *)annotation;
+    self.flickrSelected = fpa.place;
+    [self performSegueWithIdentifier:@"Show me photos" sender:self];
+}
+
 
 #pragma mark - Table view delegate
 
@@ -303,7 +316,11 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    
+    //NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
+    NSDictionary *selectedPlace = [[self.placesByCountry valueForKey:country] objectAtIndex:indexPath.row];
+    self.flickrSelected =selectedPlace;
+    [self performSegueWithIdentifier:@"Show me photos" sender:self];
     
 }
 

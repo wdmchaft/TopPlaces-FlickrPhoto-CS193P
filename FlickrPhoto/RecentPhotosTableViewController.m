@@ -11,23 +11,30 @@
 #import "PhotoVC.h"
 #import "MapViewController.h"
 #import "FlickrPhotoAnnotation.h"
+#import "FlickrPlaceAnnotation.h"
 
 
 #define MAX_NUMBER 50; //of photos
 
-@interface RecentPhotosTableViewController()
+@interface RecentPhotosTableViewController() <MapViewControllerDelegate>
 @end
 
 
 @implementation RecentPhotosTableViewController
 @synthesize placeName = _placeName;
 @synthesize recentPhotos = _recentPhotos;
+@synthesize flickrSelected = _flickrSelected;
+
+-(void) setFlickrSelected:(NSDictionary *)flickrSelected
+{
+    if (_flickrSelected != flickrSelected) _flickrSelected = flickrSelected;
+}
 
 
 -(void)setPlaceName:(NSDictionary *)placeName
-{
+{ 
     if (_placeName != placeName) _placeName = placeName;
-    //NSLog(@" %@ ",placeName);
+    //NSLog(@" %@ ",placeName); 
 }
 
 - (NSArray *)mapAnnotations
@@ -36,19 +43,45 @@
     for (NSDictionary *photo in self.recentPhotos) {
         [annotations addObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
     }
+   //  NSLog(@" %@",annotations);
     return annotations;
 }
 
-// DA ANALIZZARE PERCHE' NON SERVER TRANNE CHE PER I DELEGATE!
-- (void)updateSplitViewDetail
+
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
 {
-    id detail = [self.splitViewController.viewControllers lastObject];
-    if ([detail isKindOfClass:[MapViewController class]]) {
-        MapViewController *mapVC = (MapViewController *)detail;
-        mapVC.annotations = [self mapAnnotations];
-        //mapVC.delegate = self;
-        //mapVC.annotations = [self mapAnnotations];
+    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *)annotation; //potrei fare introspection
+    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    return data ? [UIImage imageWithData:data] : nil;
+}
+
+/**
+-(NSDictionary *)mapViewController:(MapViewController *)sender photoForAnnotation:(id<MKAnnotation>)annotation
+{
+    MKAnnotationView *mkav= (MKAnnotationView *)annotation;
+    FlickrPhotoAnnotation *annot = (FlickrPhotoAnnotation *)mkav.annotation;
+    NSString *codice = annot.codice_id;
+    for (NSDictionary *photo in self.recentPhotos) {
+
+        if ([codice isEqualToString:[photo valueForKey:@"id"]]){
+            return photo;}
+}
+    return nil;
+}
+**/
+
+- (void)mapViewController:(MapViewController *)sender showDetailForAnnotation:(id <MKAnnotation>)annotation
+{
+    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *)annotation;
+    self.flickrSelected = fpa.photo;
+    if ([self splitViewPhotoViewController]){
+       [[self splitViewPhotoViewController] setPhotoToShow: self.flickrSelected];
     }
+    else [self performSegueWithIdentifier:@"Show Photo" sender:self];
 }
 
 
@@ -57,7 +90,6 @@
 {   
     if (_recentPhotos != recentPhotos){
         _recentPhotos = recentPhotos;
-        [self updateSplitViewDetail];
          //model changed, so update our view (the table)
         if (self.tableView.window) {[self.tableView reloadData];}
     } 
@@ -276,14 +308,18 @@
     
     if ([[segue identifier] isEqualToString:@"Show Photo"]) {
     
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
-        [segue.destinationViewController setPhotoToShow:selectedPhoto]; 
+        //NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        //NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
+        [segue.destinationViewController setPhotoToShow:self.flickrSelected]; 
         
     }
     
     if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){
     
+        id destSegue = segue.destinationViewController;        
+        MapViewController *mapVC = (MapViewController *)destSegue; //non faccio l'introspection perchè so per certo che la segue è una mapviewcontroller
+        mapVC.delegate = self; //imposto questo controller come il delegate del mapviewcontroller
+       // mapVC.annotations = [self mapAnnotations];
      [segue.destinationViewController setAnnotations:[self mapAnnotations]]; 
     }
     
@@ -308,10 +344,13 @@
      // Pass the selected object to the new view controller. 
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+     NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
+    self.flickrSelected = selectedPhoto;
     if ([self splitViewPhotoViewController]){
-        NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
-        [self splitViewPhotoViewController].photoToShow =selectedPhoto ;
+       
+        [self splitViewPhotoViewController].photoToShow =  self.flickrSelected ;
     }
+   else [self performSegueWithIdentifier:@"Show Photo" sender:self];
 
 }
 

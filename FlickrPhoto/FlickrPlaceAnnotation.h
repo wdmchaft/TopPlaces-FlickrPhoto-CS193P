@@ -16,5 +16,5 @@
 + (FlickrPlaceAnnotation *)annotationForPhoto:(NSDictionary *)place; // Flickr place dictionary
 
 @property (nonatomic, strong) NSDictionary *place; //model! annotation è un ponte tra model e la view (mapkit)
-
+@property (nonatomic,strong) NSString *codice_id;
 @end
