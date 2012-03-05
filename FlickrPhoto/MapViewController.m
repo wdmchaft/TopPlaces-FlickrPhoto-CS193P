@@ -13,10 +13,11 @@
 #import "PhotoVC.h"
 #import "FlickrPlaceAnnotation.h"
 #import "FlickrPhotoAnnotation.h"
-#include "FlickrFetcher.h"
+
 
 @interface MapViewController() <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
 
 @end
 
@@ -25,6 +26,21 @@
 @synthesize mapView = _mapView;
 @synthesize annotations = _annotations;
 @synthesize delegate = _delegate;
+
+- (IBAction)segmentedControlPressed:(UISegmentedControl *)sender {
+    switch (sender.selectedSegmentIndex) {
+        case 0: // set map to normal
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+        case 1: // set map to satellite
+            self.mapView.mapType = MKMapTypeSatellite;
+            break;
+        case 2: // set map to hybrid
+            self.mapView.mapType = MKMapTypeHybrid;
+            break;
+    }
+ 
+}
 
 #pragma mark - Synchronize Model and View
 

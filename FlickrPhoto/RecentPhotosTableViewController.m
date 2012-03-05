@@ -261,6 +261,23 @@
     
     //NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
     
+    //extra: add a photo's thumbnail image
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
+        //NSLog(@"RecentPhotosTableViewController tableView:cellForRowAtIndexPath, [NSData dataWithContentsOfURL]");
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (([cell.textLabel.text isEqualToString:photoTitle] && [cell.detailTextLabel.text isEqualToString:description])) {
+                UIImage *image = data ? [UIImage imageWithData:data] : nil;
+                cell.imageView.image = image;
+                cell.imageView.hidden = NO;
+                [cell setNeedsLayout];  //esegue un update (reload) della cella senza fare il reload dell'intera tabella
+            }
+        });
+    });
+    dispatch_release(downloadQueue);
+    
     return cell;
 }
 
