@@ -19,6 +19,7 @@
                     <connections>
                         <segue destination="LGZ-L5-SOe" kind="relationship" relationship="viewControllers" id="3D9-qK-drz"/>
                         <segue destination="YSm-rN-nhU" kind="relationship" relationship="viewControllers" id="SVx-HF-PGb"/>
+                        <segue destination="hL5-mi-CJO" kind="relationship" relationship="viewControllers" id="fsF-oj-sKN"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -298,7 +299,37 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="529" y="518"/>
+            <point key="canvasLocation" x="1097" y="518"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="GOs-Z4-xLk">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7wa-4Y-tcs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="hL5-mi-CJO" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Cnh-XH-8VT">
+                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aYm-Sa-D8B">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hL5-mi-CJO" id="aKF-7d-z4V"/>
+                            <outlet property="delegate" destination="hL5-mi-CJO" id="FR2-Rz-htj"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="" id="3rW-dT-tNZ"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="552" y="1295"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

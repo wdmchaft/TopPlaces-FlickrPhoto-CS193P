@@ -187,7 +187,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [spinner stopAnimating];
             self.recentPhotos = listOfPhotos; //modifica la UI (tabella) per questo lo metto nella main queue
-            
         });
         
     });
@@ -363,6 +362,7 @@
      */
      NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
     self.flickrSelected = selectedPhoto;
+      //  NSLog(@" foto selezionata: %@",self.flickrSelected);
     if ([self splitViewPhotoViewController]){
        
         [self splitViewPhotoViewController].photoToShow =  self.flickrSelected ;

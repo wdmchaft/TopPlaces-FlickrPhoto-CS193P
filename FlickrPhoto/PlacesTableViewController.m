@@ -320,6 +320,7 @@ return [FlickrFetcher topPlaces];
     NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
     NSDictionary *selectedPlace = [[self.placesByCountry valueForKey:country] objectAtIndex:indexPath.row];
     self.flickrSelected =selectedPlace;
+    //NSLog(@" posto selezionato %@",self.flickrSelected);
     [self performSegueWithIdentifier:@"Show me photos" sender:self];
     
 }
