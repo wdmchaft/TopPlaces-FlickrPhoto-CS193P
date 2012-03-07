@@ -60,13 +60,13 @@
 
     
         if ([self.cache contains:self.photoToShow])
-        {//se la foto non è nella cache
+        {//se la foto è nella cache
             NSData *photoData = [self.cache retrieve:self.photoToShow];
             self.imageView.image = [UIImage imageWithData:photoData]; 
         }
 
     else{
-        NSLog(@"Foto non in cache");
+        //NSLog(@"Foto non in cache");
         
     /**
      CGRect bounds = [self.view bounds];
@@ -85,9 +85,14 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
+        
         NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photoToShow format:FlickrPhotoFormatLarge];
         NSData *imageData = [NSData dataWithContentsOfURL:urlPhoto];
          [self.cache put:imageData for:self.photoToShow]; //NSFileManager è thread-safe (a meno che non usi la stessa istanza in 2 thread separati)
+        
+        //***SIMULA LA LATENZA DELLA RETE mettendo il thread in sleep per 5sec***
+        //[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [self.spinner stopAnimating]; //nello storyboard è impostato come hidesWhenStopped

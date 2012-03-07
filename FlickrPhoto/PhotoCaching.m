@@ -117,7 +117,7 @@
         NSDictionary *fileObject;
         for (fileObject in invertedSortedFiles)                                         // loop over all fileOjects
         {
-             NSLog(@"dir size %i %i", currentDirectorySize, dataSize);
+             //NSLog(@"dir size %i %i", currentDirectorySize, dataSize);
              //NSLog(@"found:: %@ %@", [fileObject valueForKey:@"filePath"], [[fileObject valueForKey:@"lastModDate"] description]);
             
             if ((currentDirectorySize + dataSize) > MAXIMUM_CACHE_SIZE)                        // do I need to make place

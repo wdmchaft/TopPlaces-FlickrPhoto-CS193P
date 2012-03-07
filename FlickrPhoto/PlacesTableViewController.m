@@ -69,7 +69,7 @@
 
 // recupera una lista di posti da flickr
 -(NSArray *)getListOfPlaces{
-    return [FlickrFetcher topPlaces];
+return [FlickrFetcher topPlaces];
 } 
 
 - (id)initWithStyle:(UITableViewStyle)style
