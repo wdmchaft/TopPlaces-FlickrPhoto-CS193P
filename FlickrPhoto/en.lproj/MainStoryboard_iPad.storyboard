@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2177" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="FxU-hz-yZr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="FxU-hz-yZr">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
         <!--Split View Controller-->
@@ -33,6 +34,7 @@
                     <connections>
                         <segue destination="gxS-bI-hQ2" kind="relationship" relationship="viewControllers" id="1Co-Pg-5n7"/>
                         <segue destination="juW-MC-fBF" kind="relationship" relationship="viewControllers" id="TCC-bD-mjm"/>
+                        <segue destination="J1L-fy-hWF" kind="relationship" relationship="viewControllers" id="hmJ-ie-4Ie"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -259,7 +261,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1243" y="-360"/>
+            <point key="canvasLocation" x="795" y="725"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="dcP-0y-Cgm">
@@ -317,6 +319,65 @@
             </objects>
             <point key="canvasLocation" x="1243" y="-1386"/>
         </scene>
+        <!--Virtual VacationsTVC-->
+        <scene sceneID="2RQ-EG-RpV">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lgu-ys-hkp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="l6y-Uy-A4M" customClass="VirtualVacationsTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="21f-gC-pAa">
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vacation cell" textLabel="Zgq-3Z-MfH" style="IBUITableViewCellStyleDefault" id="qyz-6U-ukZ">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" id="Zgq-3Z-MfH">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="l6y-Uy-A4M" id="bIw-GK-UGx"/>
+                            <outlet property="delegate" destination="l6y-Uy-A4M" id="vnl-nG-dJF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Jy7-uk-NMi"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1732" y="-317"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9CY-bN-GHZ">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sFE-Q9-NEn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="J1L-fy-hWF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" id="mOb-3t-O4I"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="eLE-ME-HTT">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="l6y-Uy-A4M" kind="relationship" relationship="rootViewController" id="VdL-BK-Elj"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1254" y="-317"/>
+        </scene>
     </scenes>
     <classes>
         <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
@@ -342,6 +403,9 @@
         </class>
         <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+        </class>
+        <class className="VirtualVacationsTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VirtualVacationsTVC.h"/>
         </class>
         <class className="myTabBarVC" superclassName="UITabBarController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/myTabBarVC.h"/>

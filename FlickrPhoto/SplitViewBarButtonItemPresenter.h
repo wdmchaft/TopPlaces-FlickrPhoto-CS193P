@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h> //<-- deve essere UIKit perchè è lì che c'è UIBarButtonItem
 
 //come parlo alla mia detail view per dirgli di mettere, ad esempio un button?
+//per dialogare tra oggetti cercando di rimanere il più possibile generici--> protocol o delegate
 
 @protocol SplitViewBarButtonItemPresenter <NSObject>
 @property (nonatomic,strong) UIBarButtonItem *splitViewBarButtonItem;
