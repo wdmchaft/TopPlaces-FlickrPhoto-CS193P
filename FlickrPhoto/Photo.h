@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * place_id;
 @property (nonatomic, retain) NSString * tags;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSDate * inserted;
 @property (nonatomic, retain) NSSet *etichettataDa;
 @property (nonatomic, retain) Place *scattateDove;
 @end

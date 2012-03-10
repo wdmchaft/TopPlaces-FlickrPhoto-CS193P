@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * place_description;
 @property (nonatomic, retain) NSString * place_id;
+@property (nonatomic, retain) NSDate * inserted;
 @property (nonatomic, retain) NSSet *photos;
 @end
 

@@ -9,6 +9,7 @@
 #import "TagsTVC.h"
 #import "Tag+Create.h"
 #import "VacationManager.h"
+#import "PhotosByTag.h"
 
 @interface TagsTVC ()
 @property (nonatomic, strong) UIManagedDocument *tagsDatabase; 
@@ -189,6 +190,16 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+  if ([segue.identifier isEqualToString:@"photos by tag"]){
+        Tag *tag =[self.fetchedResultsController objectAtIndexPath:indexPath];
+        [segue.destinationViewController setMyTag:tag];
+    }
+
 }
 
 @end

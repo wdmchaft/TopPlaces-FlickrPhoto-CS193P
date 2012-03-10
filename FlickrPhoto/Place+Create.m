@@ -38,6 +38,7 @@ if (!places || ([places count] > 1)) {
                                                  inManagedObjectContext:context];
     place.place_id = place_id;
     place.place_description = place_description;
+    place.inserted = [NSDate date];
 NSLog(@"place non esiste");
     
     //

@@ -44,6 +44,7 @@
         photo.place_id = [flickrInfo objectForKey:@"place_id"];
         photo.photo_url = [[FlickrFetcher urlForPhoto:flickrInfo format:FlickrPhotoFormatLarge] absoluteString];
         photo.tags = [flickrInfo objectForKey:FLICKR_TAGS];
+        photo.inserted = [NSDate date];
         
         NSMutableArray *photoTags= [[[flickrInfo objectForKey:FLICKR_TAGS] componentsSeparatedByString:@" "] mutableCopy];
         

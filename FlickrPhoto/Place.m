@@ -14,6 +14,7 @@
 
 @dynamic place_description;
 @dynamic place_id;
+@dynamic inserted;
 @dynamic photos;
 
 @end

@@ -421,11 +421,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itinerary cell" textLabel="xZW-Ue-gL7" detailTextLabel="1Jh-6U-Zqg" style="IBUITableViewCellStyleSubtitle" id="boK-Oo-bq3">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itinerary cell" textLabel="xZW-Ue-gL7" detailTextLabel="1Jh-6U-Zqg" style="IBUITableViewCellStyleSubtitle" id="boK-Oo-bq3">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xZW-Ue-gL7">
@@ -445,6 +445,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="R0c-ZX-YFy" kind="push" identifier="photos by place" id="nEc-mD-XdP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -457,6 +460,66 @@
             </objects>
             <point key="canvasLocation" x="2051" y="1121"/>
         </scene>
+        <!--Photos By Place-->
+        <scene sceneID="vFc-37-SAN">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jyv-G3-WQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="R0c-ZX-YFy" customClass="PhotosByPlace" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xD4-xk-ByW">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="photo cell of a place" id="k48-6p-ngx">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="R0c-ZX-YFy" id="jKB-8G-x5k"/>
+                            <outlet property="delegate" destination="R0c-ZX-YFy" id="AlU-7c-53s"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="cnA-V6-IA6"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="2597" y="1121"/>
+        </scene>
+        <!--Photos By Tag-->
+        <scene sceneID="u4q-rI-ofO">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I5M-4B-JvG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="Zrf-FB-pAr" customClass="PhotosByTag" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wEv-Jg-YIF">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="photo cell of a tag" id="C6A-rB-baC">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Zrf-FB-pAr" id="O0g-mU-vtc"/>
+                            <outlet property="delegate" destination="Zrf-FB-pAr" id="0sx-gV-dgF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="lWQ-OD-MWG"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="2597" y="1696"/>
+        </scene>
         <!--TagsTVC-->
         <scene sceneID="f1G-aH-jNf">
             <objects>
@@ -467,11 +530,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tag cell" textLabel="6b1-sq-m1O" detailTextLabel="bEO-Fn-wn1" style="IBUITableViewCellStyleSubtitle" id="f12-JM-p4u">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tag cell" textLabel="6b1-sq-m1O" detailTextLabel="bEO-Fn-wn1" style="IBUITableViewCellStyleSubtitle" id="f12-JM-p4u">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6b1-sq-m1O">
@@ -491,6 +554,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="Zrf-FB-pAr" kind="push" identifier="photos by tag" id="gxd-xl-t6q"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -544,6 +610,12 @@
                 <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
+        </class>
+        <class className="PhotosByPlace" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosByPlace.h"/>
+        </class>
+        <class className="PhotosByTag" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosByTag.h"/>
         </class>
         <class className="PlacesByVacation" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlacesByVacation.h"/>

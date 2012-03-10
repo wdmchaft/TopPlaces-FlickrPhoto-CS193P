@@ -18,6 +18,7 @@
 @dynamic place_id;
 @dynamic tags;
 @dynamic title;
+@dynamic inserted;
 @dynamic etichettataDa;
 @dynamic scattateDove;
 

@@ -7,8 +7,10 @@
 //
 
 #import "PlacesByVacation.h"
-#import "Place+Create.h"
+#import "Place.h"
 #import "VacationManager.h"
+#import "PhotosByPlace.h"
+
 
 
 @interface PlacesByVacation ()
@@ -39,7 +41,7 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Place"];
     //all PLACES
     //request.predicate = nil;
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"place_description" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // senza il selector l'ordinamento era case insensitive
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"inserted" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // senza il selector l'ordinamento era case insensitive
  
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
@@ -128,8 +130,19 @@
     
     
     Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = place.place_description;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
+    NSMutableArray *placeInfos= [[place.place_description componentsSeparatedByString:@","] mutableCopy];
+    NSString *title = [[NSString alloc] init];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    //[format setDateFormat:@"MMM dd, yyyy HH:mm"];
+     [format setDateFormat:@"dd-MMM-yyyy"];
+    //title = [title stringByAppendingFormat:@" %@ (%d)",[placeInfos objectAtIndex:0], [place.photos count]];
+    
+    title = [title stringByAppendingFormat:@"%@",[placeInfos objectAtIndex:0]];
+
+    cell.textLabel.text = title; //nome del posto
+    
+    
+    cell.detailTextLabel.text = [format stringFromDate:place.inserted]; //[NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
     
     return cell;
 }
@@ -184,6 +197,17 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    
+    if ([segue.identifier isEqualToString:@"photos by place"]) {
+        Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
+        [segue.destinationViewController setPlace:place];
+    } 
 }
 
 @end
