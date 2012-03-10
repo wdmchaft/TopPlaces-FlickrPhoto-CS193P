@@ -15,13 +15,13 @@
 
 @implementation VirtualVacationsTVC
 
-@synthesize vacations = _vacations;
+@synthesize vacationsUrl = _vacationsUrl;
 
--(void)setVacations:(NSArray *)vacations
+-(void)setVacationsUrl:(NSArray *)vacationsUrl
 {
-    if (_vacations != vacations)
+    if (_vacationsUrl != vacationsUrl)
     {
-        _vacations = vacations;
+        _vacationsUrl = vacationsUrl;
     }
 }
 
@@ -38,6 +38,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:(BOOL)animated];
+    /**
     //recupero la lista di vacanze...
     if (!self.vacations)
     {
@@ -80,11 +81,15 @@
             [vacationDocuments addObject:[[UIManagedDocument alloc] initWithFileURL:vacation]];
         }
         self.vacations = vacationDocuments;
-
-
-
-        
+     }
+**/
+    if (!self.vacationsUrl)
+    {
+    VacationManager *vm=[[VacationManager alloc] init]; 
+    self.vacationsUrl = vm.vacations;
     }
+
+ 
     
 }
 
@@ -125,7 +130,7 @@
 {
 
     // Return the number of rows in the section.
-    return [self.vacations count];
+    return [self.vacationsUrl count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,7 +139,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
-      NSString *fileName = [[[self.vacations objectAtIndex:indexPath.row] fileURL] lastPathComponent];
+      NSString *fileName = [[self.vacationsUrl objectAtIndex:indexPath.row] lastPathComponent];
        
     
     
@@ -208,7 +213,7 @@
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 
-        [segue.destinationViewController setVacation:[self.vacations objectAtIndex:indexPath.row]];
+        [segue.destinationViewController setVacation:[[self.vacationsUrl objectAtIndex:indexPath.row]lastPathComponent]];
     
     }
 

@@ -10,6 +10,6 @@
 
 @interface SingleVacationTVC : UITableViewController
 
-@property (strong,nonatomic) UIManagedDocument *vacation;
+@property (strong,nonatomic) NSString *vacation;
 
 @end

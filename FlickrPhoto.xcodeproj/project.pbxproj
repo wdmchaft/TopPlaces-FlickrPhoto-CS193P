@@ -8,11 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1203051B1507709B00D4A32A /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1203051A1507709B00D4A32A /* FlickrFetcher.m */; };
-		1203051D150773AF00D4A32A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1203051C150773AF00D4A32A /* CoreData.framework */; };
 		120305311507C73F00D4A32A /* Vacation.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1203052F1507C73F00D4A32A /* Vacation.xcdatamodeld */; };
-		120305461507CA4F00D4A32A /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 120305451507CA4F00D4A32A /* Place.m */; };
-		120305491507CA4F00D4A32A /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 120305481507CA4F00D4A32A /* Tag.m */; };
-		1203054C1507CA4F00D4A32A /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1203054B1507CA4F00D4A32A /* Photo.m */; };
 		1203054F1507CACB00D4A32A /* VirtualVacationsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1203054E1507CACB00D4A32A /* VirtualVacationsTVC.m */; };
 		123F99B61507689600007002 /* artist-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F99AE1507689600007002 /* artist-tab.png */; };
 		123F99B71507689600007002 /* artist-tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F99AF1507689600007002 /* artist-tab@2x.png */; };
@@ -25,12 +21,23 @@
 		12540B6514E2D6590026B218 /* RecentPhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540B6414E2D6590026B218 /* RecentPhotosTableViewController.m */; };
 		12540B7514E3151B0026B218 /* PhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540B7414E3151B0026B218 /* PhotoVC.m */; };
 		12540BA814E533B60026B218 /* LastViewedPhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */; };
+		128C15D2150B915300B70297 /* PlacesByVacation.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C15D1150B915300B70297 /* PlacesByVacation.m */; };
+		128C15F2150BA99A00B70297 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C15F1150BA99900B70297 /* Tag.m */; };
+		128C15F5150BA99A00B70297 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C15F4150BA99A00B70297 /* Place.m */; };
+		128C15F8150BA99B00B70297 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C15F7150BA99B00B70297 /* Photo.m */; };
 		1294F66014E9977D00BFFB98 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1294F65F14E9977D00BFFB98 /* CoreLocation.framework */; };
 		1294F66214E9978600BFFB98 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1294F66114E9978600BFFB98 /* MapKit.framework */; };
 		1294F66514E9980B00BFFB98 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F66414E9980B00BFFB98 /* MapViewController.m */; };
 		1294F66814E9A8A800BFFB98 /* FlickrPhotoAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F66714E9A8A800BFFB98 /* FlickrPhotoAnnotation.m */; };
 		1294F67B14EA516900BFFB98 /* NonAnimatedSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F67A14EA516900BFFB98 /* NonAnimatedSegue.m */; };
 		12C3BDAF1503E381007BF809 /* PhotoCaching.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C3BDAE1503E381007BF809 /* PhotoCaching.m */; };
+		12C4B748150A774F004A393E /* VacationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B747150A774E004A393E /* VacationManager.m */; };
+		12C4B753150AA2A1004A393E /* Photo+Flickr.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B752150AA2A1004A393E /* Photo+Flickr.m */; };
+		12C4B75E150AB6E2004A393E /* Place+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B75D150AB6E2004A393E /* Place+Create.m */; };
+		12C4B765150AC462004A393E /* Tag+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B764150AC462004A393E /* Tag+Create.m */; };
+		12C4B768150AD049004A393E /* TagsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B767150AD049004A393E /* TagsTVC.m */; };
+		12C4B76B150AD86B004A393E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1203051C150773AF00D4A32A /* CoreData.framework */; };
+		12C4B774150ADA43004A393E /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B773150ADA43004A393E /* CoreDataTableViewController.m */; };
 		12E0917214EAD9F9008BE035 /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E0917114EAD9F9008BE035 /* FlickrPlaceAnnotation.m */; };
 		12EE69D914DDF035006CCB7B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12EE69D814DDF035006CCB7B /* UIKit.framework */; };
 		12EE69DB14DDF035006CCB7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12EE69DA14DDF035006CCB7B /* Foundation.framework */; };
@@ -52,12 +59,6 @@
 		1203051A1507709B00D4A32A /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
 		1203051C150773AF00D4A32A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		120305301507C73F00D4A32A /* Vacation.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vacation.xcdatamodel; sourceTree = "<group>"; };
-		120305441507CA4F00D4A32A /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
-		120305451507CA4F00D4A32A /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
-		120305471507CA4F00D4A32A /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
-		120305481507CA4F00D4A32A /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
-		1203054A1507CA4F00D4A32A /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		1203054B1507CA4F00D4A32A /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		1203054D1507CACA00D4A32A /* VirtualVacationsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVacationsTVC.h; sourceTree = "<group>"; };
 		1203054E1507CACB00D4A32A /* VirtualVacationsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualVacationsTVC.m; sourceTree = "<group>"; };
 		123F99AE1507689600007002 /* artist-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "artist-tab.png"; sourceTree = "<group>"; };
@@ -74,8 +75,14 @@
 		12540B7414E3151B0026B218 /* PhotoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoVC.m; sourceTree = "<group>"; };
 		12540BA614E533B50026B218 /* LastViewedPhotosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastViewedPhotosTableViewController.h; sourceTree = "<group>"; };
 		12540BA714E533B50026B218 /* LastViewedPhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastViewedPhotosTableViewController.m; sourceTree = "<group>"; };
-		128C66D01507CFBB0067BEBD /* CoreDataTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
-		128C66D11507CFBB0067BEBD /* CoreDataTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		128C15D0150B915300B70297 /* PlacesByVacation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesByVacation.h; sourceTree = "<group>"; };
+		128C15D1150B915300B70297 /* PlacesByVacation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesByVacation.m; sourceTree = "<group>"; };
+		128C15F0150BA99900B70297 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		128C15F1150BA99900B70297 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		128C15F3150BA99A00B70297 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		128C15F4150BA99A00B70297 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
+		128C15F6150BA99B00B70297 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		128C15F7150BA99B00B70297 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		1294F65F14E9977D00BFFB98 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1294F66114E9978600BFFB98 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1294F66314E9980B00BFFB98 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -87,6 +94,18 @@
 		12AEB2DF14E738EF004C8359 /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		12C3BDAD1503E381007BF809 /* PhotoCaching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCaching.h; sourceTree = "<group>"; };
 		12C3BDAE1503E381007BF809 /* PhotoCaching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCaching.m; sourceTree = "<group>"; };
+		12C4B746150A774E004A393E /* VacationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationManager.h; sourceTree = "<group>"; };
+		12C4B747150A774E004A393E /* VacationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationManager.m; sourceTree = "<group>"; };
+		12C4B751150AA2A1004A393E /* Photo+Flickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+Flickr.h"; sourceTree = "<group>"; };
+		12C4B752150AA2A1004A393E /* Photo+Flickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+Flickr.m"; sourceTree = "<group>"; };
+		12C4B75C150AB6E2004A393E /* Place+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Place+Create.h"; sourceTree = "<group>"; };
+		12C4B75D150AB6E2004A393E /* Place+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Place+Create.m"; sourceTree = "<group>"; };
+		12C4B763150AC462004A393E /* Tag+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tag+Create.h"; sourceTree = "<group>"; };
+		12C4B764150AC462004A393E /* Tag+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tag+Create.m"; sourceTree = "<group>"; };
+		12C4B766150AD048004A393E /* TagsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsTVC.h; sourceTree = "<group>"; };
+		12C4B767150AD049004A393E /* TagsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsTVC.m; sourceTree = "<group>"; };
+		12C4B772150ADA43004A393E /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		12C4B773150ADA43004A393E /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 		12E0917014EAD9F9008BE035 /* FlickrPlaceAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPlaceAnnotation.h; sourceTree = "<group>"; };
 		12E0917114EAD9F9008BE035 /* FlickrPlaceAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPlaceAnnotation.m; sourceTree = "<group>"; };
 		12EE69D414DDF035006CCB7B /* FlickrPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1203051D150773AF00D4A32A /* CoreData.framework in Frameworks */,
+				12C4B76B150AD86B004A393E /* CoreData.framework in Frameworks */,
 				1294F66214E9978600BFFB98 /* MapKit.framework in Frameworks */,
 				1294F66014E9977D00BFFB98 /* CoreLocation.framework in Frameworks */,
 				12EE69D914DDF035006CCB7B /* UIKit.framework in Frameworks */,
@@ -130,13 +149,21 @@
 		1203052E1507C6FC00D4A32A /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				1203054A1507CA4F00D4A32A /* Photo.h */,
-				1203054B1507CA4F00D4A32A /* Photo.m */,
-				120305471507CA4F00D4A32A /* Tag.h */,
-				120305481507CA4F00D4A32A /* Tag.m */,
-				120305441507CA4F00D4A32A /* Place.h */,
-				120305451507CA4F00D4A32A /* Place.m */,
+				12C4B772150ADA43004A393E /* CoreDataTableViewController.h */,
+				12C4B773150ADA43004A393E /* CoreDataTableViewController.m */,
+				12C4B75C150AB6E2004A393E /* Place+Create.h */,
+				12C4B75D150AB6E2004A393E /* Place+Create.m */,
+				12C4B751150AA2A1004A393E /* Photo+Flickr.h */,
+				12C4B752150AA2A1004A393E /* Photo+Flickr.m */,
+				128C15F0150BA99900B70297 /* Tag.h */,
+				128C15F3150BA99A00B70297 /* Place.h */,
+				128C15F4150BA99A00B70297 /* Place.m */,
+				128C15F6150BA99B00B70297 /* Photo.h */,
+				128C15F7150BA99B00B70297 /* Photo.m */,
+				128C15F1150BA99900B70297 /* Tag.m */,
 				1203052F1507C73F00D4A32A /* Vacation.xcdatamodeld */,
+				12C4B763150AC462004A393E /* Tag+Create.h */,
+				12C4B764150AC462004A393E /* Tag+Create.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -144,12 +171,16 @@
 		120305501507CAD200D4A32A /* assignment_6 */ = {
 			isa = PBXGroup;
 			children = (
-				128C66D01507CFBB0067BEBD /* CoreDataTableViewController.h */,
-				128C66D11507CFBB0067BEBD /* CoreDataTableViewController.m */,
+				12C4B766150AD048004A393E /* TagsTVC.h */,
+				12C4B767150AD049004A393E /* TagsTVC.m */,
 				1203054D1507CACA00D4A32A /* VirtualVacationsTVC.h */,
 				1203054E1507CACB00D4A32A /* VirtualVacationsTVC.m */,
 				12FF028B1508085C0051C330 /* SingleVacationTVC.h */,
 				12FF028C1508085C0051C330 /* SingleVacationTVC.m */,
+				12C4B746150A774E004A393E /* VacationManager.h */,
+				12C4B747150A774E004A393E /* VacationManager.m */,
+				128C15D0150B915300B70297 /* PlacesByVacation.h */,
+				128C15D1150B915300B70297 /* PlacesByVacation.m */,
 			);
 			name = assignment_6;
 			sourceTree = "<group>";
@@ -344,11 +375,18 @@
 				12C3BDAF1503E381007BF809 /* PhotoCaching.m in Sources */,
 				1203051B1507709B00D4A32A /* FlickrFetcher.m in Sources */,
 				120305311507C73F00D4A32A /* Vacation.xcdatamodeld in Sources */,
-				120305461507CA4F00D4A32A /* Place.m in Sources */,
-				120305491507CA4F00D4A32A /* Tag.m in Sources */,
-				1203054C1507CA4F00D4A32A /* Photo.m in Sources */,
 				1203054F1507CACB00D4A32A /* VirtualVacationsTVC.m in Sources */,
 				12FF028D1508085C0051C330 /* SingleVacationTVC.m in Sources */,
+				12C4B748150A774F004A393E /* VacationManager.m in Sources */,
+				12C4B753150AA2A1004A393E /* Photo+Flickr.m in Sources */,
+				12C4B75E150AB6E2004A393E /* Place+Create.m in Sources */,
+				12C4B765150AC462004A393E /* Tag+Create.m in Sources */,
+				12C4B768150AD049004A393E /* TagsTVC.m in Sources */,
+				12C4B774150ADA43004A393E /* CoreDataTableViewController.m in Sources */,
+				128C15D2150B915300B70297 /* PlacesByVacation.m in Sources */,
+				128C15F2150BA99A00B70297 /* Tag.m in Sources */,
+				128C15F5150BA99A00B70297 /* Place.m in Sources */,
+				128C15F8150BA99B00B70297 /* Photo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

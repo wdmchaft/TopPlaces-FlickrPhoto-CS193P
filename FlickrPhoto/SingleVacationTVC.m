@@ -7,6 +7,8 @@
 //
 
 #import "SingleVacationTVC.h"
+#import "TagsTVC.h"
+#import "PlacesByVacation.h"
 
 @interface SingleVacationTVC ()
 
@@ -15,8 +17,9 @@
 @implementation SingleVacationTVC
 @synthesize vacation = _vacation;
 
--(void)setVacation:(UIManagedDocument *)vacation
+-(void)setVacation:(NSString *)vacation
 {
+    NSLog(@" %@",vacation);
     if (_vacation != vacation) {_vacation=vacation;}
 }
 
@@ -32,10 +35,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSString *fileName = [self.vacation.fileURL lastPathComponent];
-    //NSRange  range = [fileName rangeOfString:@"vacation"];
-    //self.title = [fileName substringToIndex:range.location-1];
-    self.title = fileName;
+   
+    self.title = self.vacation;
 }
 
 - (void)viewDidLoad
@@ -81,6 +82,16 @@
             break;
     }
 **/
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    //if ([segue.identifier isEqualToString:@"tags"]) {
+        
+        [segue.destinationViewController setVacation:self.vacation];
+        
+    //}
+
 }
 
 @end

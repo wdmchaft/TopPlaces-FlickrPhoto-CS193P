@@ -2,7 +2,7 @@
 //  Tag.h
 //  FlickrPhoto
 //
-//  Created by Marzoli Alessandro on 07/03/12.
+//  Created by Marzoli Alessandro on 10/03/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -14,7 +14,7 @@
 @interface Tag : NSManagedObject
 
 @property (nonatomic, retain) NSString * tag_name;
-@property (nonatomic, retain) NSDecimalNumber * used;
+@property (nonatomic, retain) NSNumber * used;
 @property (nonatomic, retain) NSSet *taggedPhotos;
 @end
 

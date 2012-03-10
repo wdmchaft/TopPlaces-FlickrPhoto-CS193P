@@ -1,5 +1,5 @@
 //
-//  Tag.m
+//  Tag+Create.h
 //  FlickrPhoto
 //
 //  Created by Marzoli Alessandro on 10/03/12.
@@ -7,13 +7,8 @@
 //
 
 #import "Tag.h"
-#import "Photo.h"
 
-
-@implementation Tag
-
-@dynamic tag_name;
-@dynamic used;
-@dynamic taggedPhotos;
-
+@interface Tag (Create)
++(Tag *)TagWithName:(NSString *)tag_name
+inManagedObjectContext:(NSManagedObjectContext *)context;
 @end

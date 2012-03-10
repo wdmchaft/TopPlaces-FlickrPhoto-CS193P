@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VacationManager.h"
 
 @interface VirtualVacationsTVC : UITableViewController
 
-@property (nonatomic,strong) NSArray *vacations; //array di vacation db
+@property (nonatomic,strong) NSArray *vacationsUrl; //of urls (ai vari documents ossia i vari db)
 
 @end

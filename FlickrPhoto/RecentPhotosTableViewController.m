@@ -25,6 +25,7 @@
 @synthesize recentPhotos = _recentPhotos;
 @synthesize flickrSelected = _flickrSelected;
 
+
 -(void) setFlickrSelected:(NSDictionary *)flickrSelected
 {
     if (_flickrSelected != flickrSelected) _flickrSelected = flickrSelected;
@@ -153,8 +154,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-
  
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     //[spinner setBackgroundColor:[UIColor redColor]];
@@ -164,7 +163,7 @@
                                    initWithTitle:@"Flip"                                            
                                    style:UIBarButtonItemStyleBordered 
                                    target:self 
-                                   action:@selector(flipView)];
+                                   action:nil]; // invece di @selector(flipView)];
     UIBarButtonItem *loader = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
 
@@ -242,7 +241,7 @@
     // Configure the cell...
     //recent photos dictionary
     NSDictionary *photo = [self.recentPhotos objectAtIndex:indexPath.row]; 
-    
+
     NSString *photoTitle= [photo objectForKey:FLICKR_PHOTO_TITLE];
     NSString *description=[photo valueForKeyPath:@"description._content"]; 
 

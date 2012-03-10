@@ -9,8 +9,10 @@
 #import "PhotoVC.h"
 #import "FlickrFetcher.h"
 #import "PhotoCaching.h"
+#import "VacationManager.h"
+#import "Photo+Flickr.h"
 
-@interface PhotoVC() <UIScrollViewDelegate>
+@interface PhotoVC() <UIScrollViewDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
@@ -55,7 +57,7 @@
 
 -(void)fetchPhoto{
     self.imageView.image = nil;
-    
+
     if (self.photoToShow) {
         
         
@@ -261,9 +263,116 @@
     self.scrollView.backgroundColor = [UIColor blackColor];
     [self fetchPhoto];
     
+    UIBarButtonItem *vacationButton = [[UIBarButtonItem alloc] 
+                                   initWithTitle:@"visit"                                            
+                                   style:UIBarButtonItemStyleBordered 
+                                   target:self 
+                                   action:@selector(clickMe)];
+
+    
+    
+    self.navigationItem.rightBarButtonItem = vacationButton;
+    
     
 }
 
+-(void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
+{
+    dispatch_queue_t fetchQ  = dispatch_queue_create("Flickr fetcher", NULL);
+    dispatch_async(fetchQ, ^{
+       
+        [document.managedObjectContext performBlock:^{ //in questo modo sono nel thread giusto (dove è stato creato NSManagedObject) e non nel "flickr fetcher" thread (34')
+            
+            //se sapessi che viene fatto nel main thread potrei fare il "ritorno" al main thread come quando lavoro sulla ui
+            
+            // perform in the NSMOC's safe thread (main thread)
+            
+            
+                // start creating obj in doc's context
+                //popolo il db in background
+                [Photo photoWithFlickrInfo:self.photoToShow inManagedObjectContext:document.managedObjectContext];
+                
+                // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
+                // we could decide to rely on UIManagedDocument's autosaving, but explicit saving would be better
+                // because if we quit the app before autosave happens, then it'll come up blank next time we run
+                // this is what it would look like (ADDED AFTER LECTURE) ...
+                [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
+                // note that we don't do anything in the completion handler this time
+                
+                
+            
+            
+        }]; 
+        
+    });
+    dispatch_release(fetchQ);
+}
+
+-(void)useDocument:(UIManagedDocument*)managedDocument
+{
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
+    {
+        [managedDocument saveToURL:managedDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+           // [self setupFetchedResultsController];  
+            [self fetchFlickrDataIntoDocument:managedDocument];
+            NSLog(@"db creato");
+            
+        }];
+    } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
+    {
+        [managedDocument openWithCompletionHandler:^(BOOL success) {
+            //[self setupFetchedResultsController];  
+             [self fetchFlickrDataIntoDocument:managedDocument];
+            NSLog(@"db chiuso");
+            
+        }];
+    } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
+    {
+        //[self setupFetchedResultsController];  
+         [self fetchFlickrDataIntoDocument:managedDocument];
+        NSLog(@"db aperto");
+    }
+}
+
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+  
+    NSString *docName= [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (![docName isEqualToString:@"Cancel"])
+        {
+      NSLog(@" %@ ", docName);
+    [self useDocument:[VacationManager sharedManagedDocumentForVacation:docName]];
+        }
+    //add photo to the core data
+}
+
+-(void)clickMe
+{
+  
+   UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Vacations"
+                                        delegate:self
+                               cancelButtonTitle:nil
+                          destructiveButtonTitle:nil
+                               otherButtonTitles:nil];
+    
+    // Show the sheet
+    //[sheet showInView:self.view];
+    VacationManager *vm= [[VacationManager alloc] init];
+    NSArray *vacations = vm.vacations;
+    
+    
+    for (int i = 0; i < [vacations count]; i++) {
+        
+        [sheet addButtonWithTitle:[[vacations objectAtIndex:i] lastPathComponent]];
+        
+    }
+    
+    [sheet addButtonWithTitle:@"Cancel"];
+    sheet.cancelButtonIndex = [vacations count] +1;
+    
+    [sheet showFromTabBar:self.tabBarController.tabBar];
+}
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     //[self scrollViewSetup];  //nota: resetta lo zoom
@@ -281,6 +390,8 @@
 {
     return self.imageView; //return la view che voglio zoomare
 }
+
+
 
 - (void)viewDidUnload
 {
