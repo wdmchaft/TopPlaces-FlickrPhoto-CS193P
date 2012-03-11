@@ -11,7 +11,7 @@
 
 #define FILETYPE @".jpg"
 #define FILEPREFIX @"Fl1ckr_"
-#define MAXIMUM_CACHE_SIZE 10000000 // in Bytes (10Mb)
+#define MAXIMUM_CACHE_SIZE 10485760  // in Bytes (10Mb): 10 MB = 10*1024 KB = 10*1024*1024 Bytes = 10485760 Bytes
 
 @interface PhotoCaching()
 @property (nonatomic,strong) NSString *cachePath; //path della directory per il cache
@@ -79,7 +79,10 @@
     NSEnumerator *filesEnumator = [filesArray objectEnumerator];
     // loop over all files in the directory and summ the file sizes
     while (fileName = [filesEnumator nextObject]) {
+        if ([fileName hasPrefix:FILEPREFIX])   //nella directory generale della cache possono esserci anche altre cose (cache.db ad esempio), in questo modo le escludo dal size perchè di fatto sono elementi in cui io non posso/voglio interagire e che non vengono creati da me. L'avevo fatto col controllo sul suffisso ma ritengo che farlo con entrambi o col suffisso sia meglio che con l'estensione del file (.jpg ad esempio...che è molto più generica)
+        { 
         directorySize += [[self fileAttributesForCacheFile:fileName] fileSize];
+        }
     }
     
     return directorySize;
@@ -90,7 +93,7 @@
     int dataSize = [photoData length];                                                  // size of the file to write in Bytes
     
     int currentDirectorySize = [self directorySizeForPath:self.cachePath];              // size of the Cache Directory
-    
+
     if ((currentDirectorySize + dataSize) > MAXIMUM_CACHE_SIZE)                         // do I need to make space?
     {
         NSString *fileName;

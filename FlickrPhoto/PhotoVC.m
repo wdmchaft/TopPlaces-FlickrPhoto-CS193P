@@ -28,6 +28,44 @@
 @synthesize photoToShow = _photoToShow;
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
 @synthesize cache = _cache;
+@synthesize imageURL = _imageURL;
+
+- (void)loadImage
+{
+    if (self.imageView) { 
+        if (self.imageURL) {
+            
+             [self.spinner startAnimating];
+            dispatch_queue_t imageDownloadQ = dispatch_queue_create("flickr downloader 2", NULL);
+            dispatch_async(imageDownloadQ, ^{
+                UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.imageURL]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.spinner stopAnimating]; //nello storyboard è impostato come hidesWhenStopped
+                    self.imageView.image = image;
+                });
+            });
+            dispatch_release(imageDownloadQ);
+        } else {
+            self.imageView.image = nil;
+        }
+    }
+}
+
+- (void)setImageURL:(NSURL *)imageURL
+{
+     //NSLog(@" %@",imageURL);
+    if (![_imageURL isEqual:imageURL]) {
+        _imageURL = imageURL;
+        if (self.imageView.window) {    // we're on screen, so update the image
+            [self loadImage];   
+            NSLog(@"we're on screen, so update the image");
+        } else {                        // we're not on screen, so no need to loadImage (it will happen next viewWillAppear:)
+            self.imageView.image = nil; // but image has changed (so we can't leave imageView.image the same, so set to nil)
+             NSLog(@"we're not on screen, so no need to loadImage");
+        }
+    }
+}
+
 
 - (PhotoCaching *)cache {
     if (!_cache) {
@@ -121,7 +159,8 @@
     } //fine controllo esistenza self.photoToShow --> se non esiste non faccio nulla
 }
 
-//getter
+/**
+//getter L'ho tolto una volta implementato l'assignment 6 perchè mi serve anche la condizione self.photoToShow=nil in viewWillAppear
 - (NSDictionary *)photoToShow
 {
     //se non imposto la foto, prendo l'ultima
@@ -135,7 +174,7 @@
     }
     return _photoToShow;
 }
-
+**/
 //setter
 -(void) setPhotoToShow:(NSDictionary *)photoToShow
 { 
@@ -261,20 +300,35 @@
     [super viewWillAppear:animated];
     
     self.scrollView.backgroundColor = [UIColor blackColor];
-    [self fetchPhoto];
+    UIBarButtonItem *vacationButton = nil;
     
-    UIBarButtonItem *vacationButton = [[UIBarButtonItem alloc] 
-                                   initWithTitle:@"visit"                                            
-                                   style:UIBarButtonItemStyleBordered 
-                                   target:self 
-                                   action:@selector(clickMe)];
+    if (self.photoToShow) {
+        NSLog(@"wwww"); 
+        [self fetchPhoto];
+        vacationButton = [[UIBarButtonItem alloc] 
+                          initWithTitle:@"visit"                                            
+                          style:UIBarButtonItemStyleBordered 
+                          target:self 
+                          action:@selector(visitMe)];
+    
+    }
+    else if (self.imageURL) {
+        NSLog(@"db");
+        [self loadImage];
+        vacationButton = [[UIBarButtonItem alloc] 
+                          initWithTitle:@"unvisit"                                            
+                          style:UIBarButtonItemStyleBordered 
+                          target:self 
+                          action:@selector(clickMe)];
+    
+    }
 
-    
-    
-    self.navigationItem.rightBarButtonItem = vacationButton;
+
+   if (vacationButton) self.navigationItem.rightBarButtonItem = vacationButton;
     
     
 }
+
 
 -(void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
 {
@@ -314,7 +368,7 @@
     {
         [managedDocument saveToURL:managedDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
            // [self setupFetchedResultsController];  
-            [self fetchFlickrDataIntoDocument:managedDocument];
+            [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
             NSLog(@"db creato");
             
         }];
@@ -322,14 +376,14 @@
     {
         [managedDocument openWithCompletionHandler:^(BOOL success) {
             //[self setupFetchedResultsController];  
-             [self fetchFlickrDataIntoDocument:managedDocument];
+             [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
             NSLog(@"db chiuso");
             
         }];
     } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
     {
         //[self setupFetchedResultsController];  
-         [self fetchFlickrDataIntoDocument:managedDocument];
+         [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
         NSLog(@"db aperto");
     }
 }
@@ -338,16 +392,16 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
   
-    NSString *docName= [actionSheet buttonTitleAtIndex:buttonIndex];
+    NSString *docName= [actionSheet buttonTitleAtIndex:buttonIndex]; //dal tasto dell'actionSheet mi ricavo il nome della cartella nella directory
     if (![docName isEqualToString:@"Cancel"])
         {
       NSLog(@" %@ ", docName);
-    [self useDocument:[VacationManager sharedManagedDocumentForVacation:docName]];
+    [self useDocument:[VacationManager sharedManagedDocumentForVacation:docName]]; // richiamo useDocument con una shared session
         }
     //add photo to the core data
 }
 
--(void)clickMe
+-(void)visitMe
 {
   
    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Vacations"

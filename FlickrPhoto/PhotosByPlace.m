@@ -8,6 +8,7 @@
 
 #import "PhotosByPlace.h"
 #import "Photo.h"
+#import "PhotoVC.h"
 
 @interface PhotosByPlace ()
 
@@ -55,7 +56,7 @@
     Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
     if ([segue.identifier isEqualToString:@"Show Photo"]) {
        // [segue.destinationViewController setImageURL:[NSURL URLWithString:photo.imageURL]];
-        //[segue.destinationViewController setTitle:photo.title];
+        [segue.destinationViewController setImageURL:[NSURL URLWithString:photo.photo_url]];
     }
 }
 

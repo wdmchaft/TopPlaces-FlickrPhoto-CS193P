@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CoreDataTableViewController.h"
+#import "PlacesByVacation.h"
 
 
-@interface TagsTVC : CoreDataTableViewController
-
+@interface TagsTVC : PlacesByVacation
 @property (nonatomic,strong) NSString *vacation;
 
 @end

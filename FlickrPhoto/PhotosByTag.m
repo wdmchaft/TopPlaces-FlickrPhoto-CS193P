@@ -8,6 +8,7 @@
 
 #import "PhotosByTag.h"
 #import "Photo.h"
+#import "PhotoVC.h"
 
 @interface PhotosByTag ()
 
@@ -50,18 +51,19 @@
     Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = photo.title;
     //cell.detailTextLabel.text = photo.subtitle;
+
     return cell;
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
     if ([segue.identifier isEqualToString:@"Show Photo"]) {
         // [segue.destinationViewController setImageURL:[NSURL URLWithString:photo.imageURL]];
-        //[segue.destinationViewController setTitle:photo.title];
+        [segue.destinationViewController setImageURL:[NSURL URLWithString:photo.photo_url]];
     }
 }
+
 
 
 @end

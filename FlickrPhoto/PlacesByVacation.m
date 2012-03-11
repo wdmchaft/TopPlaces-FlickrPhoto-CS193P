@@ -29,7 +29,7 @@
 }
 
 -(void)setPlaceDatabase:(UIManagedDocument *)placeDatabase
-{
+{ 
     if (_placeDatabase != placeDatabase) {
         _placeDatabase = placeDatabase;
         [self useDocument];

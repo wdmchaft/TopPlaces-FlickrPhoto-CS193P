@@ -12,4 +12,5 @@
 
 @interface PhotoVC :UIViewController <UISplitViewControllerDelegate, SplitViewBarButtonItemPresenter>
 @property (nonatomic,strong) NSDictionary *photoToShow;
+@property (nonatomic, strong) NSURL *imageURL; //se arrvivo dal db interno, carico la foto da qui
 @end
