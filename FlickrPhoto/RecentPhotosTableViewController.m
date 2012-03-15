@@ -210,38 +210,46 @@
     
     // Configure the cell...
     //recent photos dictionary
-    NSDictionary *photo = [self.recentPhotos objectAtIndex:indexPath.row]; 
 
+    NSDictionary *photo = [self.recentPhotos objectAtIndex:indexPath.row];     
     NSString *photoTitle= [photo objectForKey:FLICKR_PHOTO_TITLE];
-    NSString *description=[photo valueForKeyPath:@"description._content"]; 
+    NSString *photoDescription=[photo valueForKeyPath:@"description._content"];  // se è troppo lungo genera un errore: <Error>: CGAffineTransformInvert: singular matrix.  perchè credo che venga calcolato un resize adatto per visualizzarlo del detailTextLaber.text; SOLUZIONE: da storyboard -> minimum size, autoshrink no (nelle opzioni del subtitle della cella)
 
-    if (!photoTitle || [photoTitle isEqualToString:@""]) {
-        if(description && ![description isEqualToString:@""]){photoTitle= description;}
-        else { //se non esiste nè il titolo nè la descrizione
-        photoTitle= @"senza titolo";
-        description =@"senza descrizione";
+     
+
+    
+    // If photo title is nil set it to the description, else set it to unknown
+    if (photoTitle == nil || [photoTitle isEqualToString:@""]) { //se non ho il titolo
+        if (photoDescription == nil || [photoDescription isEqualToString:@""]) { //se non ho nemmeno la descizione
+            photoTitle = @"Unknown";
+        } else { //altrimenti uso la descrizione come titolo
+            photoTitle = photoDescription;
         }
-    }
+    } 
+
+
     
     cell.textLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0.6 alpha:1];
     cell.textLabel.text = photoTitle;
-    cell.detailTextLabel.text = description;
-    
-    //NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
+    cell.detailTextLabel.text = photoDescription;
+
     
     //extra: add a photo's thumbnail image
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr thumbnail downloader", NULL);
     dispatch_async(downloadQueue, ^{
         NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
         NSData *data = [NSData dataWithContentsOfURL:url];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (([cell.textLabel.text isEqualToString:photoTitle] && [cell.detailTextLabel.text isEqualToString:description])) {
+            if (([cell.textLabel.text isEqualToString:photoTitle] && [cell.detailTextLabel.text isEqualToString:photoDescription])) {
                 UIImage *image = data ? [UIImage imageWithData:data] : nil;
                 cell.imageView.image = image;
                 cell.imageView.hidden = NO;
                 [cell setNeedsLayout];  //esegue un update (reload) della cella senza fare il reload dell'intera tabella
             }
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         });
     });
     dispatch_release(downloadQueue);
