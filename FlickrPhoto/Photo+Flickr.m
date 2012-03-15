@@ -79,4 +79,61 @@
     return photo;
 }
 
+
++ (Photo *)deletePhoto:(Photo *)myPhoto
+        fromManagedObjectContext:(NSManagedObjectContext *)context
+{
+    Photo *photo = nil;
+    
+    //query
+    // voglio essere sicuro che unique attribe della foto nel db è uguale all'id della foto su flickr
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    request.predicate = [NSPredicate predicateWithFormat:@"photo_id = %@", myPhoto.photo_id];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSError *error = nil;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    
+    if (!matches || ([matches count] >1)){ 
+        // deve essere unique!
+        //gestire eventuali errori
+        NSLog(@"errore");
+        
+    }else if ([matches count] == 0){ // se non esiste, lo inserisco
+       
+        NSLog(@"la foto non c'è");
+        
+    } else { //se esiste ed è unique
+        photo = [matches lastObject];
+        NSLog(@"ho trovato la foto da cancellare");
+        //LA CANCELLO QUI
+        [context deleteObject:photo];
+
+    }
+    
+    return photo;
+}
+
+/**
+-(void)prepareForDeletion
+{
+
+    
+    
+    for (Tag *tag in self.etichettataDa) {
+       // if ([tag.used count] == 1) {
+         //   [self.managedObjectContext deleteObject:tag];
+        //} else {
+        NSLog(@" used pre modifica %d",[tag.used intValue]);
+            tag.used = [NSNumber numberWithInt:[tag.used intValue]-1];
+        NSLog(@" used post modifica %d",[tag.used intValue]);
+        //}
+    }
+   
+}
+ **/
+ 
+
 @end

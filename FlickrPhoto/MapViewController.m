@@ -10,14 +10,14 @@
 #import <MapKit/MapKit.h>
 #import "RecentPhotosTableViewController.h"
 #import "PlacesTableViewController.h"
-#import "PhotoVC.h"
+#import "PhotoViewController.h"
 #import "FlickrPlaceAnnotation.h"
 #import "FlickrPhotoAnnotation.h"
 
 
 @interface MapViewController() <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
+@property (strong, nonatomic) id<MKAnnotation> latestAnnotation;
 
 @end
 
@@ -26,6 +26,7 @@
 @synthesize mapView = _mapView;
 @synthesize annotations = _annotations;
 @synthesize delegate = _delegate;
+@synthesize latestAnnotation = _latestAnnotation;
 
 - (IBAction)segmentedControlPressed:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex) {
@@ -183,8 +184,10 @@
 
 
 //Tells the delegate that one of its annotation views was selected.
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)pinView
 {
+     self.latestAnnotation = pinView.annotation;
+    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     //[spinner setBackgroundColor:[UIColor redColor]];
     [spinner startAnimating];
@@ -193,20 +196,30 @@
     //[(UIImageView *)aView.leftCalloutAccessoryView insertSubview:spinner atIndex:0];
     //con questo codice aggiunge una subview (sopra l'immagine thumb!!)
     
-    if (aView.leftCalloutAccessoryView) // se la leftCalloutAccessoryView ESISTE allora faccio il loading della thumb etc etc
+    if (pinView.leftCalloutAccessoryView) // se la leftCalloutAccessoryView ESISTE allora faccio il loading della thumb etc etc
     {
-    [(UIImageView *)aView.leftCalloutAccessoryView addSubview:spinner];
+    [(UIImageView *)pinView.leftCalloutAccessoryView addSubview:spinner];
     
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block nel thread separato
-        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+        
+        id<MKAnnotation> fetchedAnnotation = pinView.annotation;
+    
+        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:pinView.annotation];
         dispatch_async(dispatch_get_main_queue(), ^{
             //main thread
+            // If the latest annotation and the fetched annotation do not match
+            // discard the fetched annotation image
+            if (self.latestAnnotation == fetchedAnnotation) {
+                if (image != nil) {
             [spinner stopAnimating]; 
-            [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
-            
+            [(UIImageView *)pinView.leftCalloutAccessoryView setImage:image];
+            }
+            } else {
+                pinView.leftCalloutAccessoryView = nil;
+            }
         });
         
     });

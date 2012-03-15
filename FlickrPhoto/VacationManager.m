@@ -14,14 +14,16 @@
 @end
 
 @implementation VacationManager
-@synthesize vacations = _vacations;
+//@synthesize vacations = _vacations;
 
+/**
 -(NSArray *)vacations
 {
    return [self vacationsList]; // vacations è readonly e mi restituisce solo la lista di UIManagedDocument
 }
+ **/
 
--(NSArray *)vacationsList
++(NSArray *)vacationsList
 {
     NSURL *documentDirectoryPath = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory 
                                                                            inDomains:NSUserDomainMask] lastObject]; //document dir
@@ -76,9 +78,12 @@
     dispatch_once(&mngddoc, ^{ //dispatch_once() is absolutely synchronous
                
         //recupero la Document directory
+    
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         //ci aggiungo il nome del DB
         url = [url URLByAppendingPathComponent:vacationName];
+       
+        
         
         //se il percorso non esiste (e quindi quel db non è stato creato)
         if (![[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:url create:NO error:nil])

@@ -8,7 +8,7 @@
 
 #import "RecentPhotosTableViewController.h"
 #import "FlickrFetcher.h"
-#import "PhotoVC.h"
+#import "PhotoViewController.h"
 #import "MapViewController.h"
 #import "FlickrPhotoAnnotation.h"
 #import "FlickrPlaceAnnotation.h"
@@ -342,10 +342,10 @@
 
 
 
-- (PhotoVC *)splitViewPhotoViewController
+- (PhotoViewController *)splitViewPhotoViewController
 {
     id hvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
-    if (![hvc isKindOfClass:[PhotoVC class]]){ hvc=nil;} 
+    if (![hvc isKindOfClass:[PhotoViewController class]]){ hvc=nil;} 
     return hvc; // questo metodo ritorna nil a meno che  the detail outside the splitviewcontroller i'm in is happinessviewcontroller
 }
 

@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface VacationManager : NSObject
-@property (nonatomic,strong,readonly) NSArray *vacations; //of UIManagedDocument
+//@property (nonatomic,strong,readonly) NSArray *vacations; //of UIManagedDocument
 
++(NSArray *)vacationsList; //array of UIManagedDocument
 + (UIManagedDocument *)sharedManagedDocumentForVacation:(NSString *)vacationName;
 @end

@@ -42,4 +42,36 @@ inManagedObjectContext:(NSManagedObjectContext *)context;
     return tag;
 }
 
+/**
++(Tag *)TagWithName:(NSString *)tag_name
+fromManagedObjectContext:(NSManagedObjectContext *)context;
+{
+    Tag *tag =nil;
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
+    request.predicate = [NSPredicate predicateWithFormat:@"tag_name = %@", tag_name];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"tag_name" ascending:YES];
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSError *error = nil;
+    NSArray *tags = [context executeFetchRequest:request error:&error]; //error prende come argomento un pointer to a pointer! per questo scrivo &errorm
+    
+    if ([tags count] > 1) { 
+        // handle error
+             NSLog(@"errore nei tag");
+    } else if ([tags count] == 0) {
+               //delete tag
+        //[context deleteObject:tag];
+        NSLog(@"tag eliminato");
+    } else {
+        tag= [tags lastObject];
+        NSLog(@"tag ridotto di 1");
+        tag.used = [NSNumber numberWithInt:[tag.used intValue] - 1];
+    }
+    
+    return tag;
+}
+ **/
+
 @end
