@@ -14,7 +14,7 @@
 @implementation Photo (Flickr)
 
 
-//crea un elemento Foto nel DB: prima di crearlo bisogne verificare se esiste o meno :)
+//crea un elemento Foto nel DB: prima di crearlo bisogna verificare se esiste o meno :)
 + (Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
         inManagedObjectContext:(NSManagedObjectContext *)context
 {
@@ -95,6 +95,7 @@
         NSLog(@"Multiple photos with same name");
     } else if ([matches count] == 1) {
         photo = [matches lastObject];
+        NSLog(@"foto trovata");
     }
     
     return photo;

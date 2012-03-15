@@ -342,17 +342,7 @@
 
 -(void)unvisitMe
 {
-    NSLog(@" clicco unvisit");
-
-    
-   PhotoManager *pm = [[PhotoManager alloc]init];
-   /**
-    [VacationManager useDocument:@"my defaul vacation" usingBlock: 
-    ^(UIManagedDocument *vacation) {
-     [vacation.managedObjectContext deleteObject:self.photoFromVacation];
-    }];
-    **/
-   [pm useDocument:@"my default vacation" toDeletePhoto:self.photoFromVacation];
+   [PhotoManager useDocument:@"my default vacation" toDeletePhoto:self.photoFromVacation];
     self.photoFromVacation = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }

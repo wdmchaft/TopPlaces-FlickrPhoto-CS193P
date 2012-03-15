@@ -11,12 +11,10 @@
 
 @interface PhotoManager() 
 @property (nonatomic,strong) NSDictionary *photo;
-//@property (nonatomic,strong) NSString *photo_url;
 @end
 
 @implementation PhotoManager
 @synthesize photo = _photo;
-//@synthesize photo_url = _photo_url;
 
 
 
@@ -35,7 +33,6 @@
                     NSLog(@"Document was unable to save");
                 }}
              ];
-         
                  
         }]; 
         
@@ -73,9 +70,11 @@
 }
 
 
--(void) deletePhoto:(Photo *) photo fromDocument:(UIManagedDocument *)document
++(void) deletePhoto:(Photo *) photo fromDocument:(UIManagedDocument *)document
 {
-
+    if ([Photo photoInDocumentWithFlickrId:photo.photo_id inManagedObjectContext:document.managedObjectContext]) 
+    {
+    
         [document.managedObjectContext performBlock:^{             
             
            [Photo deletePhoto:photo fromManagedObjectContext:document.managedObjectContext];
@@ -89,14 +88,18 @@
              ];
             
         }]; 
+    }
+    else {NSLog(@"la foto non è presente nel db");
+        
+    }
         
 }
 
 
--(void)useDocument:(NSString *)docName toDeletePhoto:(Photo *) photo
++(void)useDocument:(NSString *)docName toDeletePhoto:(Photo *) photo
 
 {
-    
+
   UIManagedDocument *managedDocument = [VacationManager sharedManagedDocumentForVacation:docName];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
