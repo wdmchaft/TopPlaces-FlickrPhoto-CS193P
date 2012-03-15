@@ -9,5 +9,8 @@
 #import "Photo.h"
 
 @interface Photo (Delete)
--(void)prepareForDeletion;
+
++ (Photo *)deletePhoto:(Photo *)myPhoto
+fromManagedObjectContext:(NSManagedObjectContext *)context;
+-(void)prepareForDeletion; //called before deletion
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Photo+Flickr.h"
+#import "Photo+Delete.m"
 #import "VacationManager.h"
 
 @interface PhotoManager : NSObject

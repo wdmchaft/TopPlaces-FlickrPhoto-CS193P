@@ -12,8 +12,7 @@
 + (Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
         inManagedObjectContext:(NSManagedObjectContext *)context;
 
-+ (Photo *)deletePhoto:(Photo *)myPhoto
-fromManagedObjectContext:(NSManagedObjectContext *)context;
+
 
 + (Photo *)photoInDocumentWithFlickrId:(NSString *)flickrId inManagedObjectContext:(NSManagedObjectContext *)context;
 

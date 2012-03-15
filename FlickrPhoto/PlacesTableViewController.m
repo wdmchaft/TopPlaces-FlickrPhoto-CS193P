@@ -12,10 +12,11 @@
 #import "FlickrPlaceAnnotation.h"
 #import "MapViewController.h"
 
-@interface PlacesTableViewController() 
+@interface PlacesTableViewController() <MapViewControllerDelegate>
 @property (nonatomic,strong) NSDictionary *selectedPlace; //riga selezionata della tabella
 @property (strong,nonatomic) NSDictionary *placesByCountry;
 @property (strong,nonatomic) UIActivityIndicatorView *spinner; //in questo modo la posso ridisegnare quando cambio la modalità dello schermo
+@property (nonatomic, strong) NSDictionary *flickrSelected; // dizionario di posti o foto
 @end
 
 @implementation PlacesTableViewController
@@ -23,6 +24,7 @@
 @synthesize selectedPlace = _selectedPlace;
 @synthesize placesByCountry = _placesByCountry;
 @synthesize spinner = _spinner;
+@synthesize flickrSelected = _flickrSelected;
 
 -(UIActivityIndicatorView *)spinner{
     if (!_spinner)  {

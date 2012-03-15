@@ -85,6 +85,7 @@
 
 - (void)scrollViewSetup {
     //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard :)
+    /**
     UIImage *image = self.imageView.image;
     self.scrollView.zoomScale = 1;
     self.scrollView.contentSize = image.size;
@@ -100,6 +101,19 @@
     } else {
         self.scrollView.zoomScale = 1 / heightRatio;
     }
+     **/
+    
+    UIImage *image = self.imageView.image;
+    self.scrollView.zoomScale = 1;
+    self.scrollView.contentSize = image.size;
+    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGFloat widthScale = (self.scrollView.bounds.size.width / self.scrollView.contentSize.width);
+    CGFloat heightScale = (self.scrollView.bounds.size.height / self.scrollView.contentSize.height);
+    //maximum zoom scale: 5
+    self.scrollView.minimumZoomScale = MIN(widthScale, heightScale);
+    self.scrollView.zoomScale = MAX(widthScale, heightScale);
+
+    
 }
 
 -(void)fetchPhoto{

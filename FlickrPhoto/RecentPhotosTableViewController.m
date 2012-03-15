@@ -60,20 +60,6 @@
     return data ? [UIImage imageWithData:data] : nil;
 }
 
-/**
--(NSDictionary *)mapViewController:(MapViewController *)sender photoForAnnotation:(id<MKAnnotation>)annotation
-{
-    MKAnnotationView *mkav= (MKAnnotationView *)annotation;
-    FlickrPhotoAnnotation *annot = (FlickrPhotoAnnotation *)mkav.annotation;
-    NSString *codice = annot.codice_id;
-    for (NSDictionary *photo in self.recentPhotos) {
-
-        if ([codice isEqualToString:[photo valueForKey:@"id"]]){
-            return photo;}
-}
-    return nil;
-}
-**/
 
 - (void)mapViewController:(MapViewController *)sender showDetailForAnnotation:(id <MKAnnotation>)annotation
 {
@@ -157,23 +143,7 @@
  
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     //[spinner setBackgroundColor:[UIColor redColor]];
-    
-    
-    UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] 
-                                   initWithTitle:@"Flip"                                            
-                                   style:UIBarButtonItemStyleBordered 
-                                   target:self 
-                                   action:nil]; // invece di @selector(flipView)];
-    UIBarButtonItem *loader = [[UIBarButtonItem alloc] initWithCustomView:spinner];
-    
-
-    NSMutableArray *rightButtons = [  self.navigationItem.rightBarButtonItems mutableCopy];
-    if ([rightButtons count]<=1){ //fix sbrigativo... se ho solo un item (ossia quello che ho messo da storyboard, aggiungo gli altri); soluzione migliore : creare una property per lo spinner e inizializzare tutti in awakeFromNib (che viene chiamato solo 1 volta (come viewDidLoad) quando tutto è settato... in questo modo la barra di 3 pulsanti rimarrà sempre tale :)
-    [rightButtons addObject:flipButton];
-    [rightButtons addObject:loader];
-    }
-   self.navigationItem.rightBarButtonItems = rightButtons;
-        
+            
     
     //self.view.hidden=YES;
     //[self.parentViewController.view addSubview:spinner];
@@ -260,11 +230,11 @@
     //NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
     
     //extra: add a photo's thumbnail image
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr thumbnail downloader", NULL);
     dispatch_async(downloadQueue, ^{
         NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
-        //NSLog(@"RecentPhotosTableViewController tableView:cellForRowAtIndexPath, [NSData dataWithContentsOfURL]");
         NSData *data = [NSData dataWithContentsOfURL:url];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if (([cell.textLabel.text isEqualToString:photoTitle] && [cell.detailTextLabel.text isEqualToString:description])) {
                 UIImage *image = data ? [UIImage imageWithData:data] : nil;
@@ -279,52 +249,19 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)aTableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    // Set the image to nil before it is loaded by GCD
+    cell.imageView.image = nil;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
     if ([[segue identifier] isEqualToString:@"Show Photo"]) {
     
-        //NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        //NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
         [segue.destinationViewController setPhotoToShow:self.flickrSelected]; 
         
     }
