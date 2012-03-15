@@ -33,6 +33,7 @@
 		1294F66814E9A8A800BFFB98 /* FlickrPhotoAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F66714E9A8A800BFFB98 /* FlickrPhotoAnnotation.m */; };
 		1294F67B14EA516900BFFB98 /* FlipSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F67A14EA516900BFFB98 /* FlipSegue.m */; };
 		129DA54415114D9700D6C7D9 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 129DA54315114D9700D6C7D9 /* MainStoryboard_iPhone.storyboard */; };
+		129DA54F1512226C00D6C7D9 /* VacationPhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 129DA54E1512226C00D6C7D9 /* VacationPhotosTableViewController.m */; };
 		12AF971815113A76001C3A5B /* Photo+Delete.m in Sources */ = {isa = PBXBuildFile; fileRef = 12AF971715113A76001C3A5B /* Photo+Delete.m */; };
 		12B411A8150EA7B1008E8ADB /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12B411A7150EA7B0008E8ADB /* PhotoManager.m */; };
 		12C3BDAF1503E381007BF809 /* PhotoCaching.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C3BDAE1503E381007BF809 /* PhotoCaching.m */; };
@@ -100,6 +101,8 @@
 		1294F67914EA516900BFFB98 /* FlipSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipSegue.h; sourceTree = "<group>"; };
 		1294F67A14EA516900BFFB98 /* FlipSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipSegue.m; sourceTree = "<group>"; };
 		129DA54315114D9700D6C7D9 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		129DA54D1512226B00D6C7D9 /* VacationPhotosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationPhotosTableViewController.h; sourceTree = "<group>"; };
+		129DA54E1512226C00D6C7D9 /* VacationPhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationPhotosTableViewController.m; sourceTree = "<group>"; };
 		12AEB2DF14E738EF004C8359 /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		12AF971615113A76001C3A5B /* Photo+Delete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+Delete.h"; sourceTree = "<group>"; };
 		12AF971715113A76001C3A5B /* Photo+Delete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+Delete.m"; sourceTree = "<group>"; };
@@ -185,6 +188,7 @@
 		120305501507CAD200D4A32A /* assignment_6 */ = {
 			isa = PBXGroup;
 			children = (
+				129DA55015122B8300D6C7D9 /* trash */,
 				12C4B766150AD048004A393E /* TagsTableViewController.h */,
 				12C4B767150AD049004A393E /* TagsTableViewController.m */,
 				1203054D1507CACA00D4A32A /* VirtualVacationsTableViewController.h */,
@@ -195,14 +199,23 @@
 				12C4B747150A774E004A393E /* VacationManager.m */,
 				128C15D0150B915300B70297 /* ItineraryTableViewController.h */,
 				128C15D1150B915300B70297 /* ItineraryTableViewController.m */,
+				12B411A6150EA7B0008E8ADB /* PhotoManager.h */,
+				12B411A7150EA7B0008E8ADB /* PhotoManager.m */,
+				129DA54D1512226B00D6C7D9 /* VacationPhotosTableViewController.h */,
+				129DA54E1512226C00D6C7D9 /* VacationPhotosTableViewController.m */,
+			);
+			name = assignment_6;
+			sourceTree = "<group>";
+		};
+		129DA55015122B8300D6C7D9 /* trash */ = {
+			isa = PBXGroup;
+			children = (
 				128C160B150BF4D900B70297 /* PhotosByPlaceTableViewController.h */,
 				128C160C150BF4D900B70297 /* PhotosByPlaceTableViewController.m */,
 				128C160E150BF9D700B70297 /* PhotosByTagTableViewController.h */,
 				128C160F150BF9D700B70297 /* PhotosByTagTableViewController.m */,
-				12B411A6150EA7B0008E8ADB /* PhotoManager.h */,
-				12B411A7150EA7B0008E8ADB /* PhotoManager.m */,
 			);
-			name = assignment_6;
+			name = trash;
 			sourceTree = "<group>";
 		};
 		12AF971415110AC2001C3A5B /* Storyboards */ = {
@@ -435,6 +448,7 @@
 				128C1610150BF9D700B70297 /* PhotosByTagTableViewController.m in Sources */,
 				12B411A8150EA7B1008E8ADB /* PhotoManager.m in Sources */,
 				12AF971815113A76001C3A5B /* Photo+Delete.m in Sources */,
+				129DA54F1512226C00D6C7D9 /* VacationPhotosTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

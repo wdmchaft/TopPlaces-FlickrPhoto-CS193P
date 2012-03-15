@@ -18,14 +18,7 @@
 @synthesize place = _place;
 
 
-/**
--(void)deletePhoto:(PhotoVC *)sender withURL:(NSURL *)url{
-    NSLog(@" FUNZIONE DELEGATA ");
-    //delete
-    //pop
-    //reload tabella
-}
-**/
+
 
 - (void) setupFetchedResultsController
 {
@@ -65,8 +58,6 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
     if ([segue.identifier isEqualToString:@"Show Photo"]) {
-      
-        //[segue.destinationViewController setImageURL:[NSURL URLWithString:photo.photo_url]];
         [segue.destinationViewController setPhotoFromVacation:photo];
         [segue.destinationViewController setTitle:photo.title];
     }

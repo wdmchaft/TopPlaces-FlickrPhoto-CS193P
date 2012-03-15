@@ -80,6 +80,27 @@
 }
 
 
++ (Photo *)photoInDocumentWithFlickrId:(NSString *)flickrId inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    Photo *photo = nil;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    request.predicate = [NSPredicate predicateWithFormat:@"photo_id = %@", flickrId];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSError *error = nil;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || ([matches count] > 1)) {
+        NSLog(@"Multiple photos with same name");
+    } else if ([matches count] == 1) {
+        photo = [matches lastObject];
+    }
+    
+    return photo;
+}
+
+
 + (Photo *)deletePhoto:(Photo *)myPhoto
         fromManagedObjectContext:(NSManagedObjectContext *)context
 {

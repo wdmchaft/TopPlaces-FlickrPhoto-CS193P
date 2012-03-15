@@ -10,6 +10,7 @@
 #import "Place.h"
 #import "VacationManager.h"
 #import "PhotosByPlaceTableViewController.h"
+#import "VacationPhotosTableViewController.h"
 
 
 
@@ -207,9 +208,10 @@
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
-    if ([segue.identifier isEqualToString:@"photos by place"]) {
+    if ([segue.identifier isEqualToString:@"vacation photos"]) {
         Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
         [segue.destinationViewController setPlace:place];
+        [segue.destinationViewController setVacationName:self.vacation];
     } 
 }
 

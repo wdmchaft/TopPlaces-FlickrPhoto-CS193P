@@ -313,10 +313,11 @@
     //UIBarButtonItem *vacationButton = nil;
     
     if (self.photoToShow) {
-        NSLog(@"fetching photo from flickr..."); 
+        self.visitButton.title= @"visit";
         [self fetchPhoto];
            }
     else if (self.photoFromVacation) {
+        self.visitButton.title= @"unvisit";
         NSLog(@"loading photo from db ...");
         [self loadImage];
            }
@@ -343,9 +344,17 @@
 {
     NSLog(@" clicco unvisit");
 
+    
    PhotoManager *pm = [[PhotoManager alloc]init];
-//[pm useDocument:@"my default vacation" toDeletePhotoWithWebUrl:[(NSURL *)self.photoFromVacation.photo_url absoluteString]];
-    [pm useDocument:@"my default vacation" toDeletePhoto:self.photoFromVacation];
+   /**
+    [VacationManager useDocument:@"my defaul vacation" usingBlock: 
+    ^(UIManagedDocument *vacation) {
+     [vacation.managedObjectContext deleteObject:self.photoFromVacation];
+    }];
+    **/
+   [pm useDocument:@"my default vacation" toDeletePhoto:self.photoFromVacation];
+    self.photoFromVacation = nil;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //aggiunge la foto alla vacanza
@@ -353,9 +362,9 @@
 {
     NSString *docName = [vacationName lastPathComponent];
    PhotoManager *pm = [[PhotoManager alloc]init];
-   [pm useDocument:docName withPhoto:self.photoToShow]; //<--------- QUELLO GIUSTO ////<------------------------------------- 
-   //[pm useDocument:docName toDeletePhotoWithWebUrl:[self.imageURL absoluteString]];
-self.visitButton.title = @"unvisit";
+   [pm useDocument:docName withPhoto:self.photoToShow];
+    
+    self.visitButton.title = @"unvisit";
    
 }
 

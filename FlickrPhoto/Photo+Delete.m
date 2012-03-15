@@ -8,20 +8,29 @@
 
 #import "Photo+Delete.h"
 #import "Tag.h"
+#import "Place+Create.h"
 
 @implementation Photo (Delete)
 -(void)prepareForDeletion
 {
-    NSLog(@"DELETE!!!");
-    for (Tag *tag in self.etichettataDa) {
-        // if ([tag.used count] == 1) {
-        //   [self.managedObjectContext deleteObject:tag];
-        //} else {
-        NSLog(@" used pre modifica %d",[tag.used intValue]);
-        tag.used = [NSNumber numberWithInt:[tag.used intValue]-1];
-        NSLog(@" used post modifica %d",[tag.used intValue]);
-        //}
+       
+    Place *place = self.scattateDove;
+    if ([place.photos count] == 1) {
+        NSLog(@"this places has no more photos associated with");
+        [self.managedObjectContext deleteObject:place];
     }
+
+    NSSet *tags = self.etichettataDa;
+    for (Tag *tag in tags) {
+        tag.used = [NSNumber numberWithInt:[tag.used intValue] - 1];
+       
+        if ([tag.taggedPhotos count] == 1) {
+            [self.managedObjectContext deleteObject:tag];
+        }
+        
+    }
+
+    
 
 }
 @end

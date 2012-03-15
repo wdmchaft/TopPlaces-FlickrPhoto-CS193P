@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ItineraryTableViewController.h"/////
 #import "CoreDataTableViewController.h"
 
 @interface TagsTableViewController : CoreDataTableViewController //PlacesByVacation

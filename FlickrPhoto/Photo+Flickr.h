@@ -15,4 +15,6 @@
 + (Photo *)deletePhoto:(Photo *)myPhoto
 fromManagedObjectContext:(NSManagedObjectContext *)context;
 
++ (Photo *)photoInDocumentWithFlickrId:(NSString *)flickrId inManagedObjectContext:(NSManagedObjectContext *)context;
+
 @end

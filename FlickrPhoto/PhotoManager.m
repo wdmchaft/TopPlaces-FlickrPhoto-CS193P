@@ -1,3 +1,4 @@
+
 //
 //  PhotoManager.m
 //  FlickrPhoto
@@ -22,35 +23,27 @@
 
 -(void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
 {
-    dispatch_queue_t fetchQ  = dispatch_queue_create("Flickr fetcher", NULL);
-    dispatch_async(fetchQ, ^{
+
         
-        [document.managedObjectContext performBlock:^{ //in questo modo sono nel thread giusto (dove è stato creato NSManagedObject) e non nel "flickr fetcher" thread (34')
-            
-            //se sapessi che viene fatto nel main thread potrei fare il "ritorno" al main thread come quando lavoro sulla ui
-            
-            // perform in the NSMOC's safe thread (main thread)
-            
-            
-            // start creating obj in doc's context
-            
-            // CREO UN OGGETTO FOTO NEL DB
+        [document.managedObjectContext performBlock:^{
             [Photo photoWithFlickrInfo:self.photo inManagedObjectContext:document.managedObjectContext]; 
             
-            // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
-            // we could decide to rely on UIManagedDocument's autosaving, but explicit saving would be better
-            // because if we quit the app before autosave happens, then it'll come up blank next time we run
-            // this is what it would look like (ADDED AFTER LECTURE) ...
-            [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
-            // note that we don't do anything in the completion handler this time
+            [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+                if (success) {                  
+                    NSLog(@"Document saved"); 
+                } else {                       
+                    NSLog(@"Document was unable to save");
+                }}
+             ];
+         
                  
         }]; 
         
-    });
-    dispatch_release(fetchQ);
+
 }
 
--(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo
+
+-(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo //le foto che visualizzo dalle vacations non sono più dictionaries
 {
     self.photo = photo;
     UIManagedDocument *managedDocument = [VacationManager sharedManagedDocumentForVacation:docName];
@@ -82,23 +75,21 @@
 
 -(void) deletePhoto:(Photo *) photo fromDocument:(UIManagedDocument *)document
 {
-    dispatch_queue_t fetchQ  = dispatch_queue_create("delete", NULL);
-    dispatch_async(fetchQ, ^{
-        
+
         [document.managedObjectContext performBlock:^{             
             
-           
-            //[Photo photoWithFlickrInfo:self.photo inManagedObjectContext:document.managedObjectContext]; 
-            
-            //[Photo photoWithWebUrl:self.photo_url fromManagedObjectContext:document.managedObjectContext];
-            [Photo deletePhoto:photo fromManagedObjectContext:document.managedObjectContext];
+           [Photo deletePhoto:photo fromManagedObjectContext:document.managedObjectContext];
           
-           [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
+            [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+                if (success) {                  
+                    NSLog(@"Document saved"); 
+                } else {                       
+                    NSLog(@"Document was unable to save");
+                }}
+             ];
             
         }]; 
         
-    });
-    dispatch_release(fetchQ);
 }
 
 

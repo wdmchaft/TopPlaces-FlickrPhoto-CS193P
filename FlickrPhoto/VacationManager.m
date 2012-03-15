@@ -100,4 +100,40 @@
     //http://stackoverflow.com/questions/9430056/how-do-i-share-one-uimanageddocument-between-different-objects
     return managedDocument;
 }
+
+/**
++ (void)useDocument:(NSString *)docName usingBlock:(completion_block_t)completionBlock
+
+{
+    
+    UIManagedDocument *managedDocument = [VacationManager sharedManagedDocumentForVacation:docName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
+    {
+        
+        //il db non esiste per cui non ha senso che esegua qualcosa per cancellare... eventualmente posso segnalare che non esiste    
+        
+    } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
+    {
+        [managedDocument openWithCompletionHandler:^(BOOL success) {
+            
+            // METODO PER DELETE
+          
+            NSLog(@"db chiuso");
+            completionBlock(managedDocument);
+            
+        }];
+    } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
+    {
+        // METODO PER DELETE
+    
+        NSLog(@"db aperto");
+        completionBlock(managedDocument);
+    }
+    
+    
+    
+}
+**/
+
 @end
