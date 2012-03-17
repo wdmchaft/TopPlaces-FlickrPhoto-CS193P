@@ -93,7 +93,7 @@
     if (!self.vacations)
     {
     //VacationManager *vm=[[VacationManager alloc] init]; 
-        self.vacations = [VacationManager vacationsList];
+        self.vacations = [VacationHelper vacationsList];
     }
 
  

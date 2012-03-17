@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "VacationManager.h"
+#import "VacationHelper.h"
 
 @class VirtualVacationsTableViewController;
 @protocol VirtualVacationsTableViewControllerDelegate <NSObject>

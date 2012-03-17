@@ -25,7 +25,7 @@
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
    // NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] init];
-    NSManagedObjectContext *moc = [[VacationManager sharedManagedDocumentForVacation:self.vacationName] managedObjectContext];
+    NSManagedObjectContext *moc = [[VacationHelper sharedManagedDocumentForVacation:self.vacationName] managedObjectContext];
     if (moc == self.place.managedObjectContext ) NSLog(@"ao sono uguali");
     if (self.place) {
         NSLog(@"query place");

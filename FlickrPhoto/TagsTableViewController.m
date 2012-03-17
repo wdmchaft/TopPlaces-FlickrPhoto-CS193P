@@ -8,7 +8,7 @@
 
 #import "TagsTableViewController.h"
 #import "Tag+Create.h"
-#import "VacationManager.h"
+#import "VacationHelper.h"
 #import "VacationPhotosTableViewController.h"
 
 @interface TagsTableViewController ()
@@ -90,7 +90,7 @@
     self.title=@"Tags";
     if (!self.tagsDatabase) {
         
-        self.tagsDatabase = [VacationManager sharedManagedDocumentForVacation:self.vacation];
+        self.tagsDatabase = [VacationHelper sharedManagedDocumentForVacation:self.vacation];
     }
     //else{ [self useDocument];}
 

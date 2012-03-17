@@ -19,7 +19,7 @@
 
 
 
--(void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
+-(void) fetchFlickrPhotoIntoDocument:(UIManagedDocument *)document
 {
         [document.managedObjectContext performBlock:^{
             [Photo photoWithFlickrInfo:self.photo inManagedObjectContext:document.managedObjectContext]; 
@@ -39,29 +39,29 @@
 -(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo //le foto che visualizzo dalle vacations non sono più dictionaries
 {
     self.photo = photo;
-    UIManagedDocument *managedDocument = [VacationManager sharedManagedDocumentForVacation:docName];
+    UIManagedDocument *managedDocument = [VacationHelper sharedManagedDocumentForVacation:docName];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
     {
         [managedDocument saveToURL:managedDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             // [self setupFetchedResultsController];  
-            [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
-            NSLog(@"db creato");
+            [self fetchFlickrPhotoIntoDocument:managedDocument]; //inserisco nel db
+            NSLog(@"il db non esisteva ed è stato creato");
             
         }];
     } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
     {
         [managedDocument openWithCompletionHandler:^(BOOL success) {
             //[self setupFetchedResultsController];  
-            [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
-            NSLog(@"db chiuso");
+            [self fetchFlickrPhotoIntoDocument:managedDocument]; //inserisco nel db
+            NSLog(@"il db era chiuso ma è stato aperto");
             
         }];
     } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
     {
         //[self setupFetchedResultsController];  
-        [self fetchFlickrDataIntoDocument:managedDocument]; //inserisco nel db
-        NSLog(@"db aperto");
+        [self fetchFlickrPhotoIntoDocument:managedDocument]; //inserisco nel db
+        NSLog(@"il db era già aperto");
     }
 }
 
@@ -103,28 +103,27 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
     {
 
-    //il db non esiste per cui non ha senzo che esegua qualcosa per cancellare... eventualmente posso segnalare che non esiste    
+    //il db non esiste per cui non ha senso che esegua il metodo per il delete: eventualmente posso segnalare che non esiste 
+        NSLog(@"il db non esiste!!");
         
     } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
     {
         [managedDocument openWithCompletionHandler:^(BOOL success) {
            
-            // METODO PER DELETE
             [self deletePhoto:photo fromDocument:managedDocument];
-            NSLog(@"db chiuso");
+             NSLog(@"il db era chiuso ma è stato aperto");
             
         }];
     } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
     {
-        // METODO PER DELETE
       [self deletePhoto:photo fromDocument:managedDocument];
-        NSLog(@"db aperto");
+         NSLog(@"il db era già aperto");
     }
-
-    
     
 }
 **/
+
+
 @end
 
 

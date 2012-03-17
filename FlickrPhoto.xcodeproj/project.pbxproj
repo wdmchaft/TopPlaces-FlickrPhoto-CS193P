@@ -37,7 +37,7 @@
 		12AF971815113A76001C3A5B /* Photo+Delete.m in Sources */ = {isa = PBXBuildFile; fileRef = 12AF971715113A76001C3A5B /* Photo+Delete.m */; };
 		12B411A8150EA7B1008E8ADB /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12B411A7150EA7B0008E8ADB /* PhotoManager.m */; };
 		12C3BDAF1503E381007BF809 /* PhotoCaching.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C3BDAE1503E381007BF809 /* PhotoCaching.m */; };
-		12C4B748150A774F004A393E /* VacationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B747150A774E004A393E /* VacationManager.m */; };
+		12C4B748150A774F004A393E /* VacationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B747150A774E004A393E /* VacationHelper.m */; };
 		12C4B753150AA2A1004A393E /* Photo+Flickr.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B752150AA2A1004A393E /* Photo+Flickr.m */; };
 		12C4B75E150AB6E2004A393E /* Place+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B75D150AB6E2004A393E /* Place+Create.m */; };
 		12C4B765150AC462004A393E /* Tag+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C4B764150AC462004A393E /* Tag+Create.m */; };
@@ -110,8 +110,8 @@
 		12B411A7150EA7B0008E8ADB /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		12C3BDAD1503E381007BF809 /* PhotoCaching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCaching.h; sourceTree = "<group>"; };
 		12C3BDAE1503E381007BF809 /* PhotoCaching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCaching.m; sourceTree = "<group>"; };
-		12C4B746150A774E004A393E /* VacationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationManager.h; sourceTree = "<group>"; };
-		12C4B747150A774E004A393E /* VacationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationManager.m; sourceTree = "<group>"; };
+		12C4B746150A774E004A393E /* VacationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = VacationHelper.h; sourceTree = "<group>"; };
+		12C4B747150A774E004A393E /* VacationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationHelper.m; sourceTree = "<group>"; };
 		12C4B751150AA2A1004A393E /* Photo+Flickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+Flickr.h"; sourceTree = "<group>"; };
 		12C4B752150AA2A1004A393E /* Photo+Flickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+Flickr.m"; sourceTree = "<group>"; };
 		12C4B75C150AB6E2004A393E /* Place+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Place+Create.h"; sourceTree = "<group>"; };
@@ -195,8 +195,8 @@
 				1203054E1507CACB00D4A32A /* VirtualVacationsTableViewController.m */,
 				12FF028B1508085C0051C330 /* SingleVacationTableViewController.h */,
 				12FF028C1508085C0051C330 /* SingleVacationTableViewController.m */,
-				12C4B746150A774E004A393E /* VacationManager.h */,
-				12C4B747150A774E004A393E /* VacationManager.m */,
+				12C4B746150A774E004A393E /* VacationHelper.h */,
+				12C4B747150A774E004A393E /* VacationHelper.m */,
 				128C15D0150B915300B70297 /* ItineraryTableViewController.h */,
 				128C15D1150B915300B70297 /* ItineraryTableViewController.m */,
 				12B411A6150EA7B0008E8ADB /* PhotoManager.h */,
@@ -434,7 +434,7 @@
 				120305311507C73F00D4A32A /* Vacation.xcdatamodeld in Sources */,
 				1203054F1507CACB00D4A32A /* VirtualVacationsTableViewController.m in Sources */,
 				12FF028D1508085C0051C330 /* SingleVacationTableViewController.m in Sources */,
-				12C4B748150A774F004A393E /* VacationManager.m in Sources */,
+				12C4B748150A774F004A393E /* VacationHelper.m in Sources */,
 				12C4B753150AA2A1004A393E /* Photo+Flickr.m in Sources */,
 				12C4B75E150AB6E2004A393E /* Place+Create.m in Sources */,
 				12C4B765150AC462004A393E /* Tag+Create.m in Sources */,

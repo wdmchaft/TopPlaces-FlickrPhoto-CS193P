@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Photo+Flickr.h"
 #import "Photo+Delete.m"
-#import "VacationManager.h"
+#import "VacationHelper.h"
 
 @interface PhotoManager : NSObject
 -(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo;

@@ -8,7 +8,7 @@
 
 #import "ItineraryTableViewController.h"
 #import "Place.h"
-#import "VacationManager.h"
+#import "VacationHelper.h"
 #import "PhotosByPlaceTableViewController.h"
 #import "VacationPhotosTableViewController.h"
 
@@ -96,7 +96,7 @@
         //NSLog(@" %@",url);
         // url is now "<Documents Directory>/Default Photo Database"
         //self.tagsDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
-        self.placeDatabase = [VacationManager sharedManagedDocumentForVacation:self.vacation];
+        self.placeDatabase = [VacationHelper sharedManagedDocumentForVacation:self.vacation];
     }
     
 }

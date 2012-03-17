@@ -9,7 +9,7 @@
 #import "PhotoViewController.h"
 #import "FlickrFetcher.h"
 #import "PhotoCaching.h"
-#import "VacationManager.h"
+#import "VacationHelper.h"
 #import "VirtualVacationsTableViewController.h"
 
 @interface PhotoViewController() <UIScrollViewDelegate, VirtualVacationsTableViewControllerDelegate>
@@ -300,7 +300,20 @@
  }
  */
 
-
+/**
+- (void)updateVisitButtonTitle
+{
+    self.visitButton.title = @"visit";    
+    NSArray *vacations = [VacationManager vacationsList];
+    for (NSString *vacationName in vacations) {
+        UIManagedDocument *doc = [VacationManager sharedManagedDocumentForVacation:[vacationName lastPathComponent]];
+        Photo *photo = [Photo photoInDocumentWithFlickrId:[self.photoToShow valueForKey:FLICKR_PHOTO_ID] inManagedObjectContext:doc.managedObjectContext];
+       if (photo) self.visitButton.title = @"unvisit";
+        //else self.visitButton.title = @"visit";
+    
+    }    
+}
+**/
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -311,14 +324,14 @@
     
     if (self.photoToShow) {
         self.visitButton.title= @"visit";
-        [self fetchPhoto];
+        //[self updateVisitButtonTitle]; //perchè posso aggiungere e rimuovere una foto mentre la vedo (non da una delle vacation)
+        [self fetchPhoto]; 
            }
     else if (self.photoFromVacation) {
-        self.visitButton.title= @"unvisit";
+        self.visitButton.title= @"unvisit"; // posso solo fare il delete
         NSLog(@"loading photo from db ...");
         [self loadImage];
            }
-    
     
 }
 
