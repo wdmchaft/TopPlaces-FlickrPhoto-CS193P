@@ -21,8 +21,6 @@
 
 -(void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
 {
-
-        
         [document.managedObjectContext performBlock:^{
             [Photo photoWithFlickrInfo:self.photo inManagedObjectContext:document.managedObjectContext]; 
             
@@ -34,9 +32,7 @@
                 }}
              ];
                  
-        }]; 
-        
-
+        }];         
 }
 
 
@@ -69,6 +65,7 @@
     }
 }
 
+/**
 
 +(void) deletePhoto:(Photo *) photo fromDocument:(UIManagedDocument *)document
 {
@@ -96,7 +93,8 @@
 }
 
 
-+(void)useDocument:(NSString *)docName toDeletePhoto:(Photo *) photo
+
++(void)useDocumentName:(NSString *)docName toDeletePhoto:(Photo *) photo
 
 {
 
@@ -126,7 +124,7 @@
     
     
 }
-
+**/
 @end
 
 

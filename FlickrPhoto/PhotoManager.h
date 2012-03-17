@@ -14,5 +14,7 @@
 @interface PhotoManager : NSObject
 -(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo;
 
-+(void)useDocument:(NSString *)docName toDeletePhoto:(Photo *) photo;
+
+//+(void)useDocumentName:(NSString *)docName toDeletePhoto:(Photo *) photo;
+
 @end

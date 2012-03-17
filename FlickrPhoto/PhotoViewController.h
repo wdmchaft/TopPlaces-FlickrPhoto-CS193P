@@ -16,8 +16,8 @@
 
 
 @interface PhotoViewController :UIViewController <UISplitViewControllerDelegate, SplitViewBarButtonItemPresenter>
-@property (nonatomic,strong) NSDictionary *photoToShow;
-//@property (nonatomic, strong) NSURL *imageURL; //se arrvivo dal db interno, carico la foto da qui
-@property (nonatomic, strong) Photo *photoFromVacation;
+
+@property (nonatomic,strong) NSDictionary *photoToShow;  //flickr
+@property (nonatomic, strong) Photo *photoFromVacation;  //db
 
 @end

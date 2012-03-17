@@ -148,10 +148,11 @@
     //self.view.hidden=YES;
     //[self.parentViewController.view addSubview:spinner];
     [spinner startAnimating];
-    
+   
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
+         //[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];  //SIMULAZIONE LATENZA
            NSArray *listOfPhotos = [self getListOfPhotos];
         dispatch_async(dispatch_get_main_queue(), ^{
             [spinner stopAnimating];

@@ -85,23 +85,6 @@
 
 - (void)scrollViewSetup {
     //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard :)
-    /**
-    UIImage *image = self.imageView.image;
-    self.scrollView.zoomScale = 1;
-    self.scrollView.contentSize = image.size;
-    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-    
-    // code to zoom to correct level for aspect fill
-    float heightRatio = self.imageView.image.size.height / self.scrollView.frame.size.height;
-    float widthRatio = self.imageView.image.size.width / self.scrollView.frame.size.width;
-    //NSLog(@" %g",heightRatio);
-    //NSLog(@" %g",widthRatio);
-    if (heightRatio > widthRatio) {
-        self.scrollView.zoomScale = 1 / widthRatio;
-    } else {
-        self.scrollView.zoomScale = 1 / heightRatio;
-    }
-     **/
     
     UIImage *image = self.imageView.image;
     self.scrollView.zoomScale = 1;
@@ -344,7 +327,7 @@
 //premo il tasto visit ed appare la lista di vacanze
 
 - (IBAction)visitMe:(UIBarButtonItem *)sender {
-    VirtualVacationsTableViewController *vacationTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"VirtualVacationsTableViewController"];
+    VirtualVacationsTableViewController *vacationTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"VirtualVacationsTableViewController"]; 
     [vacationTableViewController setDelegate:self];
     if ([sender.title isEqualToString:@"visit"]) {
         [self presentModalViewController:vacationTableViewController animated:YES];
@@ -355,8 +338,9 @@
 }
 
 -(void)unvisitMe
-{
-   [PhotoManager useDocument:@"my default vacation" toDeletePhoto:self.photoFromVacation];
+{   
+    [Photo deletePhoto:self.photoFromVacation fromManagedObjectContext:self.photoFromVacation.managedObjectContext];
+    //[PhotoManager useDocumentName:@"my default vacation" toDeletePhoto:self.photoFromVacation];
     self.photoFromVacation = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
