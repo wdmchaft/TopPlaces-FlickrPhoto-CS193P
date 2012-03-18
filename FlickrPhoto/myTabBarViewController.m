@@ -30,11 +30,11 @@
 #pragma mark - View lifecycle
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView
+ {
+ }
+ */
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -54,12 +54,12 @@
     UITabBarItem *item1 = [tabBar.items objectAtIndex:1];
     UITabBarItem *item2 = [tabBar.items objectAtIndex:2];
     
-   [item0 setTitle:@"Top Places"]; //solo se è 'custom'
-   [item0 setImage:[UIImage imageNamed:@"artist-tab.png"]];
+    [item0 setTitle:@"Top Places"]; //solo se è 'custom'
+    [item0 setImage:[UIImage imageNamed:@"artist-tab.png"]];
     //[item0 initWithTitle:@"Top Places" image:[UIImage imageNamed:@"artist-tab.png"] tag:1]; //soluzione alternativa
     
-   [item1 setTitle:@"Recent Photos"];
-   [item1 setImage:[UIImage imageNamed:@"clock-tab"]];
+    [item1 setTitle:@"Recent Photos"];
+    [item1 setImage:[UIImage imageNamed:@"clock-tab"]];
     
     [item2 setTitle:@"List"];
     [item2 setImage:[UIImage imageNamed:@"podcast-tab"]];

@@ -20,14 +20,6 @@
 @synthesize debug = _debug;
 @synthesize beganUpdates = _beganUpdates;
 
--(void)setDebug:(BOOL)debug
-{
-    _debug=debug;
-}
--(BOOL)debug
-{
-    return YES;
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

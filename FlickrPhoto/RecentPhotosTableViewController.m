@@ -17,10 +17,13 @@
 #define MAX_NUMBER 50; //of photos
 
 @interface RecentPhotosTableViewController() <MapViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *mapButton;
+
 @end
 
 
 @implementation RecentPhotosTableViewController
+@synthesize mapButton = _mapButton;
 @synthesize placeName = _placeName;
 @synthesize recentPhotos = _recentPhotos;
 @synthesize flickrSelected = _flickrSelected;
@@ -123,6 +126,7 @@
 
 - (void)viewDidUnload
 {
+    [self setMapButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -148,14 +152,18 @@
     //self.view.hidden=YES;
     //[self.parentViewController.view addSubview:spinner];
     [spinner startAnimating];
-   
+    UIBarButtonItem *oldButton =self.mapButton; // oppure imposto STRONG IBOutlet perchè altrimenti quando rilascio il button, se è weak diventa nullo
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
          //[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];  //SIMULAZIONE LATENZA
            NSArray *listOfPhotos = [self getListOfPhotos];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [spinner stopAnimating];
+           [spinner stopAnimating];
+           self.navigationItem.rightBarButtonItem = oldButton;
             self.recentPhotos = listOfPhotos; //modifica la UI (tabella) per questo lo metto nella main queue
         });
         

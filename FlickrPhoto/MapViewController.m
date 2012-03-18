@@ -40,7 +40,7 @@
             self.mapView.mapType = MKMapTypeHybrid;
             break;
     }
- 
+    
 }
 
 #pragma mark - Synchronize Model and View
@@ -50,10 +50,10 @@
     if (self.mapView.annotations) [self.mapView removeAnnotations:self.mapView.annotations];
     if (self.annotations) 
     {[self.mapView addAnnotations:self.annotations];
-    self.mapView.region = [self regionForAnnotations:self.annotations];
+        self.mapView.region = [self regionForAnnotations:self.annotations];
     }
     
-  }
+}
 
 - (void)setMapView:(MKMapView *)mapView
 {
@@ -151,15 +151,15 @@
         if (![previousVC isKindOfClass:[PlacesTableViewController class]]) //se la previous vc non è placestvc (e quindi è o recentphotostvc o lastviewedphotostvc), inizializzo la leftcalloutaccessoryview
         {
             aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)]; //inizializzo leftCalloutAccessoryView come una UIImageView
-
+            
         }
-
-
         
-  
+        
+        
+        
         // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    
+        
     }
     
     aView.annotation = annotation;
@@ -175,7 +175,7 @@
 //viene eseguito quando clicco uibutton nella rightCalloutAccessoryView
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
-
+    
     // tell the delegate that the disclosure button has been tapped.
     [self.delegate mapViewController:self showDetailForAnnotation:view.annotation];
     
@@ -186,7 +186,7 @@
 //Tells the delegate that one of its annotation views was selected.
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)pinView
 {
-     self.latestAnnotation = pinView.annotation;
+    self.latestAnnotation = pinView.annotation;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     //[spinner setBackgroundColor:[UIColor redColor]];
@@ -198,32 +198,32 @@
     
     if (pinView.leftCalloutAccessoryView) // se la leftCalloutAccessoryView ESISTE allora faccio il loading della thumb etc etc
     {
-    [(UIImageView *)pinView.leftCalloutAccessoryView addSubview:spinner];
-    
-    
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
-    dispatch_async(downloadQueue,^{
-        //block nel thread separato
+        [(UIImageView *)pinView.leftCalloutAccessoryView addSubview:spinner];
         
-        id<MKAnnotation> fetchedAnnotation = pinView.annotation;
-    
-        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:pinView.annotation];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //main thread
-            // If the latest annotation and the fetched annotation do not match
-            // discard the fetched annotation image
-            if (self.latestAnnotation == fetchedAnnotation) {
-                if (image != nil) {
-            [spinner stopAnimating]; 
-            [(UIImageView *)pinView.leftCalloutAccessoryView setImage:image];
-            }
-            } else {
-                pinView.leftCalloutAccessoryView = nil;
-            }
+        
+        dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+        dispatch_async(downloadQueue,^{
+            //block nel thread separato
+            
+            id<MKAnnotation> fetchedAnnotation = pinView.annotation;
+            
+            UIImage *image = [self.delegate mapViewController:self imageForAnnotation:pinView.annotation];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //main thread
+                // If the latest annotation and the fetched annotation do not match
+                // discard the fetched annotation image
+                if (self.latestAnnotation == fetchedAnnotation) {
+                    if (image != nil) {
+                        [spinner stopAnimating]; 
+                        [(UIImageView *)pinView.leftCalloutAccessoryView setImage:image];
+                    }
+                } else {
+                    pinView.leftCalloutAccessoryView = nil;
+                }
+            });
+            
         });
-        
-    });
-    dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+        dispatch_release(downloadQueue); //altrimenti c'è un memory leak
     } // fine if
     
 }

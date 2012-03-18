@@ -25,8 +25,6 @@
 		128C1604150BED9B00B70297 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C1603150BED9B00B70297 /* Photo.m */; };
 		128C1607150BED9B00B70297 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C1606150BED9B00B70297 /* Place.m */; };
 		128C160A150BED9C00B70297 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C1609150BED9B00B70297 /* Tag.m */; };
-		128C160D150BF4D900B70297 /* PhotosByPlaceTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C160C150BF4D900B70297 /* PhotosByPlaceTableViewController.m */; };
-		128C1610150BF9D700B70297 /* PhotosByTagTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 128C160F150BF9D700B70297 /* PhotosByTagTableViewController.m */; };
 		1294F66014E9977D00BFFB98 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1294F65F14E9977D00BFFB98 /* CoreLocation.framework */; };
 		1294F66214E9978600BFFB98 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1294F66114E9978600BFFB98 /* MapKit.framework */; };
 		1294F66514E9980B00BFFB98 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1294F66414E9980B00BFFB98 /* MapViewController.m */; };
@@ -88,10 +86,6 @@
 		128C1606150BED9B00B70297 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		128C1608150BED9B00B70297 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		128C1609150BED9B00B70297 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
-		128C160B150BF4D900B70297 /* PhotosByPlaceTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosByPlaceTableViewController.h; sourceTree = "<group>"; };
-		128C160C150BF4D900B70297 /* PhotosByPlaceTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosByPlaceTableViewController.m; sourceTree = "<group>"; };
-		128C160E150BF9D700B70297 /* PhotosByTagTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosByTagTableViewController.h; sourceTree = "<group>"; };
-		128C160F150BF9D700B70297 /* PhotosByTagTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosByTagTableViewController.m; sourceTree = "<group>"; };
 		1294F65F14E9977D00BFFB98 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1294F66114E9978600BFFB98 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1294F66314E9980B00BFFB98 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -110,7 +104,7 @@
 		12B411A7150EA7B0008E8ADB /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		12C3BDAD1503E381007BF809 /* PhotoCaching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCaching.h; sourceTree = "<group>"; };
 		12C3BDAE1503E381007BF809 /* PhotoCaching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCaching.m; sourceTree = "<group>"; };
-		12C4B746150A774E004A393E /* VacationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = VacationHelper.h; sourceTree = "<group>"; };
+		12C4B746150A774E004A393E /* VacationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationHelper.h; sourceTree = "<group>"; };
 		12C4B747150A774E004A393E /* VacationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationHelper.m; sourceTree = "<group>"; };
 		12C4B751150AA2A1004A393E /* Photo+Flickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+Flickr.h"; sourceTree = "<group>"; };
 		12C4B752150AA2A1004A393E /* Photo+Flickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+Flickr.m"; sourceTree = "<group>"; };
@@ -188,7 +182,6 @@
 		120305501507CAD200D4A32A /* assignment_6 */ = {
 			isa = PBXGroup;
 			children = (
-				129DA55015122B8300D6C7D9 /* trash */,
 				12C4B766150AD048004A393E /* TagsTableViewController.h */,
 				12C4B767150AD049004A393E /* TagsTableViewController.m */,
 				1203054D1507CACA00D4A32A /* VirtualVacationsTableViewController.h */,
@@ -205,17 +198,6 @@
 				129DA54E1512226C00D6C7D9 /* VacationPhotosTableViewController.m */,
 			);
 			name = assignment_6;
-			sourceTree = "<group>";
-		};
-		129DA55015122B8300D6C7D9 /* trash */ = {
-			isa = PBXGroup;
-			children = (
-				128C160B150BF4D900B70297 /* PhotosByPlaceTableViewController.h */,
-				128C160C150BF4D900B70297 /* PhotosByPlaceTableViewController.m */,
-				128C160E150BF9D700B70297 /* PhotosByTagTableViewController.h */,
-				128C160F150BF9D700B70297 /* PhotosByTagTableViewController.m */,
-			);
-			name = trash;
 			sourceTree = "<group>";
 		};
 		12AF971415110AC2001C3A5B /* Storyboards */ = {
@@ -444,8 +426,6 @@
 				128C1604150BED9B00B70297 /* Photo.m in Sources */,
 				128C1607150BED9B00B70297 /* Place.m in Sources */,
 				128C160A150BED9C00B70297 /* Tag.m in Sources */,
-				128C160D150BF4D900B70297 /* PhotosByPlaceTableViewController.m in Sources */,
-				128C1610150BF9D700B70297 /* PhotosByTagTableViewController.m in Sources */,
 				12B411A8150EA7B1008E8ADB /* PhotoManager.m in Sources */,
 				12AF971815113A76001C3A5B /* Photo+Delete.m in Sources */,
 				129DA54F1512226C00D6C7D9 /* VacationPhotosTableViewController.m in Sources */,
