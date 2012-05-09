@@ -9,7 +9,6 @@
 #import "ItineraryTableViewController.h"
 #import "Place.h"
 #import "VacationHelper.h"
-#import "PhotosByPlaceTableViewController.h"
 #import "VacationPhotosTableViewController.h"
 
 

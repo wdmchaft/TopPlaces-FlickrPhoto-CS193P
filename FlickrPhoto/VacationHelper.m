@@ -28,6 +28,7 @@
     NSURL *documentDirectoryPath = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory 
                                                                            inDomains:NSUserDomainMask] lastObject]; //document dir
     
+    NSError *error;
     // get the contents of the directory
     NSArray *keys = [[NSArray alloc] initWithObjects:NSURLNameKey, nil];
     
@@ -35,25 +36,30 @@
     NSArray *urls = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:documentDirectoryPath 
                                                   includingPropertiesForKeys:keys 
                                                                      options:NSDirectoryEnumerationSkipsHiddenFiles 
-                                                                       error:nil];
+                                                                       error:&error];
+    
+     NSMutableArray *vacationsUrls = [[NSMutableArray alloc] init];
+    if (error == nil){
     //creo una lista
-    NSMutableArray *vacationsUrls = [[NSMutableArray alloc] init];
     
     for (NSURL *url in urls) {
-        NSString *name =[url absoluteString];
+        //NSString *name =[url absoluteString];
         // and see if there are files that contain vacations
-        if ([name rangeOfString:@"vacation"].location != NSNotFound) {
+       // if ([name rangeOfString:@"vacation"].location != NSNotFound) {
             // and add all these urls to an url array
             [vacationsUrls addObject:url];
-        }
+        //}
     }
+    }
+    
     if ([vacationsUrls count] == 0) //se non ho nessun documento 'vacation'
     {
         //ne creo uno di default di nome "my default vacation"
-        //osservazione: lo creo, ma non lo salvo: lo salvo quando lo aggancio al db? però in questo modo se esco dall'app prima non ho la "my defaul vacation salvata" per cui me la ricrea ogni volta (tanto, cmq sia, finchè non l'aggancio al db è vuota!)
-        //risposta: nel tutorial si consiglia di salvare quando si modifica, quindi mi sono risposto :)
+        //ATTENZIONE!!! lo creo, ma non lo salvo: lo salvo quando lo aggancio al db? però in questo modo se esco dall'app prima, non ho la "my defaul vacation salvata" per cui me la ricrea ogni volta (tanto, cmq sia, finchè non l'aggancio al db è vuota!)
+        //OSSERVAZIONE: nel tutorial si consiglia di salvare quando si modifica, quindi mi sono risposto :)
         [vacationsUrls addObject:[documentDirectoryPath URLByAppendingPathComponent:@"my default vacation"]]; //creo il path
         NSLog(@"my vacation default creato! %@", [vacationsUrls description]);
+        
     }
     
 
@@ -80,11 +86,12 @@
         //se il percorso non esiste (e quindi quel db non è stato creato)
         if (![[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:url create:NO error:nil])
         {
-            //mi creo un percorso di defaul
+            //mi creo un percorso di default per gestire questa situazione (si può fare di meglio credo)
           url = [url URLByAppendingPathComponent:@"my default vacation"]; 
          NSLog(@"my vacation default creato! %@", url);
+            
         }
-        
+
         //creo il managedDocument
         managedDocument = [[UIManagedDocument alloc] initWithFileURL:url];    
     });

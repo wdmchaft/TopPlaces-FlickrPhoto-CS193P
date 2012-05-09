@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 
-@interface TagsTableViewController : CoreDataTableViewController //PlacesByVacation
+@interface TagsTableViewController : CoreDataTableViewController <UISearchBarDelegate> //PlacesByVacation
 @property (nonatomic,strong) NSString *vacation;
 
 @end

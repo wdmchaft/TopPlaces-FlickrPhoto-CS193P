@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VacationHelper.h"
+#import "FormViewController.h"
 
 @class VirtualVacationsTableViewController;
 @protocol VirtualVacationsTableViewControllerDelegate <NSObject>

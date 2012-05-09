@@ -10,7 +10,7 @@
 #import "SingleVacationTableViewController.h"
 
 
-@interface VirtualVacationsTableViewController ()
+@interface VirtualVacationsTableViewController () <FormViewControllerDelegate>
 
 @end
 
@@ -19,11 +19,35 @@
 @synthesize vacations = _vacations;
 @synthesize delegate = _delegate;
 
+-(void)addNewVacation:(FormViewController *)sender withName:(NSString *)name
+{
+    NSLog(@"vacation name da inserire: %@",name);
+    NSURL *documentDirectoryPath = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory 
+                                                                           inDomains:NSUserDomainMask] lastObject]; //document dir
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[[documentDirectoryPath URLByAppendingPathComponent:name]absoluteString]]) {
+        NSLog(@"va creato");
+        UIManagedDocument *managedDocument = [VacationHelper sharedManagedDocumentForVacation:name];
+        [managedDocument saveToURL:[documentDirectoryPath URLByAppendingPathComponent:name] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+            NSLog(@"creato");
+        }];
+    }
+    
+  
+    NSMutableSet *newVacationsSet = [[NSMutableSet alloc] initWithArray:self.vacations];
+    [newVacationsSet addObject:[documentDirectoryPath URLByAppendingPathComponent:name]]; //con un set non ho nomi duplicati
+     NSMutableArray *newVacationsList = [[NSMutableArray alloc] initWithArray:[[newVacationsSet allObjects] mutableCopy]];
+    self.vacations = newVacationsList;
+    [sender dismissModalViewControllerAnimated:YES];
+}
+
+
 -(void)setVacations:(NSArray *)vacations
 {
     if (_vacations != vacations)
     {
         _vacations = vacations;
+        [self.tableView reloadData];
     }
 }
 
@@ -95,7 +119,6 @@
     //VacationManager *vm=[[VacationManager alloc] init]; 
         self.vacations = [VacationHelper vacationsList];
     }
-
  
     
 }
@@ -224,6 +247,8 @@
 
         [segue.destinationViewController setVacation:[[self.vacations objectAtIndex:indexPath.row]lastPathComponent]];
     
+    } else  if ([segue.identifier isEqualToString:@"show form"]) {
+        [segue.destinationViewController setDelegate:self];
     }
 
 }

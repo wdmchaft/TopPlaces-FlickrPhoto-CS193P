@@ -13,11 +13,13 @@
 
 @interface TagsTableViewController ()
 @property (nonatomic, strong) UIManagedDocument *tagsDatabase; 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
 @implementation TagsTableViewController
 @synthesize tagsDatabase = _tagsDatabase;
+@synthesize searchBar = _searchBar;
 @synthesize vacation = _vacation;
 
 -(void)setVacation:(NSString *)vacation
@@ -41,10 +43,14 @@
     //request.predicate = nil;
    
     
-
-    
-    
    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"used" ascending:NO selector:@selector(compare:)]];
+    
+    // Predicate results based on text in the search bar
+    if (self.searchBar.text && ![self.searchBar.text isEqualToString:@""]) {
+        NSLog(@"sto facendo una ricerca permessa");
+        request.predicate = [NSPredicate predicateWithFormat:@"tag_name beginswith[c] %@", self.searchBar.text];
+    }
+
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
                                                                        managedObjectContext:self.tagsDatabase.managedObjectContext
@@ -87,6 +93,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.searchBar.delegate=self;
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.showsCancelButton = NO;
+    
     self.title=@"Tags";
     if (!self.tagsDatabase) {
         
@@ -109,6 +119,7 @@
 
 - (void)viewDidUnload
 {
+    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -158,5 +169,47 @@
     }
 
 }
+
+#pragma mark UISearchBarDelegate
+
+
+//premo il tasto search: faccio scomparire tastiera e cancel
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    NSLog(@"searchBarSearchButtonClicked");
+    
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self.searchBar resignFirstResponder];
+}
+
+//mi appresto a scrivere: faccio comparire cancel
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    NSLog(@"searchBarTextDidBeginEditing"); 
+    [searchBar setShowsCancelButton:YES animated:YES];
+    
+}
+
+//man mano che scrivo nella ricerca: aggiorno la tabella
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {    
+    NSLog(@"The search text is: %@", searchText);
+    [self setupFetchedResultsController];
+    
+}
+
+/**
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    NSLog(@"searchBarTextDidEndEditing");
+    [searchBar resignFirstResponder];    
+}
+**/
+
+//premo cancel: resetto la barra di search e nascondo la tastiera
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchBar.text= @"";
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self.searchBar resignFirstResponder];
+}
+
 
 @end
