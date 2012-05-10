@@ -21,15 +21,21 @@
 
 -(void)addNewVacation:(FormViewController *)sender withName:(NSString *)name
 {
-    NSLog(@"vacation name da inserire: %@",name);
+
     NSURL *documentDirectoryPath = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory 
                                                                            inDomains:NSUserDomainMask] lastObject]; //document dir
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:[[documentDirectoryPath URLByAppendingPathComponent:name]absoluteString]]) {
-        NSLog(@"va creato");
-        UIManagedDocument *managedDocument = [VacationHelper sharedManagedDocumentForVacation:name];
-        [managedDocument saveToURL:[documentDirectoryPath URLByAppendingPathComponent:name] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-            NSLog(@"creato");
+        
+        
+        NSURL *managedDocURL= [[documentDirectoryPath URLByAppendingPathComponent:name]absoluteURL];
+        UIManagedDocument *managedDoc = [[UIManagedDocument alloc] initWithFileURL:managedDocURL];
+                                 
+        [managedDoc saveToURL:[documentDirectoryPath URLByAppendingPathComponent:name] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+        
+        if (success) NSLog(@"documento creato");
+        else NSLog(@"il document non è stato creato");
+        
         }];
     }
     
@@ -41,12 +47,18 @@
     [sender dismissModalViewControllerAnimated:YES];
 }
 
+/**
+-(void)viewDidAppear:(BOOL)animated{
+    [self.tableView reloadData];
+}
+**/
 
 -(void)setVacations:(NSArray *)vacations
 {
     if (_vacations != vacations)
     {
         _vacations = vacations;
+  
         [self.tableView reloadData];
     }
 }
@@ -114,11 +126,13 @@
         self.vacations = vacationDocuments;
      }
 **/
-    if (!self.vacations)
-    {
+    
+    
+    //if (!self.vacations) //con questo if non mi aggiornava la Lista se inserisco una Vacation aggiuntiva quando sto guardando una foto
+    //{
     //VacationManager *vm=[[VacationManager alloc] init]; 
         self.vacations = [VacationHelper vacationsList];
-    }
+    //}
  
     
 }

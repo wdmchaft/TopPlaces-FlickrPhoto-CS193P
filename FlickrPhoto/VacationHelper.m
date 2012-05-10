@@ -58,7 +58,6 @@
         //ATTENZIONE!!! lo creo, ma non lo salvo: lo salvo quando lo aggancio al db? però in questo modo se esco dall'app prima, non ho la "my defaul vacation salvata" per cui me la ricrea ogni volta (tanto, cmq sia, finchè non l'aggancio al db è vuota!)
         //OSSERVAZIONE: nel tutorial si consiglia di salvare quando si modifica, quindi mi sono risposto :)
         [vacationsUrls addObject:[documentDirectoryPath URLByAppendingPathComponent:@"my default vacation"]]; //creo il path
-        NSLog(@"my vacation default creato! %@", [vacationsUrls description]);
         
     }
     
@@ -76,9 +75,9 @@
     dispatch_once(&mngddoc, ^{ //dispatch_once() is absolutely synchronous
                
         //recupero la Document directory
-    
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-        //ci aggiungo il nome del DB
+        
+        //e ci aggiungo il nome del DB per avere url del managedDocument
         url = [url URLByAppendingPathComponent:vacationName];
        
         
@@ -86,15 +85,28 @@
         //se il percorso non esiste (e quindi quel db non è stato creato)
         if (![[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:url create:NO error:nil])
         {
-            //mi creo un percorso di default per gestire questa situazione (si può fare di meglio credo)
-          url = [url URLByAppendingPathComponent:@"my default vacation"]; 
-         NSLog(@"my vacation default creato! %@", url);
-            
-        }
 
-        //creo il managedDocument
-        managedDocument = [[UIManagedDocument alloc] initWithFileURL:url];    
-    });
+            //NOTA: lo lascio così perchè è una porzione di codice che ho riusato per creare managedDocument: di fatto in questo metodo poteva essere integrato in maniera migliore (vedi commenti)
+            //lo creo            
+            NSURL *managedDocURL= [[url URLByAppendingPathComponent:vacationName]absoluteURL]; //è uguale ad 'url' sopra definito
+            UIManagedDocument *managedDoc = [[UIManagedDocument alloc] initWithFileURL:managedDocURL]; //lo posso portare fuori l'if ed usare la variabile static
+            
+            
+            [managedDoc saveToURL:[url URLByAppendingPathComponent:vacationName] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+                
+                if (success) NSLog(@"documento creato");
+                else NSLog(@"il document non è stato creato");
+            }];       
+            
+            
+        }//fine if
+
+    //creo il managedDocument
+    managedDocument = [[UIManagedDocument alloc] initWithFileURL:url];   //ridondante se faccio le modifiche all'if sopra
+        
+    
+    }//fine dispatch
+                  );
     
     //http://stackoverflow.com/questions/9430056/how-do-i-share-one-uimanageddocument-between-different-objects
     return managedDocument;

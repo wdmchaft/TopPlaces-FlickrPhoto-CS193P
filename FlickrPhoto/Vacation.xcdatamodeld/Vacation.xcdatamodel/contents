@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Itinerary" representedClassName="Itinerary" syncable="YES">
+        <attribute name="itinerary_name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hasPlaces" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Place" inverseName="inItineraries" inverseEntity="Place" syncable="YES"/>
+    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="inserted" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="photo_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,6 +18,7 @@
         <attribute name="inserted" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="place_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="place_id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="inItineraries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Itinerary" inverseName="hasPlaces" inverseEntity="Itinerary" syncable="YES"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="scattateDove" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
@@ -22,8 +27,9 @@
         <relationship name="taggedPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="etichettataDa" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Itinerary" positionX="-101" positionY="198" width="128" height="75"/>
         <element name="Photo" positionX="7" positionY="384" width="128" height="165"/>
-        <element name="Place" positionX="-261" positionY="444" width="128" height="105"/>
+        <element name="Place" positionX="-279" positionY="444" width="128" height="120"/>
         <element name="Tag" positionX="306" positionY="432" width="128" height="90"/>
     </elements>
 </model>

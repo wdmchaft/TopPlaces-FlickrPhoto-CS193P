@@ -16,12 +16,15 @@
 
 @interface ItineraryTableViewController () 
 @property (nonatomic, strong) UIManagedDocument *placeDatabase; 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *reorderButton;
 
 @end
 
 @implementation ItineraryTableViewController
 @synthesize vacation =_vacation;
 @synthesize placeDatabase = _placeDatabase;
+@synthesize reorderButton = _reorderButton;
+
 
 
 
@@ -103,7 +106,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self tableView] setEditing:YES animated:YES];
+    
   
 
     // Uncomment the following line to preserve selection between presentations.
@@ -117,6 +120,7 @@
 
 - (void)viewDidUnload
 {
+    [self setReorderButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -150,13 +154,40 @@
     
     
     cell.detailTextLabel.text = [format stringFromDate:place.inserted]; //[NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
-
+  //cell.showsReorderControl = YES; //dicono di metterlo per visualizzare il reorder ma funziona anche senza
     return cell;
 }
 
 
 #pragma mark - Row reordering
 
+- (IBAction)reorderButton:(id)sender {
+    if ([self.reorderButton.title isEqualToString:@"Reorder"]){
+    [[self tableView] setEditing:YES animated:YES];
+        self.reorderButton.title=@"Done";
+    }
+    else {
+        [[self tableView] setEditing:NO animated:YES];
+        self.reorderButton.title=@"Reorder"; 
+    }
+}
+/**
+
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+     [[self tableView] setEditing:YES animated:YES];
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+[[self tableView] setEditing:YES animated:YES];
+
+ }
+**/
 
 //row rearrange without using edit button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -174,6 +205,18 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     NSLog(@"muovo la riga");
+    
+    UITableViewCell *cella = [[UITableViewCell alloc] init];
+    cella = [tableView cellForRowAtIndexPath:fromIndexPath];
+    NSLog(@"prova:%@",cella.textLabel.text);
+    NSLog(@"prova2:%@",cella.detailTextLabel.text);
+    //rimuovo dall'indice e aggiungo a quello successivo
+    /**
+    Place *toBeReorderedPlace = [[Place alloc] init];
+    toBeReorderedPlace.place_description = cella.textLabel.text;
+    toBeReorderedPlace.inserted=(NSDate *)cella.detailTextLabel.text;
+    NSLog(@"%@",toBeReorderedPlace);
+     **/
 }
  
 
@@ -181,7 +224,6 @@
  // Override to support conditional rearranging of the table view.
  - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
  {
-
  return YES;
  }
  

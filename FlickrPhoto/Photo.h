@@ -2,7 +2,7 @@
 //  Photo.h
 //  FlickrPhoto
 //
-//  Created by Marzoli Alessandro on 10/03/12.
+//  Created by Marzoli Alessandro on 10/05/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,12 +13,12 @@
 
 @interface Photo : NSManagedObject
 
+@property (nonatomic, retain) NSDate * inserted;
 @property (nonatomic, retain) NSString * photo_id;
 @property (nonatomic, retain) NSString * photo_url;
 @property (nonatomic, retain) NSString * place_id;
 @property (nonatomic, retain) NSString * tags;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSDate * inserted;
 @property (nonatomic, retain) NSSet *etichettataDa;
 @property (nonatomic, retain) Place *scattateDove;
 @end

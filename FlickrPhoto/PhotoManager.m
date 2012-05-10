@@ -28,7 +28,7 @@
             if (success) {                  
                 NSLog(@"Document saved"); 
             } else {                       
-                NSLog(@"Document was unable to save");
+                NSLog(@"***** Document was unable to save *****");
             }}
          ];
         

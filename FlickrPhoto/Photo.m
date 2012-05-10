@@ -2,7 +2,7 @@
 //  Photo.m
 //  FlickrPhoto
 //
-//  Created by Marzoli Alessandro on 10/03/12.
+//  Created by Marzoli Alessandro on 10/05/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,12 +13,12 @@
 
 @implementation Photo
 
+@dynamic inserted;
 @dynamic photo_id;
 @dynamic photo_url;
 @dynamic place_id;
 @dynamic tags;
 @dynamic title;
-@dynamic inserted;
 @dynamic etichettataDa;
 @dynamic scattateDove;
 
