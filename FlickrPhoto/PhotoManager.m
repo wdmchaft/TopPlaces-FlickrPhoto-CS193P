@@ -46,8 +46,7 @@
         [managedDocument saveToURL:managedDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             // [self setupFetchedResultsController];  
             [self fetchFlickrPhotoIntoDocument:managedDocument]; //inserisco nel db
-            NSLog(@"il db non esisteva ed è stato creato");
-            
+            NSLog(@"il db non esisteva ed è stato creato");             
         }];
     } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
     {
@@ -63,6 +62,8 @@
         [self fetchFlickrPhotoIntoDocument:managedDocument]; //inserisco nel db
         NSLog(@"il db era già aperto");
     }
+  
+
 }
 
 /**

@@ -103,13 +103,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [[self tableView] setEditing:YES animated:YES];
+  
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
 
 - (void)viewDidUnload
 {
@@ -146,48 +150,41 @@
     
     
     cell.detailTextLabel.text = [format stringFromDate:place.inserted]; //[NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
-    
+
     return cell;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+#pragma mark - Row reordering
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
 
-/*
+//row rearrange without using edit button
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+		return UITableViewCellEditingStyleNone;
+}
+
+//I want to be able to reorder cells in a table, but not to delete or insert them.
+//http://stackoverflow.com/questions/3027818/reorder-cells-in-a-uitableview-without-displaying-a-delete-button
+//in questo modo posso usare il metodo: "tableView:editingStyleForRowAtIndexPath:" per far comparire Edit o Insert in alcune righe senza che l'indentazione venga applicata su tutte!
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    NSLog(@"muovo la riga");
+}
+ 
+
+
  // Override to support conditional rearranging of the table view.
  - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
  {
- // Return NO if you do not want the item to be re-orderable.
+
  return YES;
  }
- */
+ 
 
 #pragma mark - Table view delegate
 
@@ -213,5 +210,9 @@
         [segue.destinationViewController setVacationName:self.vacation];
     } 
 }
+
+
+
+
 
 @end

@@ -93,7 +93,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.searchBar.delegate=self;
+    self.searchBar.delegate=self; //lo potevo defnire anche dal Document Outline
     self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     self.searchBar.showsCancelButton = NO;
     
