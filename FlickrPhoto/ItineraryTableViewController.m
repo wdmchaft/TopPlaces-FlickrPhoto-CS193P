@@ -15,14 +15,14 @@
 
 
 @interface ItineraryTableViewController () 
-@property (nonatomic, strong) UIManagedDocument *placeDatabase; 
+//@property (nonatomic, strong) UIManagedDocument *placeDatabase; 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *reorderButton;
 
 @end
 
 @implementation ItineraryTableViewController
 @synthesize vacation =_vacation;
-@synthesize placeDatabase = _placeDatabase;
+//@synthesize placeDatabase = _placeDatabase;
 @synthesize reorderButton = _reorderButton;
 
 
@@ -30,54 +30,35 @@
 
 -(void)setVacation:(NSString *)vacation
 {
-    if (_vacation!=vacation) _vacation=vacation;
+    if (_vacation != vacation) {
+        _vacation = vacation;
+        [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
+            [self setupFetchedResultsController:vacation];
+        }];
+    }
 }
 
+/**
 -(void)setPlaceDatabase:(UIManagedDocument *)placeDatabase
 { 
     if (_placeDatabase != placeDatabase) {
         _placeDatabase = placeDatabase;
-        [self useDocument];
+       // [self useDocument];
     }
 }
-
-- (void) setupFetchedResultsController
+**/
+- (void)setupFetchedResultsController:(UIManagedDocument *)vacation
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Place"];
-    //all PLACES
-    //request.predicate = nil;
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"inserted" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // senza il selector l'ordinamento era case insensitive
- 
+    // Sort results by the date the place was added to the document
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"inserted" ascending:YES selector:@selector(compare:)]];
     
-    self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
-                                                                       managedObjectContext:self.placeDatabase.managedObjectContext
-                                                                         sectionNameKeyPath:nil cacheName:nil ];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:vacation.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
 }
 
-//hook to the database!
--(void)useDocument
-{
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[self.placeDatabase.fileURL path]]) // se il db non esiste nel disco
-    {
-        //[self.tagsDatabase saveToURL:self.tagsDatabase.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-        //[self setupFetchedResultsController];  
-        //[self fetchFlickrDataIntoDocument:self.tagsDatabase];
-        
-        //}];
-    } else if (self.placeDatabase.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
-    {
-        [self.placeDatabase openWithCompletionHandler:^(BOOL success) {
-            [self setupFetchedResultsController];  //property CoreDataTableViewController.h usata per popolare la tabella
-
-            NSLog(@"db chiuso");
-            
-        }];
-    } else if (self.placeDatabase.documentState == UIDocumentStateNormal) // se il db è già aperto
-    {
-        [self setupFetchedResultsController]; 
-        NSLog(@"db aperto");
-    }
-}
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -92,14 +73,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.title=@"Places";
-    if (!self.placeDatabase) {
-        //NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-        //url = [url URLByAppendingPathComponent:self.vacation];
-        //NSLog(@" %@",url);
-        // url is now "<Documents Directory>/Default Photo Database"
-        //self.tagsDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
-        self.placeDatabase = [VacationHelper sharedManagedDocumentForVacation:self.vacation];
-    }
     
 }
 
@@ -248,8 +221,10 @@
     
     if ([segue.identifier isEqualToString:@"vacation photos"]) {
         Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
-        [segue.destinationViewController setPlace:place];
+        
         [segue.destinationViewController setVacationName:self.vacation];
+        [segue.destinationViewController setPlace:place];
+        
     } 
 }
 

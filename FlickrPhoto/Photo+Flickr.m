@@ -63,7 +63,6 @@
                 [tagset addObject:[Tag TagWithName:aTag inManagedObjectContext:context]];
                } 
                else NSLog(@" c'è un segno di punteggiatura nel tag: non lo salvo");
-               // NSLog(@" tag:%@",aTag);
             } 
             else NSLog(@" tag vuoto ");
         }

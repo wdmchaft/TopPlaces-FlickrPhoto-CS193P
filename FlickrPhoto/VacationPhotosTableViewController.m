@@ -20,19 +20,19 @@
 @synthesize vacationName = _vacationName;
 
 
-
+/**
 - (void) setupFetchedResultsController
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     NSManagedObjectContext *moc = [[VacationHelper sharedManagedDocumentForVacation:self.vacationName] managedObjectContext];
     if (moc == self.place.managedObjectContext ) NSLog(@"ao sono uguali");
     if (self.place) {
-        NSLog(@"query place");
+
         //foto scattate da un certo fotografo
         request.predicate = [NSPredicate predicateWithFormat:@"scattateDove.place_description = %@", self.place.place_description];
         //moc = self.place.managedObjectContext;    
     }  else if (self.mytag)
-    { NSLog(@"query tag: %@",self.mytag.tag_name);
+    {         
         //request.predicate = [NSPredicate predicateWithFormat:@"etichettataDa.tag_name CONTAINS %@", self.tag.tag_name];
         request.predicate = [NSPredicate predicateWithFormat:@"ANY etichettataDa.tag_name = %@", self.mytag.tag_name]; // va bene anche il predicato sopra; questo qui è qualcosa tipo : qualsiasi (foto) collegata al tag (etichettataDa) che si chiama tag_name
         // moc = self.mytag.managedObjectContext;
@@ -43,22 +43,57 @@
                                                                        managedObjectContext:moc
                                                                          sectionNameKeyPath:nil cacheName:nil ];
 }
+**/
 
+- (void)setupFetchedResultsController:(UIManagedDocument *)vacation
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    
+    // If this view controller is for a place, check the takenAt relationship
+    if (self.place) {
+        //foto scattate da un certo fotografo
+        request.predicate = [NSPredicate predicateWithFormat:@"scattateDove.place_description = %@", self.place.place_description];
+    } else if (self.mytag) {
+        // Check if any of the tags have the same name
+        request.predicate = [NSPredicate predicateWithFormat:@"ANY etichettataDa.tag_name = %@", self.mytag.tag_name]; // va bene anche il predicato sopra; questo qui è qualcosa tipo : qualsiasi (foto) collegata al tag (etichettataDa) che si chiama tag_name
+ 
+    }
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:vacation.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
+}
 
 
 -(void)setMytag:(Tag *)mytag
 {
+    if( _mytag != mytag){
     _mytag=mytag;
     self.title=mytag.tag_name;
-    [self setupFetchedResultsController];
+    }
 }
 
 
 -(void)setPlace:(Place *)place
 {
+    if (_place != place) {
     _place = place;
     self.title = place.place_description;
-    [self setupFetchedResultsController];
+    }
+}
+
+- (void)setVacationName:(NSString *)vacationName
+{
+    if (_vacationName != vacationName) {
+        _vacationName = vacationName;
+        [VacationHelper openVacation:self.vacationName usingBlock:^(UIManagedDocument *vacation) {
+            [self setupFetchedResultsController:vacation];
+        }];
+    }
 }
 
 

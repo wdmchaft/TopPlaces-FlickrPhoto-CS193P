@@ -12,21 +12,52 @@
 #import "VacationPhotosTableViewController.h"
 
 @interface TagsTableViewController ()
-@property (nonatomic, strong) UIManagedDocument *tagsDatabase; 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//@property (nonatomic, strong) UIManagedDocument *tagsDatabase; 
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
 @implementation TagsTableViewController
-@synthesize tagsDatabase = _tagsDatabase;
+//@synthesize tagsDatabase = _tagsDatabase;
 @synthesize searchBar = _searchBar;
 @synthesize vacation = _vacation;
 
--(void)setVacation:(NSString *)vacation
+- (void)setVacation:(NSString *)vacation
 {
-    if (_vacation!=vacation) _vacation=vacation;
+    if (_vacation != vacation) {
+        _vacation = vacation;
+        [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
+            [self setupFetchedResultsController:vacation];
+        }];
+    }
 }
 
+- (void)setupFetchedResultsController:(UIManagedDocument *)vacation
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
+    
+    //all TAGS!!
+    //request.predicate = nil;
+    
+    
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"used" ascending:NO selector:@selector(compare:)]];
+    
+    // Predicate results based on text in the search bar
+    if (self.searchBar.text && ![self.searchBar.text isEqualToString:@""]) {
+        NSLog(@"sto facendo una ricerca permessa");
+        request.predicate = [NSPredicate predicateWithFormat:@"tag_name beginswith[c] %@", self.searchBar.text];
+    }
+    
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
+                                                                       managedObjectContext:vacation.managedObjectContext
+                                                                         sectionNameKeyPath:nil cacheName:nil ];
+
+}
+
+
+
+/**
 -(void)setTagsDatabase:(UIManagedDocument *)tagsDatabase
 {
     if (_tagsDatabase != tagsDatabase) {
@@ -34,7 +65,8 @@
      [self useDocument];
     }
 }
-
+**/
+/**
 - (void) setupFetchedResultsController
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
@@ -80,7 +112,7 @@
         NSLog(@"db aperto");
     }
 }
-
+**/
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -98,12 +130,6 @@
     self.searchBar.showsCancelButton = NO;
     
     self.title=@"Tags";
-    if (!self.tagsDatabase) {
-        
-        self.tagsDatabase = [VacationHelper sharedManagedDocumentForVacation:self.vacation];
-    }
-    //else{ [self useDocument];}
-
 }
 
 - (void)viewDidLoad
@@ -164,8 +190,10 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
   if ([segue.identifier isEqualToString:@"vacation photos"]){
         Tag *tag =[self.fetchedResultsController objectAtIndexPath:indexPath];
-      [segue.destinationViewController setMytag:tag];
+      
       [segue.destinationViewController setVacationName:self.vacation];
+      [segue.destinationViewController setMytag:tag];
+      
     }
 
 }
@@ -190,10 +218,12 @@
 }
 
 //man mano che scrivo nella ricerca: aggiorno la tabella
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {    
-    NSLog(@"The search text is: %@", searchText);
-    [self setupFetchedResultsController];
-    
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    // Reset the fetchResultsController to include a predicate based on the search text
+    [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
+        [self setupFetchedResultsController:vacation];
+    }];
 }
 
 /**

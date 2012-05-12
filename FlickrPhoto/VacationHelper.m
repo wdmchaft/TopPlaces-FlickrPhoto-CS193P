@@ -14,14 +14,8 @@
 @end
 
 @implementation VacationHelper
-//@synthesize vacations = _vacations;
 
-/**
--(NSArray *)vacations
-{
-   return [self vacationsList]; // vacations è readonly e mi restituisce solo la lista di UIManagedDocument
-}
- **/
+
 
 +(NSArray *)vacationsList
 {
@@ -66,85 +60,48 @@
     return vacationsUrls;
 }
 
-+ (UIManagedDocument *)sharedManagedDocumentForVacation:(NSString *)vacationName //dbName
+
+
+
+static NSMutableDictionary *vacations;
+
+// share a UIManagedDocument instance for each file
++ (void)openVacation:(NSString *)vacationName usingBlock:(completion_block_t)completionBlock
 {
-    
-    static UIManagedDocument *managedDocument = nil;
-    static dispatch_once_t mngddoc;
-    
-    dispatch_once(&mngddoc, ^{ //dispatch_once() is absolutely synchronous
-               
-        //recupero la Document directory
-        NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    if (vacationName && ![vacationName isEqualToString:@""]) {
+        UIManagedDocument *vacationDocument = [vacations objectForKey:vacationName];
+        NSLog(@"Opening vacation document: %@", vacationDocument);
         
-        //e ci aggiungo il nome del DB per avere url del managedDocument
-        url = [url URLByAppendingPathComponent:vacationName];
-       
+        if (vacationDocument == nil) {
+            NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+            url = [url URLByAppendingPathComponent:vacationName];
+            vacationDocument = [[UIManagedDocument alloc] initWithFileURL:url];
+            if (vacations == nil) {
+                vacations = [[NSMutableDictionary alloc] init];
+            }
+            [vacations setObject:vacationDocument forKey:vacationName];
+        }
         
-        
-        //se il percorso non esiste (e quindi quel db non è stato creato)
-        if (![[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:url create:NO error:nil])
-        {
-
-            //NOTA: lo lascio così perchè è una porzione di codice che ho riusato per creare managedDocument: di fatto in questo metodo poteva essere integrato in maniera migliore (vedi commenti)
-            //lo creo            
-            NSURL *managedDocURL= [[url URLByAppendingPathComponent:vacationName]absoluteURL]; //è uguale ad 'url' sopra definito
-            UIManagedDocument *managedDoc = [[UIManagedDocument alloc] initWithFileURL:managedDocURL]; //lo posso portare fuori l'if ed usare la variabile static
-            
-            
-            [managedDoc saveToURL:[url URLByAppendingPathComponent:vacationName] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-                
-                if (success) NSLog(@"documento creato");
-                else NSLog(@"il document non è stato creato");
-            }];       
-            
-            
-        }//fine if
-
-    //creo il managedDocument
-    managedDocument = [[UIManagedDocument alloc] initWithFileURL:url];   //ridondante se faccio le modifiche all'if sopra
-        
-    
-    }//fine dispatch
-                  );
-    
-    //http://stackoverflow.com/questions/9430056/how-do-i-share-one-uimanageddocument-between-different-objects
-    return managedDocument;
-}
-
-/**
-+ (void)useDocument:(NSString *)docName usingBlock:(completion_block_t)completionBlock
-
-{
-    
-    UIManagedDocument *managedDocument = [VacationManager sharedManagedDocumentForVacation:docName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[managedDocument.fileURL path]]) // se il db non esiste nel disco
-    {
-        
-        //il db non esiste per cui non ha senso che esegua qualcosa per cancellare... eventualmente posso segnalare che non esiste    
-        
-    } else if (managedDocument.documentState == UIDocumentStateClosed) // se il db esiste ma è chiuso
-    {
-        [managedDocument openWithCompletionHandler:^(BOOL success) {
-            
-            // METODO PER DELETE
-          
-            NSLog(@"db chiuso");
-            completionBlock(managedDocument);
-            
-        }];
-    } else if (managedDocument.documentState == UIDocumentStateNormal) // se il db è già aperto
-    {
-        // METODO PER DELETE
-    
-        NSLog(@"db aperto");
-        completionBlock(managedDocument);
+        if (![[NSFileManager defaultManager] fileExistsAtPath:[vacationDocument.fileURL path]]) {
+            // Document does not exist on disk, so create it
+            [vacationDocument saveToURL:vacationDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+                completionBlock(vacationDocument);
+            }];
+        } else if (vacationDocument.documentState == UIDocumentStateClosed) {
+            // Document exists on disk, but we need to open it
+            [vacationDocument openWithCompletionHandler:^(BOOL success) {
+                completionBlock(vacationDocument);
+            }];
+        } else if (vacationDocument.documentState == UIDocumentStateNormal) {
+            // Document is already open and ready to use
+            completionBlock(vacationDocument);
+        } else {
+            NSLog(@"Unknown document state");
+        }
+    } else {
+        completionBlock(nil);
     }
-    
-    
-    
 }
-**/
+
 
 @end

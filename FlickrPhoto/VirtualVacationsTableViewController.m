@@ -47,19 +47,13 @@
     [sender dismissModalViewControllerAnimated:YES];
 }
 
-/**
--(void)viewDidAppear:(BOOL)animated{
-    [self.tableView reloadData];
-}
-**/
 
 -(void)setVacations:(NSArray *)vacations
 {
     if (_vacations != vacations)
     {
         _vacations = vacations;
-  
-        [self.tableView reloadData];
+    [self.tableView reloadData];
     }
 }
 
