@@ -10,16 +10,16 @@
 #import "PhotoManager.h"
 
 @interface PhotoManager() 
-@property (nonatomic,strong) NSDictionary *photo;
+
 @end
 
 @implementation PhotoManager
-@synthesize photo = _photo;
 
 
 
 
--(void) fetchFlickrPhoto:(NSDictionary *)photo IntoDocument:(UIManagedDocument *)document
+
++(void) fetchFlickrPhoto:(NSDictionary *)photo IntoDocument:(UIManagedDocument *)document
 {
     [document.managedObjectContext performBlock:^{
         [Photo photoWithFlickrInfo:photo inManagedObjectContext:document.managedObjectContext]; 
@@ -36,10 +36,8 @@
 }
 
 
--(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo //le foto che visualizzo dalle vacations non sono più dictionaries
-{
-    //self.photo = photo;
-    
++(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo //le foto che visualizzo dalle vacations non sono più dictionaries
+{    
     [VacationHelper openVacation:docName usingBlock:^(UIManagedDocument *vacation) {
         [self fetchFlickrPhoto:photo IntoDocument:vacation];
     }];

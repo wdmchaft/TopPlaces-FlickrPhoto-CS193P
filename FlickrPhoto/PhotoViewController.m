@@ -362,8 +362,7 @@
 -(void)visit:(NSString *)vacationName
 {
     NSString *docName = [vacationName lastPathComponent];
-   PhotoManager *pm = [[PhotoManager alloc]init];
-   [pm useDocument:docName withPhoto:self.photoToShow];
+   [PhotoManager useDocument:docName withPhoto:self.photoToShow];
     
     self.visitButton.title = @"unvisit";
    

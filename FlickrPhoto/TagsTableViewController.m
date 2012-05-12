@@ -13,7 +13,7 @@
 
 @interface TagsTableViewController ()
 //@property (nonatomic, strong) UIManagedDocument *tagsDatabase; 
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -191,8 +191,9 @@
   if ([segue.identifier isEqualToString:@"vacation photos"]){
         Tag *tag =[self.fetchedResultsController objectAtIndexPath:indexPath];
       
-      [segue.destinationViewController setVacationName:self.vacation];
-      [segue.destinationViewController setMytag:tag];
+      
+      [segue.destinationViewController setMytag:tag]; //prima questo
+      [segue.destinationViewController setVacationName:self.vacation]; //e poi questo perchè nella segue quando setto questo, popolo la tabella dal db
       
     }
 

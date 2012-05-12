@@ -70,7 +70,7 @@ static NSMutableDictionary *vacations;
 {
     if (vacationName && ![vacationName isEqualToString:@""]) {
         UIManagedDocument *vacationDocument = [vacations objectForKey:vacationName];
-        NSLog(@"Opening vacation document: %@", vacationDocument);
+        //NSLog(@"Opening vacation document: %@", vacationDocument);
         
         if (vacationDocument == nil) {
             NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];

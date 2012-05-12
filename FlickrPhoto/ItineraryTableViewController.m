@@ -222,8 +222,9 @@
     if ([segue.identifier isEqualToString:@"vacation photos"]) {
         Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
         
-        [segue.destinationViewController setVacationName:self.vacation];
+       
         [segue.destinationViewController setPlace:place];
+        [segue.destinationViewController setVacationName:self.vacation];
         
     } 
 }

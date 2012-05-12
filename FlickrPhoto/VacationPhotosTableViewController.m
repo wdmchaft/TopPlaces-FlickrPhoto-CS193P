@@ -47,43 +47,47 @@
 
 - (void)setupFetchedResultsController:(UIManagedDocument *)vacation
 {
+
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    
-    // If this view controller is for a place, check the takenAt relationship
+
+
     if (self.place) {
+        
         //foto scattate da un certo fotografo
         request.predicate = [NSPredicate predicateWithFormat:@"scattateDove.place_description = %@", self.place.place_description];
-    } else if (self.mytag) {
-        // Check if any of the tags have the same name
+        //moc = self.place.managedObjectContext;    
+    }  else if (self.mytag)
+    {         
+        //request.predicate = [NSPredicate predicateWithFormat:@"etichettataDa.tag_name CONTAINS %@", self.tag.tag_name];
         request.predicate = [NSPredicate predicateWithFormat:@"ANY etichettataDa.tag_name = %@", self.mytag.tag_name]; // va bene anche il predicato sopra; questo qui è qualcosa tipo : qualsiasi (foto) collegata al tag (etichettataDa) che si chiama tag_name
- 
+        // moc = self.mytag.managedObjectContext;
     }
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                        managedObjectContext:vacation.managedObjectContext
-                                                                          sectionNameKeyPath:nil
-                                                                                   cacheName:nil];
+    else {
+        NSLog(@"EHHHH");
+    }
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // senza il selector l'ordinamento era case insensitive
+    self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
+                                                                       managedObjectContext:vacation.managedObjectContext
+                                                                         sectionNameKeyPath:nil cacheName:nil ];
+
 }
 
 
 -(void)setMytag:(Tag *)mytag
 {
-    if( _mytag != mytag){
+    //if( _mytag != mytag){
     _mytag=mytag;
     self.title=mytag.tag_name;
-    }
+    //}
 }
 
 
 -(void)setPlace:(Place *)place
 {
-    if (_place != place) {
+    //if (_place != place) {
     _place = place;
     self.title = place.place_description;
-    }
+    //}
 }
 
 - (void)setVacationName:(NSString *)vacationName
