@@ -8,7 +8,7 @@
 
 #import "SingleVacationTableViewController.h"
 #import "TagsTableViewController.h"
-#import "ItineraryTableViewController.h"
+#import "orderedItineraryTableViewController.h"
 
 @interface SingleVacationTableViewController ()
 

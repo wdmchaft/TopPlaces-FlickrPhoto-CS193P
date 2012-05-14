@@ -1,65 +1,28 @@
 //
-//  ItineraryTableViewController.m
+//  orderedItineraryTableViewController.m
 //  FlickrPhoto
 //
-//  Created by Marzoli Alessandro on 10/03/12.
+//  Created by Marzoli Alessandro on 14/05/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "ItineraryTableViewController.h"
+#import "orderedItineraryTableViewController.h"
 #import "Place.h"
+#import "Itinerary.h"
 #import "VacationHelper.h"
 #import "VacationPhotosTableViewController.h"
 
-
-
-
-@interface ItineraryTableViewController () 
-//@property (nonatomic, strong) UIManagedDocument *placeDatabase; 
+@interface orderedItineraryTableViewController ()
+@property (nonatomic,strong) NSOrderedSet *orderedPlaces;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *reorderButton;
 
 @end
 
-@implementation ItineraryTableViewController
+
+@implementation orderedItineraryTableViewController
 @synthesize vacation =_vacation;
-//@synthesize placeDatabase = _placeDatabase;
+@synthesize orderedPlaces = _orderedPlaces;
 @synthesize reorderButton = _reorderButton;
-
-
-
-
--(void)setVacation:(NSString *)vacation
-{
-    if (_vacation != vacation) {
-        _vacation = vacation;
-        [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
-            [self setupFetchedResultsController:vacation];
-        }];
-    }
-}
-
-/**
--(void)setPlaceDatabase:(UIManagedDocument *)placeDatabase
-{ 
-    if (_placeDatabase != placeDatabase) {
-        _placeDatabase = placeDatabase;
-       // [self useDocument];
-    }
-}
-**/
-- (void)setupFetchedResultsController:(UIManagedDocument *)vacation
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Place"];
-    // Sort results by the date the place was added to the document
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"inserted" ascending:YES selector:@selector(compare:)]];
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                        managedObjectContext:vacation.managedObjectContext
-                                                                          sectionNameKeyPath:nil
-                                                                                   cacheName:nil];
-}
-
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -70,26 +33,61 @@
     return self;
 }
 
+-(void)setVacation:(NSString *)vacation
+{
+    if (_vacation != vacation) {
+        _vacation = vacation;
+
+    }
+}
+
+-(void)setOrderedPlaces:(NSOrderedSet *)orderedPlaces
+{
+    if (_orderedPlaces != orderedPlaces)
+    {_orderedPlaces = orderedPlaces;
+      /**
+        for (Place *myPlace in _orderedPlaces) {
+            NSLog(@"%@",myPlace.place_description);
+        }
+       **/
+       //if (self.tableView.window) 
+           [self.tableView reloadData];
+    }
+}
+
+
+-(void)getOrderedPlacesFromVacation:(UIManagedDocument *)vacation
+{
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Itinerary"]; //i have only 1 itinerary per vacation itinerary
+
+    NSError *error = nil;
+    NSArray *itineraries = [vacation.managedObjectContext executeFetchRequest:request error:&error]; 
+    
+    Itinerary *myItinerary = [itineraries lastObject];
+    
+    self.orderedPlaces = myItinerary.hasPlaces;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     self.title=@"Places";
-    
-}
+    //lo metto qui anzichè in setVacation perchè in questo modo la tabella si aggiorna dal core data ogni volta che appare la view (e quindi aggiorna le modifiche anche con i push back)
+    [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
+        [self getOrderedPlacesFromVacation:vacation];
+    }];
 
+
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-  
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-    
+ 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
-
 
 - (void)viewDidUnload
 {
@@ -104,67 +102,114 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    //#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return [self.orderedPlaces count];
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"itinerary cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
-    
-    
-    Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Place *place = [self.orderedPlaces objectAtIndex:indexPath.row];
     NSMutableArray *placeInfos= [[place.place_description componentsSeparatedByString:@","] mutableCopy];
     NSString *title = [[NSString alloc] init];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     //[format setDateFormat:@"MMM dd, yyyy HH:mm"];
-     [format setDateFormat:@"dd-MMM-yyyy"];
+    [format setDateFormat:@"dd-MMM-yyyy"];
     //title = [title stringByAppendingFormat:@" %@ (%d)",[placeInfos objectAtIndex:0], [place.photos count]];
     
     title = [title stringByAppendingFormat:@"%@",[placeInfos objectAtIndex:0]];
-
+    
     cell.textLabel.text = title; //nome del posto
     
     
     cell.detailTextLabel.text = [format stringFromDate:place.inserted]; //[NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
-  //cell.showsReorderControl = YES; //dicono di metterlo per visualizzare il reorder ma funziona anche senza
+    //cell.showsReorderControl = YES; //dicono di metterlo per visualizzare il reorder ma funziona anche senza
     return cell;
+    
 }
 
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
 
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
 #pragma mark - Row reordering
 
-- (IBAction)reorderButton:(id)sender {
+- (IBAction)clickReorder:(id)sender {
     if ([self.reorderButton.title isEqualToString:@"Reorder"]){
-    [[self tableView] setEditing:YES animated:YES];
+        [[self tableView] setEditing:YES animated:YES];
         self.reorderButton.title=@"Done";
     }
     else {
         [[self tableView] setEditing:NO animated:YES];
         self.reorderButton.title=@"Reorder"; 
     }
-}
-/**
 
+}
+
+
+/**
+ 
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
  {
-     [[self tableView] setEditing:YES animated:YES];
+ [[self tableView] setEditing:YES animated:YES];
  // Return NO if you do not want the specified item to be editable.
  return YES;
  }
-
+ 
  // Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
-[[self tableView] setEditing:YES animated:YES];
-
+ [[self tableView] setEditing:YES animated:YES];
+ 
  }
-**/
+ **/
 
 //row rearrange without using edit button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-		return UITableViewCellEditingStyleNone;
+    return UITableViewCellEditingStyleNone;
 }
 
 //I want to be able to reorder cells in a table, but not to delete or insert them.
@@ -185,21 +230,20 @@
     NSLog(@"prova2:%@",cella.detailTextLabel.text);
     //rimuovo dall'indice e aggiungo a quello successivo
     /**
-    Place *toBeReorderedPlace = [[Place alloc] init];
-    toBeReorderedPlace.place_description = cella.textLabel.text;
-    toBeReorderedPlace.inserted=(NSDate *)cella.detailTextLabel.text;
-    NSLog(@"%@",toBeReorderedPlace);
+     Place *toBeReorderedPlace = [[Place alloc] init];
+     toBeReorderedPlace.place_description = cella.textLabel.text;
+     toBeReorderedPlace.inserted=(NSDate *)cella.detailTextLabel.text;
+     NSLog(@"%@",toBeReorderedPlace);
      **/
 }
- 
 
 
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- return YES;
- }
- 
+
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 
 #pragma mark - Table view delegate
 
@@ -220,17 +264,14 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     if ([segue.identifier isEqualToString:@"vacation photos"]) {
-        Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
+        Place *place = [self.orderedPlaces objectAtIndex:indexPath.row]; // ask NSFRC for the NSMO at the row in question
         
-       
+        
         [segue.destinationViewController setPlace:place];
         [segue.destinationViewController setVacationName:self.vacation];
         
     } 
+    
 }
-
-
-
-
 
 @end

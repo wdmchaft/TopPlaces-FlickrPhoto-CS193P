@@ -48,8 +48,11 @@
 
 - (void)addPlaceToItinerary:(Place *)place {
     NSMutableOrderedSet *places = [[NSMutableOrderedSet alloc] init];
-    if (self.hasPlaces) places = [self.hasPlaces mutableCopy];
-    [places addObject:place];
+    if (self.hasPlaces) {places = [self.hasPlaces mutableCopy];}
+    //if (![places containsObject:place]){
+      //  NSLog(@"il posto non è presente nell'itinerario");
+    [places addObject:place]; // non faccio la verifica containsObject perchè inserisco il posto se e solo se il place non è mai stato salvato nel db
+    //}
     self.hasPlaces = places;
     
 }
