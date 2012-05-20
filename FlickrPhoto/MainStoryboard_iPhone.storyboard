@@ -429,7 +429,7 @@
         <scene sceneID="dJ7-Jo-RYA">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgk-Uw-4Wq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="LPU-Zb-eu0" customClass="orderedItineraryTableViewController" sceneMemberID="viewController">
+                <tableViewController id="LPU-Zb-eu0" customClass="OrderedItineraryTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="HJT-Y2-Ncq">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -775,12 +775,6 @@
         </class>
         <class className="myTabBarViewController" superclassName="UITabBarController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/myTabBarViewController.h"/>
-        </class>
-        <class className="orderedItineraryTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/orderedItineraryTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="reorderButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -50,12 +50,7 @@ inManagedObjectContext:(NSManagedObjectContext *)context
         
         //aggiungo il posto all'itinerario
         [place.inItinerary addPlaceToItinerary:place];
-        
-        //NSLog(@"place non esiste");
-        //NSLog(@":::::::%@",place.inItinerary);
-        
-        
-        //
+
     } else {
         place = [places lastObject];
         //NSLog(@"place esiste già");

@@ -68,7 +68,5 @@ fromManagedObjectContext:(NSManagedObjectContext *)context
         
     }
 
-    
-
 }
 @end

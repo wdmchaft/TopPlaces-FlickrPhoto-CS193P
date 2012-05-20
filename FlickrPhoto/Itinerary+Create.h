@@ -10,6 +10,8 @@
 
 @interface Itinerary (Create)
 - (void)addPlaceToItinerary:(Place *)place; 
++(void)updatePlacesOrder:(NSMutableOrderedSet *)places
+  inManagedObjectContext:(UIManagedDocument *)document;
 + (Itinerary *)itineraryWithName:(NSString *)itinerary_name
           inManagedObjectContext:(NSManagedObjectContext *)context;
 

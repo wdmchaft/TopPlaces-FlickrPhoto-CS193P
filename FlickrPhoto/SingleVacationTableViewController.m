@@ -19,7 +19,6 @@
 
 -(void)setVacation:(NSString *)vacation
 {
-    NSLog(@" %@",vacation);
     if (_vacation != vacation) {_vacation=vacation;}
 }
 

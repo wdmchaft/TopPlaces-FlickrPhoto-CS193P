@@ -6,20 +6,20 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "orderedItineraryTableViewController.h"
+#import "OrderedItineraryTableViewController.h"
 #import "Place.h"
-#import "Itinerary.h"
+#import "Itinerary+Create.h"
 #import "VacationHelper.h"
 #import "VacationPhotosTableViewController.h"
 
-@interface orderedItineraryTableViewController ()
+@interface OrderedItineraryTableViewController ()
 @property (nonatomic,strong) NSOrderedSet *orderedPlaces;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *reorderButton;
 
 @end
 
 
-@implementation orderedItineraryTableViewController
+@implementation OrderedItineraryTableViewController
 @synthesize vacation =_vacation;
 @synthesize orderedPlaces = _orderedPlaces;
 @synthesize reorderButton = _reorderButton;
@@ -43,16 +43,13 @@
 
 -(void)setOrderedPlaces:(NSOrderedSet *)orderedPlaces
 {
-    if (_orderedPlaces != orderedPlaces)
-    {_orderedPlaces = orderedPlaces;
-      /**
-        for (Place *myPlace in _orderedPlaces) {
-            NSLog(@"%@",myPlace.place_description);
-        }
-       **/
+    //if (_orderedPlaces != orderedPlaces){
+        _orderedPlaces = orderedPlaces;
+
        //if (self.tableView.window) 
            [self.tableView reloadData];
-    }
+       
+//    }
 }
 
 
@@ -75,6 +72,7 @@
     [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
         [self getOrderedPlacesFromVacation:vacation];
     }];
+ 
 
 
 }
@@ -184,6 +182,7 @@
     else {
         [[self tableView] setEditing:NO animated:YES];
         self.reorderButton.title=@"Reorder"; 
+        [self reorderItineraryList:[self.orderedPlaces copy]];
     }
 
 }
@@ -222,21 +221,39 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    NSLog(@"muovo la riga");
     
     UITableViewCell *cella = [[UITableViewCell alloc] init];
     cella = [tableView cellForRowAtIndexPath:fromIndexPath];
-    NSLog(@"prova:%@",cella.textLabel.text);
-    NSLog(@"prova2:%@",cella.detailTextLabel.text);
-    //rimuovo dall'indice e aggiungo a quello successivo
-    /**
-     Place *toBeReorderedPlace = [[Place alloc] init];
-     toBeReorderedPlace.place_description = cella.textLabel.text;
-     toBeReorderedPlace.inserted=(NSDate *)cella.detailTextLabel.text;
-     NSLog(@"%@",toBeReorderedPlace);
-     **/
+
+
+    NSMutableOrderedSet* orderedSet = [self.orderedPlaces mutableCopy];
+    
+    NSInteger fromIndex = fromIndexPath.row;
+    NSInteger toIndex = toIndexPath.row;
+    
+    // see  http://www.wannabegeek.com/?p=74
+   
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:fromIndex];
+    
+    if (fromIndex > toIndex) {
+        // we're moving up
+        [orderedSet moveObjectsAtIndexes:indexes toIndex:toIndex];
+    } else {
+        // we're moving down
+        [orderedSet moveObjectsAtIndexes:indexes toIndex:toIndex-[indexes count]];
+    }
+
+    
+    self.orderedPlaces = orderedSet; //credo che la soluzione più elegante preveda anche la creazione di una copia della lista di partenza da ripristinare quando si preme un ipotetico tasto 'cancel' :)
+    
 }
 
+-(void)reorderItineraryList:(NSMutableOrderedSet *)orderedPlaces
+{
+    [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
+        [Itinerary updatePlacesOrder:orderedPlaces inManagedObjectContext:vacation];
+    }];
+}
 
 
 // Override to support conditional rearranging of the table view.

@@ -33,8 +33,8 @@
                                  
         [managedDoc saveToURL:[documentDirectoryPath URLByAppendingPathComponent:name] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
         
-        if (success) NSLog(@"documento creato");
-        else NSLog(@"il document non è stato creato");
+        if (success) NSLog(@"Document saved");
+        else NSLog(@"Document NOT saved");
         
         }];
     }

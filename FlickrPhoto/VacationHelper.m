@@ -61,9 +61,13 @@
 }
 
 
-
-
+// This is a dictionary where the keys are "Vacations" and the objects are URLs to UIManagedDocuments
 static NSMutableDictionary *vacations;
+
+// This typedef has been defined in .h file: 
+// typedef void (^completion_block_t)(UIManagedDocument *vacation);
+// The idea is that this class method will run the block when its UIManagedObject has opened
+
 
 // share a UIManagedDocument instance for each file
 + (void)openVacation:(NSString *)vacationName usingBlock:(completion_block_t)completionBlock

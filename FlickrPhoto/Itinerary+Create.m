@@ -56,4 +56,29 @@
     self.hasPlaces = places;
     
 }
+
++(void)updatePlacesOrder:(NSMutableOrderedSet *)places
+inManagedObjectContext:(UIManagedDocument *)document
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Itinerary"]; //i have only 1 itinerary per vacation itinerary
+    
+    NSError *error = nil;
+    NSArray *itineraries = [document.managedObjectContext executeFetchRequest:request error:&error]; 
+    
+    Itinerary *myItinerary = [itineraries lastObject];
+    
+  
+    myItinerary.hasPlaces = places;
+   /** 
+    [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+        if (success) NSLog(@"Overwrite completed");
+    }];
+    **/
+    NSError *savingError = nil;
+    
+    if ([document.managedObjectContext save:&savingError]){
+        NSLog(@"Successfully saved the context for reorder"); 
+    } else {
+        NSLog(@"Failed to save the context. Error = %@", savingError); }
+}
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface orderedItineraryTableViewController : UITableViewController
+@interface OrderedItineraryTableViewController : UITableViewController
 @property (nonatomic,strong) NSString *vacation;
 @end
