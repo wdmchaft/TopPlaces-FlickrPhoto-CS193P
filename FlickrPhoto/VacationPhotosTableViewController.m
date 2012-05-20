@@ -101,6 +101,25 @@
     return cell;
 }
 
+- (PhotoViewController *)splitViewPhotoViewController
+{
+    id pvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
+    if (![pvc isKindOfClass:[PhotoViewController class]]){ pvc=nil;} 
+    return pvc; // questo metodo ritorna nil a meno che non esista la detail
+}
+
+#pragma mark - Table view delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    if ([self splitViewPhotoViewController]){
+        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [self splitViewPhotoViewController].photoFromVacation = photo;
+    }
+    
+    
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];

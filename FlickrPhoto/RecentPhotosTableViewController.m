@@ -298,9 +298,9 @@
 
 - (PhotoViewController *)splitViewPhotoViewController
 {
-    id hvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
-    if (![hvc isKindOfClass:[PhotoViewController class]]){ hvc=nil;} 
-    return hvc; // questo metodo ritorna nil a meno che  the detail outside the splitviewcontroller i'm in is happinessviewcontroller
+    id pvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
+    if (![pvc isKindOfClass:[PhotoViewController class]]){ pvc=nil;} 
+    return pvc; // questo metodo ritorna nil a meno che non esista la detail
 }
 
 #pragma mark - Table view delegate

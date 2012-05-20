@@ -72,6 +72,23 @@
         }
 
     }
+    if ([self splitViewBarButtonItemPresenter]) {
+        
+
+            UIBarButtonItem *visit_button = [[UIBarButtonItem alloc] initWithTitle:@"unvisit" style:UIBarButtonItemStyleBordered target:nil action:@selector(visitMe:)];
+            UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+            
+            
+        NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
+        //  [toolbarItems removeObject:visit_button];
+        //[toolbarItems removeObject:flexibleSpaceLeft];
+        if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
+        [toolbarItems addObject:flexibleSpaceLeft];
+        [toolbarItems addObject:visit_button];
+        self.toolbar.items = toolbarItems;
+    }
+
+         
     
 }
 
@@ -181,6 +198,8 @@
     return _photoToShow;
 }
 **/
+
+
 //setter
 -(void) setPhotoToShow:(NSDictionary *)photoToShow
 { 
@@ -219,28 +238,25 @@
         
     }  
     
-    
-}
+    if ([self splitViewBarButtonItemPresenter]) {
+        
+            UIBarButtonItem *visit_button = [[UIBarButtonItem alloc] initWithTitle:@"visit" style:UIBarButtonItemStyleBordered target:nil action:@selector(visitMe:)];
+            UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+            
 
-/** DA CANCELLARE CREDO
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+        NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
+      //  [toolbarItems removeObject:visit_button];
+        //[toolbarItems removeObject:flexibleSpaceLeft];
+        if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
+        [toolbarItems addObject:flexibleSpaceLeft];
+        [toolbarItems addObject:visit_button];
+            self.toolbar.items = toolbarItems;
     }
-    return self;
 }
-**/
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
+
+#pragma mark - Ipad
+
 /*** IPAD ***/
 
 //setter
@@ -291,6 +307,18 @@
 }
 
 
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+
 #pragma mark - View lifecycle
 
 /*
@@ -333,7 +361,7 @@
         [self loadImage];
            }
     
-}
+  }
 
 
 
@@ -350,12 +378,22 @@
 
 }
 
+
 -(void)unvisitMe
 {   
     [Photo deletePhoto:self.photoFromVacation fromManagedObjectContext:self.photoFromVacation.managedObjectContext];
     //[PhotoManager useDocumentName:@"my default vacation" toDeletePhoto:self.photoFromVacation];
     self.photoFromVacation = nil;
     [self.navigationController popViewControllerAnimated:YES];
+    if ([self splitViewBarButtonItemPresenter]) {
+        
+        NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
+        //  [toolbarItems removeObject:visit_button];
+        //[toolbarItems removeObject:flexibleSpaceLeft];
+        if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
+        self.toolbar.items = toolbarItems;
+    }
+
 }
 
 //aggiunge la foto alla vacanza
