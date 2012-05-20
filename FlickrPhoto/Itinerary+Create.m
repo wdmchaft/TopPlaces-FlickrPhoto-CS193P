@@ -68,12 +68,20 @@ inManagedObjectContext:(UIManagedDocument *)document
     Itinerary *myItinerary = [itineraries lastObject];
     
   
+    //to be optimized...
+    /**
+    If your table is very large, you could optimise this by only updating the sort orderings for rows between the two index paths, as the rest won't have changed. My table was small enough I didn't need to worry about that.
+     **/
     myItinerary.hasPlaces = places;
+    
+    
    /** 
     [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
         if (success) NSLog(@"Overwrite completed");
     }];
     **/
+    
+    // per delle piccole modifiche meglio il metodo qui sotto
     NSError *savingError = nil;
     
     if ([document.managedObjectContext save:&savingError]){

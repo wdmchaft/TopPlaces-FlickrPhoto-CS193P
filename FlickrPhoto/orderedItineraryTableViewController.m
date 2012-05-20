@@ -1,5 +1,5 @@
 //
-//  orderedItineraryTableViewController.m
+//  OrderedItineraryTableViewController.m
 //  FlickrPhoto
 //
 //  Created by Marzoli Alessandro on 14/05/12.
@@ -232,6 +232,7 @@
     NSInteger toIndex = toIndexPath.row;
     
     // see  http://www.wannabegeek.com/?p=74
+    // and http://tworrall.blogspot.it/2010/02/reordering-rows-in-uitableview-with.html
    
     NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:fromIndex];
     

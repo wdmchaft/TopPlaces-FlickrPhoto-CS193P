@@ -1,5 +1,5 @@
 //
-//  orderedItineraryTableViewController.h
+//  OrderedItineraryTableViewController.h
 //  FlickrPhoto
 //
 //  Created by Marzoli Alessandro on 14/05/12.
