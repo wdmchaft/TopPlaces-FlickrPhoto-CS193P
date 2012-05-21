@@ -36,7 +36,6 @@
     CGRect bounds = [self.parentViewController.view bounds];
     CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    //[spinner setBackgroundColor:[UIColor redColor]];
     [spinner setCenter:centerPoint];
     self.tableView.hidden = YES;
     [self.parentViewController.view addSubview:spinner];
@@ -53,13 +52,12 @@
             self.mapButton.enabled = YES;
             [spinner stopAnimating];
             [spinner hidesWhenStopped];
-            //self.navigationItem.rightBarButtonItem = self.mapButton;
-           self.recentPhotos = [[lastPhotos reversedOrderedSet] array]; //modifica la UI (tabella) per questo lo metto nella main queue
+           self.recentPhotos = [[lastPhotos reversedOrderedSet] array]; 
             
         });
         
     });
-    dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+    dispatch_release(downloadQueue); 
 
 
 }

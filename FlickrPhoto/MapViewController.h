@@ -13,7 +13,6 @@
 @protocol MapViewControllerDelegate <NSObject>
 
 - (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>) annotation;
-//- (NSDictionary *)mapViewController:(MapViewController *)sender photoForAnnotation:(id <MKAnnotation>) annotation;
 - (void)mapViewController:(MapViewController *)sender showDetailForAnnotation:(id <MKAnnotation>)annotation;
 
 @end

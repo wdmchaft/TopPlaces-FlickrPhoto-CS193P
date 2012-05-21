@@ -43,13 +43,11 @@
 
 -(void)setOrderedPlaces:(NSOrderedSet *)orderedPlaces
 {
-    //if (_orderedPlaces != orderedPlaces){
+
     _orderedPlaces = orderedPlaces;
     
-    //if (self.tableView.window) 
     [self.tableView reloadData];
     
-    //    }
 }
 
 
@@ -68,7 +66,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.title=@"Places";
-    //lo metto qui anzichè in setVacation perchè in questo modo la tabella si aggiorna dal core data ogni volta che appare la view (e quindi aggiorna le modifiche anche con i push back)
+   
     [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
         [self getOrderedPlacesFromVacation:vacation];
     }];
@@ -105,8 +103,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return [self.orderedPlaces count];
 }
 
@@ -120,17 +116,14 @@
     NSMutableArray *placeInfos= [[place.place_description componentsSeparatedByString:@","] mutableCopy];
     NSString *title = [[NSString alloc] init];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    //[format setDateFormat:@"MMM dd, yyyy HH:mm"];
     [format setDateFormat:@"dd-MMM-yyyy"];
-    //title = [title stringByAppendingFormat:@" %@ (%d)",[placeInfos objectAtIndex:0], [place.photos count]];
     
     title = [title stringByAppendingFormat:@"%@",[placeInfos objectAtIndex:0]];
     
     cell.textLabel.text = title; //nome del posto
     
     
-    cell.detailTextLabel.text = [format stringFromDate:place.inserted]; //[NSString stringWithFormat:@"%d photos (nel db)", [place.photos count]];
-    //cell.showsReorderControl = YES; //dicono di metterlo per visualizzare il reorder ma funziona anche senza
+    cell.detailTextLabel.text = [format stringFromDate:place.inserted]; 
     return cell;
     
 }
@@ -152,37 +145,15 @@
 }
 
 
-/**
- 
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- [[self tableView] setEditing:YES animated:YES];
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- 
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- [[self tableView] setEditing:YES animated:YES];
- 
- }
- **/
-
-//row rearrange without using edit button
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
 }
 
-//I want to be able to reorder cells in a table, but not to delete or insert them.
-//http://stackoverflow.com/questions/3027818/reorder-cells-in-a-uitableview-without-displaying-a-delete-button
-//in questo modo posso usare il metodo: "tableView:editingStyleForRowAtIndexPath:" per far comparire Edit o Insert in alcune righe senza che l'indentazione venga applicata su tutte!
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 
-// Override to support rearranging the table view.
+
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     
@@ -195,8 +166,6 @@
     NSInteger fromIndex = fromIndexPath.row;
     NSInteger toIndex = toIndexPath.row;
     
-    // see  http://www.wannabegeek.com/?p=74
-    // and http://tworrall.blogspot.it/2010/02/reordering-rows-in-uitableview-with.html
     
     NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:fromIndex];
     
@@ -208,8 +177,7 @@
         [orderedSet moveObjectsAtIndexes:indexes toIndex:toIndex-[indexes count]];
     }
     
-    
-    self.orderedPlaces = orderedSet; //credo che la soluzione più elegante preveda anche la creazione di una copia della lista di partenza da ripristinare quando si preme un ipotetico tasto 'cancel' :)
+    self.orderedPlaces = orderedSet; 
     
 }
 
@@ -221,7 +189,6 @@
 }
 
 
-// Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -246,7 +213,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     if ([segue.identifier isEqualToString:@"vacation photos"]) {
-        Place *place = [self.orderedPlaces objectAtIndex:indexPath.row]; // ask NSFRC for the NSMO at the row in question
+        Place *place = [self.orderedPlaces objectAtIndex:indexPath.row];
         
         
         [segue.destinationViewController setPlace:place];

@@ -65,10 +65,10 @@
         _photoFromVacation = photoFromVacation;
         if (self.imageView.window) {    // we're on screen, so update the image
             [self loadImage];   
-            //NSLog(@"we're on screen, so update the image");
+     
         } else {                        // we're not on screen, so no need to loadImage (it will happen next viewWillAppear:)
             self.imageView.image = nil; // but image has changed (so we can't leave imageView.image the same, so set to nil)
-            //NSLog(@"we're not on screen, so no need to loadImage");
+
         }
 
     }
@@ -80,8 +80,6 @@
             
             
         NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
-        //  [toolbarItems removeObject:visit_button];
-        //[toolbarItems removeObject:flexibleSpaceLeft];
         if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
         [toolbarItems addObject:flexibleSpaceLeft];
         [toolbarItems addObject:visit_button];
@@ -101,7 +99,6 @@
 }
 
 - (void)scrollViewSetup {
-    //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard :)
     
     UIImage *image = self.imageView.image;
     self.scrollView.zoomScale = 1;
@@ -129,20 +126,7 @@
         }
         
         else{
-            //NSLog(@"Foto non in cache");
-            
-            /**
-             CGRect bounds = [self.view bounds];
-             CGPoint centerPoint = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-             self.scrollView.backgroundColor = [UIColor blackColor];
-             //self.imageView.hidden=YES; 
-             
-             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-             [spinner setBackgroundColor:[UIColor redColor]];
-             [spinner setCenter:centerPoint];
-             [self.view addSubview:spinner];
-             [spinner startAnimating];
-             **/
+     
             [self.spinner startAnimating];
             
             dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
@@ -151,68 +135,36 @@
                 
                 NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photoToShow format:FlickrPhotoFormatLarge];
                 NSData *imageData = [NSData dataWithContentsOfURL:urlPhoto];
-                [self.cache put:imageData for:self.photoToShow]; //NSFileManager è thread-safe (a meno che non usi la stessa istanza in 2 thread separati)
+                [self.cache put:imageData for:self.photoToShow];
                 
-                //***SIMULA LA LATENZA DELLA RETE mettendo il thread in sleep per 5sec***
-                //[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+       
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    [self.spinner stopAnimating]; //nello storyboard è impostato come hidesWhenStopped
+                    [self.spinner stopAnimating]; 
                     
                     self.imageView.image = [UIImage imageWithData:imageData]; 
-                    // imposto il size dello scrollview uguale a quello dell'immagine
-                    
+                                       
                     [self scrollViewSetup];
                     
-                    //self.scrollView.contentSize = self.imageView.image.size; //contentsize is the width and height of your content
-                    
-                    //setting the frame which is where in the content area of the scrollview that the image view is gonna live (setting it to be the entire content area)
-                    //per avere subito un'immagine sul display che visualizza gran parte dell'immagine: ASPECT FILL nello storyboard
-                    //questa riga di codice successiva mi crea un frame (rettangolo della view con le coordinate della superview) in 0,0 grande quanto l'immagine in large mode
-                    //self.imageView.frame= CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
-                    
-                    //RICORDARSI DI IMPOSTARE IL DELEGATE!! :)
-                });
+                                });
                 
             });
-            dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+            dispatch_release(downloadQueue); 
             
-        } //fine else se la foto non è in cache
-    } //fine controllo esistenza self.photoToShow --> se non esiste non faccio nulla
+        } 
+    } 
 }
 
-/**
-//getter L'ho tolto una volta implementato l'assignment 6 perchè mi serve anche la condizione self.photoToShow=nil in viewWillAppear
-- (NSDictionary *)photoToShow
-{
-    //se non imposto la foto, prendo l'ultima
-    if (!_photoToShow) {
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:LAST_VIEWED_PHOTOS_KEY] lastObject]){ //se esiste almeno un elemento in NSUserDefaults (esempio: primo avvio dell'app da ipad, devo visualizzare un immagine iniziale ma non ho niente nè in userdefaults nè in cache
-            _photoToShow = [[[NSUserDefaults standardUserDefaults] objectForKey:LAST_VIEWED_PHOTOS_KEY] lastObject];
-        } else{
-            //NSLog(@"non è nessuna immagine!"); 
-            //non devo gestire nient'altro perchè in fetchPhoto se è nil non faccio nulla
-        }
-    }
-    return _photoToShow;
-}
-**/
 
-
-//setter
 -(void) setPhotoToShow:(NSDictionary *)photoToShow
 { 
     if (_photoToShow != photoToShow) { 
         _photoToShow = photoToShow;
         
-        // for good usability, immediately show photo title while waiting for photo download
         NSString *titolo = [self.photoToShow objectForKey:FLICKR_PHOTO_TITLE];
         self.title = titolo;
-        
-        //self.scrollView.zoomScale=1; //se la foto è diversa, resetto a 1 lo zoom
-        
-        //la salvo dentro un orderset
+    
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_VIEWED_PHOTOS_KEY]]; //** kvalue
         if (!lastPhotos) {
@@ -224,9 +176,7 @@
             int index = [lastPhotos indexOfObject:photoToShow];
             NSIndexSet *indexset = [NSIndexSet indexSetWithIndex:index];
             [lastPhotos moveObjectsAtIndexes:indexset toIndex:[lastPhotos indexOfObject:[lastPhotos lastObject]]];
-            //potevo usare anche:
-            //[lastPhotos removeObject:photoToShow];
-            //[lastPhotos addObject:photoToShow];
+          
         }
         else {
             if ([lastPhotos count]>=20) [lastPhotos removeObjectAtIndex:0];
@@ -245,8 +195,7 @@
             
 
         NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
-      //  [toolbarItems removeObject:visit_button];
-        //[toolbarItems removeObject:flexibleSpaceLeft];
+      
         if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
         [toolbarItems addObject:flexibleSpaceLeft];
         [toolbarItems addObject:visit_button];
@@ -257,9 +206,8 @@
 
 #pragma mark - Ipad
 
-/*** IPAD ***/
 
-//setter
+
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {
     if (splitViewBarButtonItem != _splitViewBarButtonItem) {
@@ -284,7 +232,7 @@
    shouldHideViewController:(UIViewController *)vc
               inOrientation:(UIInterfaceOrientation)orientation
 { 
-    //mostra il button solo in portrait mode
+ 
     return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
 }
 
@@ -294,7 +242,7 @@
        forPopoverController:(UIPopoverController *)pc
 {
     barButtonItem.title = @"Photos"; 
-    // tell the detail view to put this button up
+ 
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
 }
 
@@ -302,7 +250,7 @@
      willShowViewController:(UIViewController *)aViewController
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
-    //tell the detail view to take the button away
+
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
 }
 
@@ -321,43 +269,22 @@
 
 #pragma mark - View lifecycle
 
-/*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
 
-/**
-- (void)updateVisitButtonTitle
-{
-    self.visitButton.title = @"visit";    
-    NSArray *vacations = [VacationManager vacationsList];
-    for (NSString *vacationName in vacations) {
-        UIManagedDocument *doc = [VacationManager sharedManagedDocumentForVacation:[vacationName lastPathComponent]];
-        Photo *photo = [Photo photoInDocumentWithFlickrId:[self.photoToShow valueForKey:FLICKR_PHOTO_ID] inManagedObjectContext:doc.managedObjectContext];
-       if (photo) self.visitButton.title = @"unvisit";
-        //else self.visitButton.title = @"visit";
-    
-    }    
-}
-**/
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     self.scrollView.backgroundColor = [UIColor blackColor];
-    //UIBarButtonItem *vacationButton = nil;
+
     
     if (self.photoToShow) {
         self.visitButton.title= @"visit";
-        //[self updateVisitButtonTitle]; //perchè posso aggiungere e rimuovere una foto mentre la vedo (non da una delle vacation)
+
         [self fetchPhoto]; 
            }
     else if (self.photoFromVacation) {
-        self.visitButton.title= @"unvisit"; // posso solo fare il delete
-        //NSLog(@"loading photo from db ...");
+        self.visitButton.title= @"unvisit"; 
         [self loadImage];
            }
     
@@ -365,7 +292,6 @@
 
 
 
-//premo il tasto visit ed appare la lista di vacanze
 
 - (IBAction)visitMe:(UIBarButtonItem *)sender {
     VirtualVacationsTableViewController *vacationTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"VirtualVacationsTableViewController"]; 
@@ -382,7 +308,6 @@
 -(void)unvisitMe
 {   
     [Photo deletePhoto:self.photoFromVacation fromManagedObjectContext:self.photoFromVacation.managedObjectContext];
-    //[PhotoManager useDocumentName:@"my default vacation" toDeletePhoto:self.photoFromVacation];
     self.photoFromVacation = nil;
     [self.navigationController popViewControllerAnimated:YES];
     if ([self splitViewBarButtonItemPresenter]) {
@@ -396,7 +321,6 @@
 
 }
 
-//aggiunge la foto alla vacanza
 -(void)visit:(NSString *)vacationName
 {
     NSString *docName = [vacationName lastPathComponent];
@@ -406,7 +330,6 @@
    
 }
 
-//quando seleziono una vacanza...
 -(void)VirtualVacationsTableViewController:(VirtualVacationsTableViewController *)sender didSelectVacation:(NSString *)vacationName
 {
     [self visit:vacationName];
@@ -416,20 +339,19 @@
 
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    //[self scrollViewSetup];  //nota: resetta lo zoom
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.scrollView.delegate = self; // lo posso fare anche dallo storyboard lez.8 1:01
+    self.scrollView.delegate = self; 
     self.splitViewController.delegate = self;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    return self.imageView; //return la view che voglio zoomare
+    return self.imageView; 
 }
 
 

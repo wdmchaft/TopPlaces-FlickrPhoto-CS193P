@@ -13,11 +13,10 @@
 #import "MapViewController.h"
 
 @interface PlacesTableViewController() <MapViewControllerDelegate>
-@property (nonatomic,strong) NSDictionary *selectedPlace; //riga selezionata della tabella
+@property (nonatomic,strong) NSDictionary *selectedPlace; 
 @property (strong,nonatomic) NSDictionary *placesByCountry;
-@property (strong,nonatomic) UIActivityIndicatorView *spinner; //in questo modo la posso ridisegnare quando cambio la modalità dello schermo
-@property (nonatomic, strong) NSDictionary *flickrSelected; // dizionario di posti o foto
-@end
+@property (strong,nonatomic) UIActivityIndicatorView *spinner; 
+@property (nonatomic, strong) NSDictionary *flickrSelected; @end
 
 @implementation PlacesTableViewController
 @synthesize places = _places;
@@ -69,7 +68,7 @@
     }    
 }
 
-// recupera una lista di posti da flickr
+
 -(NSArray *)getListOfPlaces{
     return [FlickrFetcher topPlaces];
 } 
@@ -118,7 +117,6 @@
     
     self.tableView.hidden = YES;
     [self.parentViewController.view addSubview:self.spinner];
-    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     [self.spinner startAnimating];
     
     
@@ -130,12 +128,12 @@
             self.tableView.hidden = NO;
             [self.spinner stopAnimating];
             [self.spinner hidesWhenStopped];
-            self.places = listOfPlaces; //modifica la UI (tabella) per questo lo metto nella main queue
+            self.places = listOfPlaces; 
             
         });
         
     });
-    dispatch_release(downloadQueue); //altrimenti c'è un memory leak
+    dispatch_release(downloadQueue); 
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -173,20 +171,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //#warning Potentially incomplete method implementation.
-    // Return the number of sections.
+
     return [self.placesByCountry count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+
     NSString *country = [self countryForSection:section];
     NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
     return [placesByCountry count];
-    // return [self.places count];
+
 }
 
 
@@ -199,12 +195,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
-    /**
-     NSDictionary *place = [self.places objectAtIndex:indexPath.row]; 
-     NSString *flickrPlaceName= [place objectForKey:FLICKR_PLACE_NAME];
-     NSMutableArray *placeDetails= [[flickrPlaceName componentsSeparatedByString:@","] mutableCopy];
-     **/
+
     NSString *country = [self countryForSection:indexPath.section];
     NSArray *placesByCountry = [self.placesByCountry objectForKey:country];
     NSDictionary *place = [placesByCountry objectAtIndex:indexPath.row]; 
@@ -241,10 +232,7 @@
 {
     if ([[segue identifier] isEqualToString:@"Show me photos"]) {
         
-        //NSLog(@" %@",selectedPlace);
-        //        NSDictionary *selectedPlace = [self.places objectAtIndex:indexPath.row];
-        
-        [segue.destinationViewController setPlaceName:self.flickrSelected]; 
+               [segue.destinationViewController setPlaceName:self.flickrSelected]; 
     }
     
     if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){

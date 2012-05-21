@@ -13,9 +13,6 @@
 @implementation Place (Create)
 
 
-// place_description è l'identificatore che mi permette di valutare se un posto esiste già o meno
-// es.  "place_description" = "London, England, United Kingdom";
-//place_id è univoco o quasi per ogni foto (non so perchè, dipende da flickr credo)
 
 + (Place *)placeWithID:(NSString *)place_id
         andDescription:(NSString *)place_description
@@ -43,12 +40,8 @@ inManagedObjectContext:(NSManagedObjectContext *)context
         place.place_description = place_description;
         place.inserted = [NSDate date];
         
-        //ho solo un itinerario per vacation e lo chiamo myItinerary (per chiamarlo come la vacanza avrei dovuto passare al metodo il UIManagedDocument anzichè NSManagedObjectContext)
-        
-        //creo un eventuale itinerario se il posto non è presente, se è presente assumo che un itinerario sia stato precedentemente creato!
         place.inItinerary = [Itinerary itineraryWithName:@"myItinerary" inManagedObjectContext:context];
-        
-        //aggiungo il posto all'itinerario
+
         [place.inItinerary addPlaceToItinerary:place];
 
     } else {

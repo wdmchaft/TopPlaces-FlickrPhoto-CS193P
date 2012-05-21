@@ -76,11 +76,8 @@
 {
     [super viewWillAppear:(BOOL)animated];
         
-    //if (!self.vacations) //con questo if non mi aggiornava la Lista se inserisco una Vacation aggiuntiva quando sto guardando una foto
-    //{
-    //VacationManager *vm=[[VacationManager alloc] init]; 
         self.vacations = [VacationHelper vacationsList];
-    //}
+
  
     
 }

@@ -11,8 +11,5 @@
 @interface Tag (Create)
 +(Tag *)TagWithName:(NSString *)tag_name
 inManagedObjectContext:(NSManagedObjectContext *)context;
-/**
-+(Tag *)TagWithName:(NSString *)tag_name
-fromManagedObjectContext:(NSManagedObjectContext *)context;
- **/
+
 @end

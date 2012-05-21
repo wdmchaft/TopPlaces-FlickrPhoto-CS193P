@@ -83,11 +83,9 @@
          //model changed, so update our view (the table)
         if (self.tableView.window) {[self.tableView reloadData];}
     } 
-        //NSLog(@" %@ ",_recentPhotos);
 }
 
 
-// recupera una lista di foto dato un posto
 -(NSArray *)getListOfPhotos{
     return [FlickrFetcher photosInPlace:self.placeName maxResults:50];
 } 
@@ -133,11 +131,6 @@
 }
 
 -(void)awakeFromNib{
-/**
- PROBLEMA: ho una barra mista: 2 pulsanti li inserisco da codice, uno da storyboard.
- Usando il codice che uso qui sotto in viewWillAppear ho bisogno di mettere un controllo IF, altrimenti tutte le volte che appare questo VC si aggiungerebbero pulsanti a quelli presenti.
- Se invece definissi tutto qui dentro, l'awakeFromNib viene chiamato solo una volta quando setto gli elementi dal NIB, per cui non ho bisogno di usare la condizione IF
- **/
 }
 
 
@@ -146,25 +139,20 @@
     [super viewWillAppear:animated];
  
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    //[spinner setBackgroundColor:[UIColor redColor]];
-            
-    
-    //self.view.hidden=YES;
-    //[self.parentViewController.view addSubview:spinner];
+
     [spinner startAnimating];
-    UIBarButtonItem *oldButton =self.mapButton; // oppure imposto STRONG IBOutlet perchè altrimenti quando rilascio il button, se è weak diventa nullo
+    UIBarButtonItem *oldButton =self.mapButton; 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue,^{
         //block
-         //[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];  //SIMULAZIONE LATENZA
            NSArray *listOfPhotos = [self getListOfPhotos];
         dispatch_async(dispatch_get_main_queue(), ^{
            [spinner stopAnimating];
            self.navigationItem.rightBarButtonItem = oldButton;
-            self.recentPhotos = listOfPhotos; //modifica la UI (tabella) per questo lo metto nella main queue
+            self.recentPhotos = listOfPhotos; 
         });
         
     });
@@ -193,14 +181,7 @@
 }
 
 #pragma mark - Table view data source
-/**
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-**/
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //#warning Incomplete method implementation.
@@ -222,16 +203,14 @@
 
     NSDictionary *photo = [self.recentPhotos objectAtIndex:indexPath.row];     
     NSString *photoTitle= [photo objectForKey:FLICKR_PHOTO_TITLE];
-    NSString *photoDescription=[photo valueForKeyPath:@"description._content"];  // se è troppo lungo genera un errore: <Error>: CGAffineTransformInvert: singular matrix.  perchè credo che venga calcolato un resize adatto per visualizzarlo del detailTextLaber.text; SOLUZIONE: da storyboard -> minimum size, autoshrink no (nelle opzioni del subtitle della cella)
-
-     
+    NSString *photoDescription=[photo valueForKeyPath:@"description._content"];  
 
     
     // If photo title is nil set it to the description, else set it to unknown
-    if (photoTitle == nil || [photoTitle isEqualToString:@""]) { //se non ho il titolo
-        if (photoDescription == nil || [photoDescription isEqualToString:@""]) { //se non ho nemmeno la descizione
+    if (photoTitle == nil || [photoTitle isEqualToString:@""]) { 
+        if (photoDescription == nil || [photoDescription isEqualToString:@""]) { 
             photoTitle = @"Unknown";
-        } else { //altrimenti uso la descrizione come titolo
+        } else { 
             photoTitle = photoDescription;
         }
     } 
@@ -243,7 +222,6 @@
     cell.detailTextLabel.text = photoDescription;
 
     
-    //extra: add a photo's thumbnail image
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr thumbnail downloader", NULL);
@@ -256,8 +234,7 @@
                 UIImage *image = data ? [UIImage imageWithData:data] : nil;
                 cell.imageView.image = image;
                 cell.imageView.hidden = NO;
-                [cell setNeedsLayout];  //esegue un update (reload) della cella senza fare il reload dell'intera tabella
-            }
+                [cell setNeedsLayout];              }
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         });
     });
@@ -268,7 +245,6 @@
 
 - (void)tableView:(UITableView *)aTableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Set the image to nil before it is loaded by GCD
     cell.imageView.image = nil;
 }
 
@@ -286,9 +262,8 @@
     if ([[segue identifier] isEqualToString:@"Show Me Photo Map" ]){
     
         id destSegue = segue.destinationViewController;        
-        MapViewController *mapVC = (MapViewController *)destSegue; //non faccio l'introspection perchè so per certo che la segue è una mapviewcontroller
-        mapVC.delegate = self; //imposto questo controller come il delegate del mapviewcontroller
-       // mapVC.annotations = [self mapAnnotations];
+        MapViewController *mapVC = (MapViewController *)destSegue;
+        mapVC.delegate = self; 
      [segue.destinationViewController setAnnotations:[self mapAnnotations]]; 
     }
     
@@ -298,9 +273,9 @@
 
 - (PhotoViewController *)splitViewPhotoViewController
 {
-    id pvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
+    id pvc = [self.splitViewController.viewControllers lastObject]; 
     if (![pvc isKindOfClass:[PhotoViewController class]]){ pvc=nil;} 
-    return pvc; // questo metodo ritorna nil a meno che non esista la detail
+    return pvc; 
 }
 
 #pragma mark - Table view delegate
@@ -315,7 +290,7 @@
      */
      NSDictionary *selectedPhoto = [self.recentPhotos objectAtIndex:indexPath.row];
     self.flickrSelected = selectedPhoto;
-      //  NSLog(@" foto selezionata: %@",self.flickrSelected);
+
     if ([self splitViewPhotoViewController]){
        
         [self splitViewPhotoViewController].photoToShow =  self.flickrSelected ;

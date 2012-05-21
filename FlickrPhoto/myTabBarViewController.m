@@ -42,8 +42,6 @@
 {
     [super viewDidLoad];
     UIImage *tabBarBackground = [UIImage imageNamed:@"tabbar.png"];
-    //[self.tabBar setBackgroundImage:tabBarBackground]; //se fossi in una VC contenuta da un tabbarVC dovrei usare self.tabBarController.tabbar
-    //self.tabBar.tintColor=[UIColor blueColor];
     
     [[UITabBar appearance] setBackgroundImage:tabBarBackground]; //potrei ussae anche il codice sopra...
     [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"selection-tab.png"]];
@@ -54,9 +52,8 @@
     UITabBarItem *item1 = [tabBar.items objectAtIndex:1];
     UITabBarItem *item2 = [tabBar.items objectAtIndex:2];
     
-    [item0 setTitle:@"Top Places"]; //solo se è 'custom'
+    [item0 setTitle:@"Top Places"]; 
     [item0 setImage:[UIImage imageNamed:@"artist-tab.png"]];
-    //[item0 initWithTitle:@"Top Places" image:[UIImage imageNamed:@"artist-tab.png"] tag:1]; //soluzione alternativa
     
     [item1 setTitle:@"Recent Photos"];
     [item1 setImage:[UIImage imageNamed:@"clock-tab"]];

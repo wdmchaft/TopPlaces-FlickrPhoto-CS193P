@@ -17,7 +17,7 @@
 
 @interface VirtualVacationsTableViewController : UITableViewController
 
-@property (nonatomic,strong) NSArray *vacations; //of urls (ai vari documents ossia i vari db)
+@property (nonatomic,strong) NSArray *vacations; 
 @property (nonatomic, weak) id <VirtualVacationsTableViewControllerDelegate> delegate;
 
 @end

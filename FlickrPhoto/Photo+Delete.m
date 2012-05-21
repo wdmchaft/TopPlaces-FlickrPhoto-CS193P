@@ -17,8 +17,7 @@ fromManagedObjectContext:(NSManagedObjectContext *)context
 {
     Photo *photo = nil;
     
-    //query
-    // voglio essere sicuro che unique attribe della foto nel db è uguale all'id della foto su flickr
+
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.predicate = [NSPredicate predicateWithFormat:@"photo_id = %@", myPhoto.photo_id];
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
@@ -29,17 +28,16 @@ fromManagedObjectContext:(NSManagedObjectContext *)context
     
     
     if (!matches || ([matches count] >1)){ 
-        // deve essere unique!
-        //gestire eventuali errori
-        NSLog(@"errore");
+        //handle error
+        NSLog(@"error");
         
-    }else if ([matches count] == 0){ // se non esiste, lo inserisco
+    }else if ([matches count] == 0){
         
         NSLog(@"la foto non c'è");
         
-    } else { //se esiste ed è unique
+    } else { 
         photo = [matches lastObject];
-       //la cancello
+       //delete
         [context deleteObject:photo];
         
     }

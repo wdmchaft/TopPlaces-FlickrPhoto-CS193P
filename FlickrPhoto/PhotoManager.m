@@ -36,7 +36,7 @@
 }
 
 
-+(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo //le foto che visualizzo dalle vacations non sono più dictionaries
++(void)useDocument:(NSString *)docName withPhoto:(NSDictionary *)photo 
 {    
     [VacationHelper openVacation:docName usingBlock:^(UIManagedDocument *vacation) {
         [self fetchFlickrPhoto:photo IntoDocument:vacation];

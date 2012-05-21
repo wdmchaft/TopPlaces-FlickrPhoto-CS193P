@@ -29,19 +29,15 @@
 
     if (self.place) {
         
-        //foto scattate da un certo fotografo
-        request.predicate = [NSPredicate predicateWithFormat:@"scattateDove.place_description = %@", self.place.place_description];
-        //moc = self.place.managedObjectContext;    
+      
+        request.predicate = [NSPredicate predicateWithFormat:@"scattateDove.place_description = %@", self.place.place_description];  
     }  else if (self.mytag)
     {         
-        //request.predicate = [NSPredicate predicateWithFormat:@"etichettataDa.tag_name CONTAINS %@", self.tag.tag_name];
-        request.predicate = [NSPredicate predicateWithFormat:@"ANY etichettataDa.tag_name = %@", self.mytag.tag_name]; // va bene anche il predicato sopra; questo qui è qualcosa tipo : qualsiasi (foto) collegata al tag (etichettataDa) che si chiama tag_name
-        // moc = self.mytag.managedObjectContext;
-    }
+        request.predicate = [NSPredicate predicateWithFormat:@"ANY etichettataDa.tag_name = %@", self.mytag.tag_name];     }
     else {
-       //??
+       //handle this...
     }
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // senza il selector l'ordinamento era case insensitive
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]; // 
     self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request 
                                                                        managedObjectContext:vacation.managedObjectContext
                                                                          sectionNameKeyPath:nil cacheName:nil ];
@@ -51,19 +47,19 @@
 
 -(void)setMytag:(Tag *)mytag
 {
-    //if( _mytag != mytag){
+   
     _mytag=mytag;
     self.title=mytag.tag_name;
-    //}
+ 
 }
 
 
 -(void)setPlace:(Place *)place
 {
-    //if (_place != place) {
+   
     _place = place;
     self.title = place.place_description;
-    //}
+ 
 }
 
 - (void)setVacationName:(NSString *)vacationName
@@ -103,9 +99,9 @@
 
 - (PhotoViewController *)splitViewPhotoViewController
 {
-    id pvc = [self.splitViewController.viewControllers lastObject]; // it gets me "detail view controller"
+    id pvc = [self.splitViewController.viewControllers lastObject]; 
     if (![pvc isKindOfClass:[PhotoViewController class]]){ pvc=nil;} 
-    return pvc; // questo metodo ritorna nil a meno che non esista la detail
+    return pvc; 
 }
 
 #pragma mark - Table view delegate

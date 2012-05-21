@@ -69,27 +69,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-/**
-    switch (indexPath.row) {
-        case 0:
-            [self performSegueWithIdentifier:@"itinerary" sender:self];
-            break;
-        case 1:
-            [self performSegueWithIdentifier:@"tags" sender:self];
-            break;
-        default:
-            break;
-    }
-**/
+
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //if ([segue.identifier isEqualToString:@"tags"]) {
-        
+   
         [segue.destinationViewController setVacation:self.vacation];
         
-    //}
 
 }
 

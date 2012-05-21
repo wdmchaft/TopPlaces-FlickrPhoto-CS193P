@@ -13,6 +13,6 @@
 
 @property (nonatomic,strong) NSDictionary *placeName;
 @property (nonatomic,strong) NSArray* recentPhotos;
-@property (nonatomic, strong) NSDictionary *flickrSelected; // dizionario di posti o foto
+@property (nonatomic, strong) NSDictionary *flickrSelected; 
 
 @end

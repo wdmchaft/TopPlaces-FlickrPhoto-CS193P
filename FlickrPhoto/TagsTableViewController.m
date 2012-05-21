@@ -43,7 +43,7 @@
     
     // Predicate results based on text in the search bar
     if (self.searchBar.text && ![self.searchBar.text isEqualToString:@""]) {
-        NSLog(@"sto facendo una ricerca permessa");
+   
         request.predicate = [NSPredicate predicateWithFormat:@"tag_name beginswith[c] %@", self.searchBar.text];
     }
     
@@ -147,7 +147,6 @@
 //premo il tasto search: faccio scomparire tastiera e cancel
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"searchBarSearchButtonClicked");
     
     [self.searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar resignFirstResponder];
@@ -155,7 +154,6 @@
 
 //mi appresto a scrivere: faccio comparire cancel
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    NSLog(@"searchBarTextDidBeginEditing"); 
     [searchBar setShowsCancelButton:YES animated:YES];
     
 }
@@ -169,14 +167,7 @@
     }];
 }
 
-/**
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    NSLog(@"searchBarTextDidEndEditing");
-    [searchBar resignFirstResponder];    
-}
-**/
 
-//premo cancel: resetto la barra di search e nascondo la tastiera
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searchBar.text= @"";

@@ -38,7 +38,7 @@
         
         //
     } else {
-        //prendo l'itinerario già presente
+
         itinerary = [itineraries lastObject];
     }
     
@@ -49,10 +49,8 @@
 - (void)addPlaceToItinerary:(Place *)place {
     NSMutableOrderedSet *places = [[NSMutableOrderedSet alloc] init];
     if (self.hasPlaces) {places = [self.hasPlaces mutableCopy];}
-    //if (![places containsObject:place]){
-      //  NSLog(@"il posto non è presente nell'itinerario");
-    [places addObject:place]; // non faccio la verifica containsObject perchè inserisco il posto se e solo se il place non è mai stato salvato nel db
-    //}
+
+    [places addObject:place]; 
     self.hasPlaces = places;
     
 }
@@ -69,19 +67,9 @@ inManagedObjectContext:(UIManagedDocument *)document
     
   
     //to be optimized...
-    /**
-    If your table is very large, you could optimise this by only updating the sort orderings for rows between the two index paths, as the rest won't have changed. My table was small enough I didn't need to worry about that.
-     **/
     myItinerary.hasPlaces = places;
     
     
-   /** 
-    [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
-        if (success) NSLog(@"Overwrite completed");
-    }];
-    **/
-    
-    // per delle piccole modifiche meglio il metodo qui sotto
     NSError *savingError = nil;
     
     if ([document.managedObjectContext save:&savingError]){

@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SplitViewBarButtonItemPresenter.h"
 #import "Photo+Flickr.h"
-#import "PhotoManager.h" //////
-#define LAST_VIEWED_PHOTOS_KEY @"LAST_PHOTOS" //aggiunto da me
-
+#import "PhotoManager.h" 
+#define LAST_VIEWED_PHOTOS_KEY @"LAST_PHOTOS" 
 @class PhotoViewController;
 
 

@@ -74,14 +74,9 @@
     MKCoordinateRegion mapRegion;
     MKCoordinateSpan mapSpan;
     
-    // are there annotations for which one can calculate a region
     if ([annotations count] > 0)
     {
         id <MKAnnotation> annotation = [annotations objectAtIndex:0];
-        //        NSLog(@"%@",annotation.title);
-        //       NSLog(@"%@",annotation.subtitle);
-        //        NSLog(@"%f",annotation.coordinate.longitude);
-        //        NSLog(@"%f",annotation.coordinate.latitude);
         double minLongitude = annotation.coordinate.longitude;
         double maxLongitude = minLongitude;
         double minLatitude = annotation.coordinate.latitude;
@@ -103,20 +98,18 @@
             }
         }
         
-        // I should set the map region based on the annotations
         mapCenter.longitude = (maxLongitude - minLongitude)/2 + minLongitude;
         mapCenter.latitude = (maxLatitude - minLatitude)/2 + minLatitude;
         mapSpan.longitudeDelta = (maxLongitude - minLongitude) * REGIONMARGIN;
         mapSpan.latitudeDelta = (maxLatitude - minLatitude) * REGIONMARGIN;
         
-        // check if the REGIONMARGIN did not create unrealistic values
         if (mapSpan.longitudeDelta > 360.0) {
             mapSpan.longitudeDelta = 360.0;
         }
         if (mapSpan.latitudeDelta > 180.0) {
             mapSpan.latitudeDelta = 180.0;
         }
-        //  does not quite work for the entire world.
+        
         mapRegion.center = mapCenter;
         mapRegion.span = mapSpan;
     }
@@ -134,69 +127,51 @@
 }
 
 
-//Returns the view associated with the specified annotation object.
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MapVC"];
-    if (!aView) { // se non c'è niente da riusare....
+    if (!aView) { 
         aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
         aView.canShowCallout = YES;
         
-        //NOTA: faccio comparire nella MKAnnotationView la leftCalloutAccessoryView solo se la mappa appare da RecentPhotosTVC o LastViewedPhotosTVC
         // get the index of the visible VC on the stack
         int currentVCIndex = [self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
         // get a reference to the previous VC    
         id previousVC = [self.navigationController.viewControllers objectAtIndex:currentVCIndex - 1];
         
-        if (![previousVC isKindOfClass:[PlacesTableViewController class]]) //se la previous vc non è placestvc (e quindi è o recentphotostvc o lastviewedphotostvc), inizializzo la leftcalloutaccessoryview
-        {
+        if (![previousVC isKindOfClass:[PlacesTableViewController class]])         {
             aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)]; //inizializzo leftCalloutAccessoryView come una UIImageView
             
         }
         
-        
-        
-        
-        // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         
     }
     
     aView.annotation = annotation;
-    //if ([aView.leftCalloutAccessoryView  isKindOfClass:[UIImageView class]]) {NSLog(@"è una image view!");}
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];//1.05' prima di fare il cast potrei fare introspection, senza il cast non potrei usare setImage; lo metto a nil perchè siccome lo riuso non voglio che venga riusato con un immagine random!
-    
-    //If (Class *)myClass occurs in other code, it's a cast. Basically it says to reinterpret myClass as a pointer to an object of type Class, regardless of what its type really is.
-    
+      [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];    
     return aView;
 }
 
 
-//viene eseguito quando clicco uibutton nella rightCalloutAccessoryView
+
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
-    
-    // tell the delegate that the disclosure button has been tapped.
     [self.delegate mapViewController:self showDetailForAnnotation:view.annotation];
     
 }
 
 
 
-//Tells the delegate that one of its annotation views was selected.
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)pinView
 {
     self.latestAnnotation = pinView.annotation;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    //[spinner setBackgroundColor:[UIColor redColor]];
+
     [spinner startAnimating];
-    // NOTA: leftCalloutAccessoryView viene inizializzata con un framerect di cui setto il thumb, le subview sono automaticamente sopra
     
-    //[(UIImageView *)aView.leftCalloutAccessoryView insertSubview:spinner atIndex:0];
-    //con questo codice aggiunge una subview (sopra l'immagine thumb!!)
-    
-    if (pinView.leftCalloutAccessoryView) // se la leftCalloutAccessoryView ESISTE allora faccio il loading della thumb etc etc
+    if (pinView.leftCalloutAccessoryView) 
     {
         [(UIImageView *)pinView.leftCalloutAccessoryView addSubview:spinner];
         
@@ -224,7 +199,7 @@
             
         });
         dispatch_release(downloadQueue); //altrimenti c'è un memory leak
-    } // fine if
+    } 
     
 }
 
@@ -260,7 +235,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.mapView.delegate = self; //delegate per callout
+    self.mapView.delegate = self; 
 }
 
 

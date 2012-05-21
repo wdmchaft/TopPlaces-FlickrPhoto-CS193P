@@ -14,14 +14,12 @@
 @implementation Photo (Flickr)
 
 
-//crea un elemento Foto nel DB: prima di crearlo bisogna verificare se esiste o meno :)
 + (Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
         inManagedObjectContext:(NSManagedObjectContext *)context
 {
     Photo *photo = nil;
     
-    //query
-    // voglio essere sicuro che unique attribe della foto nel db è uguale all'id della foto su flickr
+
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.predicate = [NSPredicate predicateWithFormat:@"photo_id = %@", [flickrInfo objectForKey:FLICKR_PHOTO_ID]];
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
@@ -32,11 +30,10 @@
     
     
     if (!matches || ([matches count] >1)){ 
-        // deve essere unique!
-        //gestire eventuali errori
-        NSLog(@"errore");
+        //handle error
+        NSLog(@"error");
         
-    }else if ([matches count] == 0){ // se non esiste, lo inserisco
+    }else if ([matches count] == 0){ 
         NSLog(@"creo la riga di valori");
         photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
         photo.photo_id= [flickrInfo objectForKey:FLICKR_PHOTO_ID];
@@ -51,7 +48,7 @@
         NSMutableSet *tagset =[[NSMutableSet alloc] init];
         
         for (NSString *aTag in photoTags) {
-            if (aTag && ![aTag isEqualToString:@""] && ![aTag isEqualToString:@" "]){ //se esiste OR è diversa dallo spazio vuoto
+            if (aTag && ![aTag isEqualToString:@""] && ![aTag isEqualToString:@" "]){ 
                 
                 if ([aTag rangeOfString:@"."].location == NSNotFound &&
                     [aTag rangeOfString:@","].location == NSNotFound && 
@@ -70,9 +67,8 @@
         photo.etichettataDa=tagset;
         
         photo.scattateDove = [Place placeWithID:[flickrInfo objectForKey:@"place_id"] andDescription:[flickrInfo objectForKey:@"derived_place"] inManagedObjectContext:context];
-    } else { //se esiste ed è unique
+    } else { 
         photo = [matches lastObject];
-        NSLog(@"esiste già");
     }
     
     return photo;
