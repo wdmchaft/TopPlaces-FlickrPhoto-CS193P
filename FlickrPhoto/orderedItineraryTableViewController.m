@@ -37,19 +37,19 @@
 {
     if (_vacation != vacation) {
         _vacation = vacation;
-
+        
     }
 }
 
 -(void)setOrderedPlaces:(NSOrderedSet *)orderedPlaces
 {
     //if (_orderedPlaces != orderedPlaces){
-        _orderedPlaces = orderedPlaces;
-
-       //if (self.tableView.window) 
-           [self.tableView reloadData];
-       
-//    }
+    _orderedPlaces = orderedPlaces;
+    
+    //if (self.tableView.window) 
+    [self.tableView reloadData];
+    
+    //    }
 }
 
 
@@ -57,7 +57,7 @@
 {
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Itinerary"]; //i have only 1 itinerary per vacation itinerary
-
+    
     NSError *error = nil;
     NSArray *itineraries = [vacation.managedObjectContext executeFetchRequest:request error:&error]; 
     
@@ -72,17 +72,17 @@
     [VacationHelper openVacation:self.vacation usingBlock:^(UIManagedDocument *vacation) {
         [self getOrderedPlacesFromVacation:vacation];
     }];
- 
-
-
+    
+    
+    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -97,8 +97,9 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
+
 
 #pragma mark - Table view data source
 
@@ -134,44 +135,7 @@
     
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 #pragma mark - Row reordering
 
 - (IBAction)clickReorder:(id)sender {
@@ -184,7 +148,7 @@
         self.reorderButton.title=@"Reorder"; 
         [self reorderItineraryList:[self.orderedPlaces copy]];
     }
-
+    
 }
 
 
@@ -224,8 +188,8 @@
     
     UITableViewCell *cella = [[UITableViewCell alloc] init];
     cella = [tableView cellForRowAtIndexPath:fromIndexPath];
-
-
+    
+    
     NSMutableOrderedSet* orderedSet = [self.orderedPlaces mutableCopy];
     
     NSInteger fromIndex = fromIndexPath.row;
@@ -233,7 +197,7 @@
     
     // see  http://www.wannabegeek.com/?p=74
     // and http://tworrall.blogspot.it/2010/02/reordering-rows-in-uitableview-with.html
-   
+    
     NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:fromIndex];
     
     if (fromIndex > toIndex) {
@@ -243,7 +207,7 @@
         // we're moving down
         [orderedSet moveObjectsAtIndexes:indexes toIndex:toIndex-[indexes count]];
     }
-
+    
     
     self.orderedPlaces = orderedSet; //credo che la soluzione più elegante preveda anche la creazione di una copia della lista di partenza da ripristinare quando si preme un ipotetico tasto 'cancel' :)
     

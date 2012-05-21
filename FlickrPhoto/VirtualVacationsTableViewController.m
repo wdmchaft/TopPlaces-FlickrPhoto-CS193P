@@ -75,53 +75,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:(BOOL)animated];
-    /**
-    //recupero la lista di vacanze...
-    if (!self.vacations)
-    {
-        NSURL *documentDirectoryPath = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory 
-                                                             inDomains:NSUserDomainMask] lastObject]; //document dir
         
-        // get the contents of the directory
-        NSArray *keys = [[NSArray alloc] initWithObjects:NSURLNameKey, nil];
-        
-        //recupero tutti i documenti nella 'document directory'
-        NSArray *urls = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:documentDirectoryPath 
-                                                      includingPropertiesForKeys:keys 
-                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles 
-                                                                           error:nil];
-        //creo una lista
-        NSMutableArray *vacationsUrls = [[NSMutableArray alloc] init];
-        
-        for (NSURL *url in urls) {
-            NSString *name =[url absoluteString];
-            // and see if there are files that contain vacations
-            if ([name rangeOfString:@"vacation"].location != NSNotFound) {
-                // and add all these urls to an url array
-                [vacationsUrls addObject:url];
-            }
-        }
-        if ([vacationsUrls count] == 0) //se non ho nessun documento 'vacation'
-        {
-        //ne creo uno di default di nome "my default vacation"
-            //osservazione: lo creo, ma non lo salvo: lo salvo quando lo aggancio al db? però in questo modo se esco dall'app prima non ho la "my defaul vacation salvata" per cui me la ricrea ogni volta (tanto, cmq sia, finchè non l'aggancio al db è vuota!)
-            //risposta: nel tutorial si consiglia di salvare quando si modifica, quindi mi sono risposto :)
-            [vacationsUrls addObject:[documentDirectoryPath URLByAppendingPathComponent:@"my default vacation"]]; //creo il path
-            NSLog(@"my vacation default creato! %@", [vacationsUrls description]);
-        }
-        
-        NSMutableArray *vacationDocuments = [[NSMutableArray alloc] initWithCapacity:[vacationsUrls count]]; //bastava anche init
-        
-        // loop over all documents and add each document to the vacations array
-        //da una lista di path ricavo una lista di UIManagedDocument
-        for (NSURL *vacation in vacationsUrls) {
-            [vacationDocuments addObject:[[UIManagedDocument alloc] initWithFileURL:vacation]];
-        }
-        self.vacations = vacationDocuments;
-     }
-**/
-    
-    
     //if (!self.vacations) //con questo if non mi aggiornava la Lista se inserisco una Vacation aggiuntiva quando sto guardando una foto
     //{
     //VacationManager *vm=[[VacationManager alloc] init]; 
@@ -189,44 +143,6 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 

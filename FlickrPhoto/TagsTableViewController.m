@@ -39,7 +39,6 @@
     //all TAGS!!
     //request.predicate = nil;
     
-    
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"used" ascending:NO selector:@selector(compare:)]];
     
     // Predicate results based on text in the search bar
@@ -96,7 +95,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 

@@ -53,7 +53,6 @@ inManagedObjectContext:(NSManagedObjectContext *)context
 
     } else {
         place = [places lastObject];
-        //NSLog(@"place esiste già");
     }
     
     return place;

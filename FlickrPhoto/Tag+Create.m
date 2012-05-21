@@ -34,7 +34,7 @@ inManagedObjectContext:(NSManagedObjectContext *)context;
                 
         //
     } else {
-        NSLog(@"il tag è già presente nel db");
+        //NSLog(@"il tag è già presente nel db");
         tag = [tags lastObject];
         tag.used = [NSNumber numberWithInt:[tag.used intValue] + 1];
     }

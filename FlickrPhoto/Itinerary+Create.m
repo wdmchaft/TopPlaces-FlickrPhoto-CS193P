@@ -34,12 +34,12 @@
         
         itinerary.itinerary_name = itinerary_name;
         
-        NSLog(@":::::itinerary non esiste:::::");
+        //NSLog(@"new itinerary");
         
         //
     } else {
+        //prendo l'itinerario già presente
         itinerary = [itineraries lastObject];
-        NSLog(@":::::itinerary esiste già:::::");
     }
     
     

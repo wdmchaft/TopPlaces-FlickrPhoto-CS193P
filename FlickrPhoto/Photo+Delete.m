@@ -39,8 +39,7 @@ fromManagedObjectContext:(NSManagedObjectContext *)context
         
     } else { //se esiste ed è unique
         photo = [matches lastObject];
-        NSLog(@"ho trovato la foto da cancellare");
-        //LA CANCELLO QUI
+       //la cancello
         [context deleteObject:photo];
         
     }

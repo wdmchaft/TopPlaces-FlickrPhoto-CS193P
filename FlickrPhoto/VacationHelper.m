@@ -32,18 +32,18 @@
                                                                      options:NSDirectoryEnumerationSkipsHiddenFiles 
                                                                        error:&error];
     
-     NSMutableArray *vacationsUrls = [[NSMutableArray alloc] init];
+    NSMutableArray *vacationsUrls = [[NSMutableArray alloc] init];
     if (error == nil){
-    //creo una lista
-    
-    for (NSURL *url in urls) {
-        //NSString *name =[url absoluteString];
-        // and see if there are files that contain vacations
-       // if ([name rangeOfString:@"vacation"].location != NSNotFound) {
+        //creo una lista
+        
+        for (NSURL *url in urls) {
+            //NSString *name =[url absoluteString];
+            // and see if there are files that contain vacations
+            // if ([name rangeOfString:@"vacation"].location != NSNotFound) {
             // and add all these urls to an url array
             [vacationsUrls addObject:url];
-        //}
-    }
+            //}
+        }
     }
     
     if ([vacationsUrls count] == 0) //se non ho nessun documento 'vacation'
@@ -55,8 +55,8 @@
         
     }
     
-
-
+    
+    
     return vacationsUrls;
 }
 

@@ -65,10 +65,10 @@
         _photoFromVacation = photoFromVacation;
         if (self.imageView.window) {    // we're on screen, so update the image
             [self loadImage];   
-            NSLog(@"we're on screen, so update the image");
+            //NSLog(@"we're on screen, so update the image");
         } else {                        // we're not on screen, so no need to loadImage (it will happen next viewWillAppear:)
             self.imageView.image = nil; // but image has changed (so we can't leave imageView.image the same, so set to nil)
-            NSLog(@"we're not on screen, so no need to loadImage");
+            //NSLog(@"we're not on screen, so no need to loadImage");
         }
 
     }
@@ -357,7 +357,7 @@
            }
     else if (self.photoFromVacation) {
         self.visitButton.title= @"unvisit"; // posso solo fare il delete
-        NSLog(@"loading photo from db ...");
+        //NSLog(@"loading photo from db ...");
         [self loadImage];
            }
     
@@ -388,7 +388,7 @@
     if ([self splitViewBarButtonItemPresenter]) {
         
         NSMutableArray *toolbarItems = [[NSMutableArray alloc] init];
-        //  [toolbarItems removeObject:visit_button];
+        //[toolbarItems removeObject:visit_button];
         //[toolbarItems removeObject:flexibleSpaceLeft];
         if (self.splitViewBarButtonItem) [toolbarItems addObject:self.splitViewBarButtonItem];
         self.toolbar.items = toolbarItems;

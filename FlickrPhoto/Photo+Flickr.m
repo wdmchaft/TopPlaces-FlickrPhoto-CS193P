@@ -52,19 +52,19 @@
         
         for (NSString *aTag in photoTags) {
             if (aTag && ![aTag isEqualToString:@""] && ![aTag isEqualToString:@" "]){ //se esiste OR è diversa dallo spazio vuoto
-
-               if ([aTag rangeOfString:@"."].location == NSNotFound &&
-                   [aTag rangeOfString:@","].location == NSNotFound && 
-                   [aTag rangeOfString:@";"].location == NSNotFound  &&
-                   [aTag rangeOfString:@":"].location == NSNotFound)
-               {
                 
-                
-                [tagset addObject:[Tag TagWithName:aTag inManagedObjectContext:context]];
-               } 
-               else NSLog(@" c'è un segno di punteggiatura nel tag: non lo salvo");
+                if ([aTag rangeOfString:@"."].location == NSNotFound &&
+                    [aTag rangeOfString:@","].location == NSNotFound && 
+                    [aTag rangeOfString:@";"].location == NSNotFound  &&
+                    [aTag rangeOfString:@":"].location == NSNotFound)
+                {
+                    
+                    
+                    [tagset addObject:[Tag TagWithName:aTag inManagedObjectContext:context]];
+                } 
+                else NSLog(@"invalid tag");
             } 
-            else NSLog(@" tag vuoto ");
+            else NSLog(@"empty tag ");
         }
         
         photo.etichettataDa=tagset;
@@ -72,7 +72,7 @@
         photo.scattateDove = [Place placeWithID:[flickrInfo objectForKey:@"place_id"] andDescription:[flickrInfo objectForKey:@"derived_place"] inManagedObjectContext:context];
     } else { //se esiste ed è unique
         photo = [matches lastObject];
-         NSLog(@"esiste già");
+        NSLog(@"esiste già");
     }
     
     return photo;
@@ -91,10 +91,8 @@
     NSArray *matches = [context executeFetchRequest:request error:&error];
     
     if (!matches || ([matches count] > 1)) {
-        NSLog(@"Multiple photos with same name");
     } else if ([matches count] == 1) {
         photo = [matches lastObject];
-        NSLog(@"foto trovata");
     }
     
     return photo;
